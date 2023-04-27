@@ -1,5 +1,5 @@
 ﻿
-namespace GestionInventario
+namespace GestionInventario.Vista
 {
     partial class MainForm
     {
