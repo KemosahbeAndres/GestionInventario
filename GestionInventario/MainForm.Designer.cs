@@ -29,20 +29,34 @@ namespace GestionInventario
         /// </summary>
         private void InitializeComponent()
         {
+            this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.SuspendLayout();
+            // 
+            // MainMenu
+            // 
+            this.MainMenu.Location = new System.Drawing.Point(0, 0);
+            this.MainMenu.Name = "MainMenu";
+            this.MainMenu.Size = new System.Drawing.Size(800, 24);
+            this.MainMenu.TabIndex = 0;
+            this.MainMenu.Text = "MainMenu";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.MainMenu);
+            this.MainMenuStrip = this.MainMenu;
             this.Name = "MainForm";
             this.Text = "Gestion Inventario";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.MenuStrip MainMenu;
     }
 }
 
