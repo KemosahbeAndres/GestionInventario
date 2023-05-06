@@ -48,11 +48,12 @@ namespace GestionInventario.Vista
             this.mainLayout.Controls.Add(this.button5);
             this.mainLayout.Controls.Add(this.button4);
             this.mainLayout.Cursor = System.Windows.Forms.Cursors.Default;
+            this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayout.Location = new System.Drawing.Point(0, 0);
             this.mainLayout.Name = "mainLayout";
             this.mainLayout.Padding = new System.Windows.Forms.Padding(20);
             this.mainLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.mainLayout.Size = new System.Drawing.Size(290, 227);
+            this.mainLayout.Size = new System.Drawing.Size(318, 239);
             this.mainLayout.TabIndex = 0;
             // 
             // button1
@@ -120,7 +121,7 @@ namespace GestionInventario.Vista
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 227);
+            this.ClientSize = new System.Drawing.Size(318, 239);
             this.Controls.Add(this.mainLayout);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
