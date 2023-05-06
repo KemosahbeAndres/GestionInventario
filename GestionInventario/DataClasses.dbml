@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="GestionInventario" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=PC-ANDRES\SQLEXPRESS;Initial Catalog=GestionInventario;Integrated Security=True;Pooling=False" SettingsObjectName="GestionInventario.Properties.Settings" SettingsPropertyName="GestionInventarioConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Categorias" Member="Categorias">
+    <Type Name="Categorias">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="categoria" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Categorias_Productos" Member="Productos" ThisKey="id" OtherKey="id_categoria" Type="Productos" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ventas" Member="Ventas">
+    <Type Name="Ventas">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="id_vendedor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Ventas_Item_Venta" Member="Item_Venta" ThisKey="id" OtherKey="id_venta" Type="Item_Venta" />
+      <Association Name="Usuarios_Ventas" Member="Usuarios" ThisKey="id_vendedor" OtherKey="id" Type="Usuarios" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Compras" Member="Compras">
+    <Type Name="Compras">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Compras_Item_Compra" Member="Item_Compra" ThisKey="id" OtherKey="id_compra" Type="Item_Compra" />
+      <Association Name="Usuarios_Compras" Member="Usuarios" ThisKey="id_usuario" OtherKey="id" Type="Usuarios" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Inventario" Member="Inventario">
+    <Type Name="Inventario">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Productos_Inventario" Member="Productos" ThisKey="id_producto" OtherKey="id" Type="Productos" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Item_Compra" Member="Item_Compra">
+    <Type Name="Item_Compra">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_compra" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Compras_Item_Compra" Member="Compras" ThisKey="id_compra" OtherKey="id" Type="Compras" IsForeignKey="true" />
+      <Association Name="Productos_Item_Compra" Member="Productos" ThisKey="id_producto" OtherKey="id" Type="Productos" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Item_Venta" Member="Item_Venta">
+    <Type Name="Item_Venta">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id_venta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Ventas_Item_Venta" Member="Ventas" ThisKey="id_venta" OtherKey="id" Type="Ventas" IsForeignKey="true" />
+      <Association Name="Productos_Item_Venta" Member="Productos" ThisKey="id_producto" OtherKey="id" Type="Productos" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Productos" Member="Productos">
+    <Type Name="Productos">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ean" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="descripcion" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="precio" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_categoria" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Productos_Inventario" Member="Inventario" ThisKey="id" OtherKey="id_producto" Type="Inventario" />
+      <Association Name="Productos_Item_Compra" Member="Item_Compra" ThisKey="id" OtherKey="id_producto" Type="Item_Compra" />
+      <Association Name="Productos_Item_Venta" Member="Item_Venta" ThisKey="id" OtherKey="id_producto" Type="Item_Venta" />
+      <Association Name="Categorias_Productos" Member="Categorias" ThisKey="id_categoria" OtherKey="id" Type="Categorias" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Roles" Member="Roles">
+    <Type Name="Roles">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rol" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Roles_Usuarios" Member="Usuarios" ThisKey="id" OtherKey="id_rol" Type="Usuarios" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuarios" Member="Usuarios">
+    <Type Name="Usuarios">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="telefono" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="correo" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="clave" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="id_rol" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="id_creador" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Usuarios_Ventas" Member="Ventas" ThisKey="id" OtherKey="id_vendedor" Type="Ventas" />
+      <Association Name="Usuarios_Compras" Member="Compras" ThisKey="id" OtherKey="id_usuario" Type="Compras" />
+      <Association Name="Roles_Usuarios" Member="Roles" ThisKey="id_rol" OtherKey="id" Type="Roles" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
