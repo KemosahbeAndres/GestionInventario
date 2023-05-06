@@ -13,6 +13,5 @@ namespace GestionInventario.DB
         void Insert(T item);
         void Modify(T item);
         void Delete(T item);
-
     }
 }

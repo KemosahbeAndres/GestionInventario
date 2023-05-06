@@ -11,7 +11,7 @@ namespace GestionInventario.DB
         private DataClassesDataContext ctx;
         public UserDao()
         {
-            this.ctx = SQLConnectionManager.getInstance();
+            ctx = SQLConnectionManager.getInstance();
         }
         public List<Usuarios> All()
         {
@@ -20,22 +20,41 @@ namespace GestionInventario.DB
 
         public Usuarios Get(int id)
         {
-            return ctx.Usuarios.Where(x => x.id == id).FirstOrDefault();
+            // funcion lambda => funcion flecha => funcion anonima
+            return ctx.Usuarios.Where( (x) => x.id == id ).FirstOrDefault();
         }
 
         public void Insert(Usuarios item)
         {
-            var table = ctx.GetTable<Usuarios>();
+            ctx.Usuarios.InsertOnSubmit(item);
+            ctx.SubmitChanges();
         }
 
         public void Modify(Usuarios item)
         {
-            throw new NotImplementedException();
+            var entity = ctx.Usuarios.Where(x => x.id == item.id).FirstOrDefault();
+            if (entity == null)
+            {
+                return;
+            }
+            entity.nombre = item.nombre;
+            entity.telefono = item.telefono;
+            entity.correo = item.correo;
+            entity.clave = item.clave;
+            entity.id_rol = item.id_rol;
+            entity.id_creador = item.id_creador;
+            ctx.SubmitChanges();
         }
 
         public void Delete(Usuarios item)
         {
-            throw new NotImplementedException();
+            var entity = ctx.Usuarios.Where(x => x.id == item.id).FirstOrDefault();
+            if(entity == null)
+            {
+                return;
+            }
+            ctx.Usuarios.DeleteOnSubmit(entity);
+            ctx.SubmitChanges();
         }
 
         
