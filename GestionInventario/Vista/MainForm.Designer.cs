@@ -29,111 +29,115 @@ namespace GestionInventario.Vista
         /// </summary>
         private void InitializeComponent()
         {
-            this.MainMenu = new System.Windows.Forms.MenuStrip();
-            this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainTab = new System.Windows.Forms.TabControl();
-            this.pageVentas = new System.Windows.Forms.TabPage();
-            this.pageProductos = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.MainMenu.SuspendLayout();
-            this.MainTab.SuspendLayout();
+            this.mainLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.mainLayout.SuspendLayout();
             this.SuspendLayout();
             // 
-            // MainMenu
+            // mainLayout
             // 
-            this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem});
-            this.MainMenu.Location = new System.Drawing.Point(0, 0);
-            this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(800, 24);
-            this.MainMenu.TabIndex = 0;
-            this.MainMenu.Text = "MainMenu";
+            this.mainLayout.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.mainLayout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.mainLayout.Controls.Add(this.button1);
+            this.mainLayout.Controls.Add(this.button2);
+            this.mainLayout.Controls.Add(this.button3);
+            this.mainLayout.Controls.Add(this.button5);
+            this.mainLayout.Controls.Add(this.button4);
+            this.mainLayout.Cursor = System.Windows.Forms.Cursors.Default;
+            this.mainLayout.Location = new System.Drawing.Point(0, 0);
+            this.mainLayout.Name = "mainLayout";
+            this.mainLayout.Padding = new System.Windows.Forms.Padding(20);
+            this.mainLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.mainLayout.Size = new System.Drawing.Size(290, 227);
+            this.mainLayout.TabIndex = 0;
             // 
-            // archivoToolStripMenuItem
+            // button1
             // 
-            this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.salirToolStripMenuItem});
-            this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
-            this.archivoToolStripMenuItem.Text = "Archivo";
+            this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_profile;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button1.Location = new System.Drawing.Point(23, 23);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 90);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Usuarios";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button1.UseVisualStyleBackColor = true;
             // 
-            // salirToolStripMenuItem
+            // button2
             // 
-            this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.salirToolStripMenuItem.Text = "Salir";
-            this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
+            this.button2.BackgroundImage = global::GestionInventario.Properties.Resources.re_sales;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button2.Location = new System.Drawing.Point(104, 23);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 90);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Ventas";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.button2.UseVisualStyleBackColor = true;
             // 
-            // MainTab
+            // button3
             // 
-            this.MainTab.Controls.Add(this.pageVentas);
-            this.MainTab.Controls.Add(this.pageProductos);
-            this.MainTab.Controls.Add(this.tabPage3);
-            this.MainTab.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainTab.Location = new System.Drawing.Point(0, 24);
-            this.MainTab.Name = "MainTab";
-            this.MainTab.SelectedIndex = 0;
-            this.MainTab.Size = new System.Drawing.Size(800, 426);
-            this.MainTab.TabIndex = 1;
+            this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_order;
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button3.Location = new System.Drawing.Point(185, 23);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 90);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "Compras";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button3.UseVisualStyleBackColor = true;
             // 
-            // pageVentas
+            // button5
             // 
-            this.pageVentas.Location = new System.Drawing.Point(4, 22);
-            this.pageVentas.Name = "pageVentas";
-            this.pageVentas.Padding = new System.Windows.Forms.Padding(3);
-            this.pageVentas.Size = new System.Drawing.Size(792, 400);
-            this.pageVentas.TabIndex = 0;
-            this.pageVentas.Text = "Ventas";
-            this.pageVentas.UseVisualStyleBackColor = true;
+            this.button5.BackgroundImage = global::GestionInventario.Properties.Resources.re_package;
+            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button5.Location = new System.Drawing.Point(23, 119);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 90);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "Productos";
+            this.button5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button5.UseVisualStyleBackColor = true;
             // 
-            // pageProductos
+            // button4
             // 
-            this.pageProductos.Location = new System.Drawing.Point(4, 22);
-            this.pageProductos.Name = "pageProductos";
-            this.pageProductos.Padding = new System.Windows.Forms.Padding(3);
-            this.pageProductos.Size = new System.Drawing.Size(792, 400);
-            this.pageProductos.TabIndex = 1;
-            this.pageProductos.Text = "Productos";
-            this.pageProductos.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(792, 400);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Clientes";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.button4.BackgroundImage = global::GestionInventario.Properties.Resources.re_exit;
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button4.Location = new System.Drawing.Point(104, 119);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 90);
+            this.button4.TabIndex = 3;
+            this.button4.Text = "Salir";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.MainTab);
-            this.Controls.Add(this.MainMenu);
-            this.MainMenuStrip = this.MainMenu;
+            this.ClientSize = new System.Drawing.Size(290, 227);
+            this.Controls.Add(this.mainLayout);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestion Inventario";
-            this.MainMenu.ResumeLayout(false);
-            this.MainMenu.PerformLayout();
-            this.MainTab.ResumeLayout(false);
+            this.mainLayout.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip MainMenu;
-        private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
-        private System.Windows.Forms.TabControl MainTab;
-        private System.Windows.Forms.TabPage pageVentas;
-        private System.Windows.Forms.TabPage pageProductos;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.FlowLayoutPanel mainLayout;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
     }
 }
 
