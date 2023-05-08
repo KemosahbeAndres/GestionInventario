@@ -12,11 +12,11 @@ namespace GestionInventario.Vista
 {
     public partial class MainForm : Form
     {
-        private UsersForm users;
+        private usersForm users;
         public MainForm()
         {
             InitializeComponent();
-            users = new UsersForm();
+            users = new usersForm();
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)

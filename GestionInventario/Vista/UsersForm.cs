@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace GestionInventario.Vista
 {
-    public partial class UsersForm : Form
+    public partial class usersForm : Form
     {
-        public UsersForm()
+        public usersForm()
         {
             InitializeComponent();
         }

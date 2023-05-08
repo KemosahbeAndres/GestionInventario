@@ -12,11 +12,10 @@ namespace GestionInventario.DB
 
         public static DataClassesDataContext getInstance()
         {
-            if(instance != null)
+            if(instance == null)
             {
-                instance.Dispose();
+                instance = new DataClassesDataContext();
             }
-            instance = new DataClassesDataContext();
             return instance;
         }
     }

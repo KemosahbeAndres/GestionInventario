@@ -57,6 +57,5 @@ namespace GestionInventario.DB
             ctx.SubmitChanges();
         }
 
-        
     }
 }

@@ -63,6 +63,36 @@ namespace GestionInventario.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap re_add_user {
+            get {
+                object obj = ResourceManager.GetObject("re_add_user", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap re_delete {
+            get {
+                object obj = ResourceManager.GetObject("re_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap re_edit {
+            get {
+                object obj = ResourceManager.GetObject("re_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap re_exit {
             get {
                 object obj = ResourceManager.GetObject("re_exit", resourceCulture);
@@ -96,6 +126,16 @@ namespace GestionInventario.Properties {
         internal static System.Drawing.Bitmap re_profile {
             get {
                 object obj = ResourceManager.GetObject("re_profile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap re_refresh {
+            get {
+                object obj = ResourceManager.GetObject("re_refresh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

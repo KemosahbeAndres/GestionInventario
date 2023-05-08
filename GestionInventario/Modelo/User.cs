@@ -35,6 +35,7 @@ namespace GestionInventario.Modelo
             Tipo = rol;
             Parent = creador.Id;
         }
+        public User(string nombre, string correo, string clave, string telefono) : this(0, nombre, correo, clave, telefono) { }
 
         public static User find(int id)
         {
@@ -47,19 +48,47 @@ namespace GestionInventario.Modelo
             return user;
         }
 
-        public void save()
+        public static bool exists(int id)
+        {
+            return udao.Get(id) != null;
+        }
+
+        private Usuarios ToEntity()
         {
             Usuarios entity = new Usuarios();
+            entity.id = Id;
             entity.nombre = Nombre;
             entity.telefono = Telefono;
             entity.correo = Correo;
             entity.clave = Clave;
             entity.id_creador = Parent;
             entity.id_rol = Tipo.Id;
-            udao.Insert(entity);
+            return entity;
         }
 
-        public void setTipo(Rol rol)
+        public void save()
+        {
+            Usuarios entity = ToEntity();
+            if (this.Id > 0)
+            {
+                udao.Modify(entity);
+            } else
+            {
+                udao.Insert(entity);
+            }
+        }
+
+        public bool Delete()
+        {
+            if(Id == 0)
+            {
+                return false;
+            }
+            udao.Delete(ToEntity());
+            return true;
+        }
+
+        public void SetTipo(Rol rol)
         {
             Tipo = rol;
         }

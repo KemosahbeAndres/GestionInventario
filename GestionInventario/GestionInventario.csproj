@@ -171,5 +171,17 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_add_user.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
