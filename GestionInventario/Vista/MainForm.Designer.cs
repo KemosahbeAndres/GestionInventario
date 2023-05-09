@@ -29,6 +29,7 @@ namespace GestionInventario.Vista
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -58,7 +59,7 @@ namespace GestionInventario.Vista
             // 
             // button1
             // 
-            this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_profile;
+            this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_user;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button1.Location = new System.Drawing.Point(23, 23);
             this.button1.Name = "button1";
@@ -67,10 +68,11 @@ namespace GestionInventario.Vista
             this.button1.Text = "Usuarios";
             this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.BackgroundImage = global::GestionInventario.Properties.Resources.re_sales;
+            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button2.Location = new System.Drawing.Point(104, 23);
             this.button2.Name = "button2";
@@ -83,7 +85,7 @@ namespace GestionInventario.Vista
             // 
             // button3
             // 
-            this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_order;
+            this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_buy;
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button3.Location = new System.Drawing.Point(185, 23);
             this.button3.Name = "button3";
@@ -116,6 +118,7 @@ namespace GestionInventario.Vista
             this.button4.Text = "Salir";
             this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // MainForm
             // 
@@ -123,6 +126,7 @@ namespace GestionInventario.Vista
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(318, 239);
             this.Controls.Add(this.mainLayout);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestion Inventario";
