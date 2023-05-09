@@ -73,15 +73,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
-    <Compile Include="DB\Dao.cs" />
-    <Compile Include="DB\SQLConnectionManager.cs" />
-    <Compile Include="DB\UserDao.cs" />
+    <Compile Include="Persistence\Dao.cs" />
+    <Compile Include="Persistence\SQLConnectionManager.cs" />
+    <Compile Include="Persistence\UserDao.cs" />
     <Compile Include="Modelo\Rol.cs" />
     <Compile Include="Modelo\User.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\Controles\UserControlView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Vista\Controles\UserControlView.Designer.cs">
+      <DependentUpon>UserControlView.cs</DependentUpon>
     </Compile>
     <Compile Include="Vista\LoginForm.cs">
       <SubType>Form</SubType>
@@ -103,6 +109,9 @@
     <Compile Include="Vista\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Vista\Controles\UserControlView.resx">
+      <DependentUpon>UserControlView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vista\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,7 +119,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -140,15 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controlador\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\re_profile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\re_sales.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\re_order.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\re_exit.png" />
@@ -182,6 +182,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\re_add_user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_sales.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\re_buy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

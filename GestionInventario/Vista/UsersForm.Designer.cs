@@ -37,11 +37,11 @@ namespace GestionInventario.Vista
             this.colPhone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.usersLeftLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.usersLeftPanel = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnCreateUser = new System.Windows.Forms.Button();
             this.btnModifyUser = new System.Windows.Forms.Button();
             this.btnUserDelete = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.usersLeftLayout.SuspendLayout();
             this.usersLeftPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -108,6 +108,15 @@ namespace GestionInventario.Vista
             this.usersLeftPanel.Size = new System.Drawing.Size(200, 561);
             this.usersLeftPanel.TabIndex = 4;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.usersListView);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(200, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(695, 561);
+            this.panel1.TabIndex = 5;
+            // 
             // btnRefresh
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -161,15 +170,6 @@ namespace GestionInventario.Vista
             this.btnUserDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnUserDelete.UseVisualStyleBackColor = true;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.usersListView);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(200, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(695, 561);
-            this.panel1.TabIndex = 5;
-            // 
             // usersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -181,6 +181,7 @@ namespace GestionInventario.Vista
             this.Name = "usersForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestion Inventario - Usuarios";
+            this.Load += new System.EventHandler(this.usersForm_Load);
             this.usersLeftLayout.ResumeLayout(false);
             this.usersLeftPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

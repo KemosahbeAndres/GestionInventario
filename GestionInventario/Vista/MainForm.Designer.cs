@@ -59,7 +59,7 @@ namespace GestionInventario.Vista
             // 
             // button1
             // 
-            this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_profile;
+            this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_user;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button1.Location = new System.Drawing.Point(23, 23);
             this.button1.Name = "button1";
@@ -72,7 +72,7 @@ namespace GestionInventario.Vista
             // 
             // button2
             // 
-            this.button2.BackgroundImage = global::GestionInventario.Properties.Resources.re_sales;
+            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button2.Location = new System.Drawing.Point(104, 23);
             this.button2.Name = "button2";
@@ -85,7 +85,7 @@ namespace GestionInventario.Vista
             // 
             // button3
             // 
-            this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_order;
+            this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_buy;
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button3.Location = new System.Drawing.Point(185, 23);
             this.button3.Name = "button3";
