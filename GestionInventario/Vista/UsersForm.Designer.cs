@@ -31,17 +31,22 @@ namespace GestionInventario.Vista
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(usersForm));
             this.usersListView = new System.Windows.Forms.ListView();
+            this.colEmpty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colPhone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.usersLeftLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.usersLeftPanel = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnCreateUser = new System.Windows.Forms.Button();
             this.btnModifyUser = new System.Windows.Forms.Button();
             this.btnUserDelete = new System.Windows.Forms.Button();
+            this.btnAccept = new System.Windows.Forms.Button();
+            this.lblSelected = new System.Windows.Forms.Label();
+            this.lblConection = new System.Windows.Forms.Label();
+            this.lblData = new System.Windows.Forms.Label();
+            this.usersLeftPanel = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.usersLeftLayout.SuspendLayout();
             this.usersLeftPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -49,43 +54,49 @@ namespace GestionInventario.Vista
             // 
             // usersListView
             // 
-            this.usersListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.usersListView.CheckBoxes = true;
             this.usersListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colEmpty,
             this.colId,
             this.colName,
             this.colEmail,
             this.colPhone});
             this.usersListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.usersListView.FullRowSelect = true;
+            this.usersListView.GridLines = true;
             this.usersListView.HideSelection = false;
             this.usersListView.Location = new System.Drawing.Point(0, 0);
             this.usersListView.MultiSelect = false;
             this.usersListView.Name = "usersListView";
-            this.usersListView.Size = new System.Drawing.Size(695, 561);
+            this.usersListView.Size = new System.Drawing.Size(695, 656);
             this.usersListView.TabIndex = 2;
             this.usersListView.UseCompatibleStateImageBehavior = false;
             this.usersListView.View = System.Windows.Forms.View.Details;
+            this.usersListView.SelectedIndexChanged += new System.EventHandler(this.usersListView_SelectedIndexChanged);
+            // 
+            // colEmpty
+            // 
+            this.colEmpty.Text = "";
+            this.colEmpty.Width = 19;
             // 
             // colId
             // 
             this.colId.Text = "ID";
-            this.colId.Width = 45;
+            this.colId.Width = 52;
             // 
             // colName
             // 
             this.colName.Text = "Nombre";
-            this.colName.Width = 171;
+            this.colName.Width = 184;
             // 
             // colEmail
             // 
             this.colEmail.Text = "Correo";
-            this.colEmail.Width = 185;
+            this.colEmail.Width = 193;
             // 
             // colPhone
             // 
             this.colPhone.Text = "Telefono";
-            this.colPhone.Width = 111;
+            this.colPhone.Width = 144;
             // 
             // usersLeftLayout
             // 
@@ -93,29 +104,15 @@ namespace GestionInventario.Vista
             this.usersLeftLayout.Controls.Add(this.btnCreateUser);
             this.usersLeftLayout.Controls.Add(this.btnModifyUser);
             this.usersLeftLayout.Controls.Add(this.btnUserDelete);
+            this.usersLeftLayout.Controls.Add(this.btnAccept);
+            this.usersLeftLayout.Controls.Add(this.lblSelected);
+            this.usersLeftLayout.Controls.Add(this.lblConection);
+            this.usersLeftLayout.Controls.Add(this.lblData);
             this.usersLeftLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.usersLeftLayout.Location = new System.Drawing.Point(0, 0);
             this.usersLeftLayout.Name = "usersLeftLayout";
-            this.usersLeftLayout.Size = new System.Drawing.Size(200, 561);
+            this.usersLeftLayout.Size = new System.Drawing.Size(200, 656);
             this.usersLeftLayout.TabIndex = 3;
-            // 
-            // usersLeftPanel
-            // 
-            this.usersLeftPanel.Controls.Add(this.usersLeftLayout);
-            this.usersLeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.usersLeftPanel.Location = new System.Drawing.Point(0, 0);
-            this.usersLeftPanel.Name = "usersLeftPanel";
-            this.usersLeftPanel.Size = new System.Drawing.Size(200, 561);
-            this.usersLeftPanel.TabIndex = 4;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.usersListView);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(200, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(695, 561);
-            this.panel1.TabIndex = 5;
             // 
             // btnRefresh
             // 
@@ -170,11 +167,76 @@ namespace GestionInventario.Vista
             this.btnUserDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnUserDelete.UseVisualStyleBackColor = true;
             // 
+            // btnAccept
+            // 
+            this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnAccept.Location = new System.Drawing.Point(10, 355);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(10);
+            this.btnAccept.Name = "btnAccept";
+            this.btnAccept.Size = new System.Drawing.Size(180, 40);
+            this.btnAccept.TabIndex = 4;
+            this.btnAccept.Text = "Aceptar";
+            this.btnAccept.UseVisualStyleBackColor = true;
+            this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
+            // 
+            // lblSelected
+            // 
+            this.lblSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSelected.AutoSize = true;
+            this.lblSelected.Location = new System.Drawing.Point(10, 415);
+            this.lblSelected.Margin = new System.Windows.Forms.Padding(10);
+            this.lblSelected.MinimumSize = new System.Drawing.Size(180, 0);
+            this.lblSelected.Name = "lblSelected";
+            this.lblSelected.Size = new System.Drawing.Size(180, 13);
+            this.lblSelected.TabIndex = 5;
+            this.lblSelected.Text = "No hay seleccion";
+            // 
+            // lblConection
+            // 
+            this.lblConection.AutoSize = true;
+            this.lblConection.Location = new System.Drawing.Point(10, 448);
+            this.lblConection.Margin = new System.Windows.Forms.Padding(10);
+            this.lblConection.MinimumSize = new System.Drawing.Size(180, 0);
+            this.lblConection.Name = "lblConection";
+            this.lblConection.Size = new System.Drawing.Size(180, 13);
+            this.lblConection.TabIndex = 6;
+            this.lblConection.Text = "...";
+            // 
+            // lblData
+            // 
+            this.lblData.AutoSize = true;
+            this.usersLeftLayout.SetFlowBreak(this.lblData, true);
+            this.lblData.Location = new System.Drawing.Point(10, 481);
+            this.lblData.Margin = new System.Windows.Forms.Padding(10);
+            this.lblData.MinimumSize = new System.Drawing.Size(180, 0);
+            this.lblData.Name = "lblData";
+            this.lblData.Size = new System.Drawing.Size(180, 13);
+            this.lblData.TabIndex = 7;
+            this.lblData.Text = "Datos: ";
+            // 
+            // usersLeftPanel
+            // 
+            this.usersLeftPanel.Controls.Add(this.usersLeftLayout);
+            this.usersLeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.usersLeftPanel.Location = new System.Drawing.Point(0, 0);
+            this.usersLeftPanel.Name = "usersLeftPanel";
+            this.usersLeftPanel.Size = new System.Drawing.Size(200, 656);
+            this.usersLeftPanel.TabIndex = 4;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.usersListView);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(200, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(695, 656);
+            this.panel1.TabIndex = 5;
+            // 
             // usersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 561);
+            this.ClientSize = new System.Drawing.Size(895, 656);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.usersLeftPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -183,6 +245,7 @@ namespace GestionInventario.Vista
             this.Text = "Gestion Inventario - Usuarios";
             this.Load += new System.EventHandler(this.usersForm_Load);
             this.usersLeftLayout.ResumeLayout(false);
+            this.usersLeftLayout.PerformLayout();
             this.usersLeftPanel.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -203,5 +266,10 @@ namespace GestionInventario.Vista
         private System.Windows.Forms.Panel usersLeftPanel;
         private System.Windows.Forms.Button btnUserDelete;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnAccept;
+        private System.Windows.Forms.Label lblSelected;
+        private System.Windows.Forms.Label lblConection;
+        private System.Windows.Forms.Label lblData;
+        private System.Windows.Forms.ColumnHeader colEmpty;
     }
 }
