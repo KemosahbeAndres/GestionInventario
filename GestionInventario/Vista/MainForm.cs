@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GestionInventario.Controlador;
+using GestionInventario.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,10 +15,14 @@ namespace GestionInventario.Vista
     public partial class MainForm : Form
     {
         private usersForm users;
+        private User user;
+        private ListUsersController listUsersController;
+
         public MainForm()
         {
+            listUsersController = new ListUsersController();
             InitializeComponent();
-            users = new usersForm();
+            users = new usersForm(listUsersController);
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -32,6 +38,14 @@ namespace GestionInventario.Vista
         private void button1_Click(object sender, EventArgs e)
         {
             users.ShowDialog(this);
+            if(users.DialogResult == DialogResult.OK)
+            {
+                if(users.userSelected == null)
+                {
+                    MessageBox.Show("Usuario NULO");
+                }
+                user = users.userSelected;
+            }
         }
     }
 }

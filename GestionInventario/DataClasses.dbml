@@ -2,14 +2,14 @@
   <Connection Mode="AppSettings" ConnectionString="Data Source=PC-ANDRES\SQLEXPRESS;Initial Catalog=GestionInventario;Integrated Security=True;Pooling=False" SettingsObjectName="GestionInventario.Properties.Settings" SettingsPropertyName="GestionInventarioConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Categorias" Member="Categorias">
     <Type Name="Categorias">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="categoria" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Categorias_Productos" Member="Productos" ThisKey="id" OtherKey="id_categoria" Type="Productos" />
     </Type>
   </Table>
   <Table Name="dbo.Ventas" Member="Ventas">
     <Type Name="Ventas">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="id_vendedor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Ventas_Item_Venta" Member="Item_Venta" ThisKey="id" OtherKey="id_venta" Type="Item_Venta" />
@@ -18,7 +18,7 @@
   </Table>
   <Table Name="dbo.Compras" Member="Compras">
     <Type Name="Compras">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="id_usuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Compras_Item_Compra" Member="Item_Compra" ThisKey="id" OtherKey="id_compra" Type="Item_Compra" />
@@ -27,7 +27,7 @@
   </Table>
   <Table Name="dbo.Inventario" Member="Inventario">
     <Type Name="Inventario">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fecha" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -36,7 +36,7 @@
   </Table>
   <Table Name="dbo.Item_Compra" Member="Item_Compra">
     <Type Name="Item_Compra">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="id_compra" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -46,7 +46,7 @@
   </Table>
   <Table Name="dbo.Item_Venta" Member="Item_Venta">
     <Type Name="Item_Venta">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="id_venta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="id_producto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -56,7 +56,7 @@
   </Table>
   <Table Name="dbo.Productos" Member="Productos">
     <Type Name="Productos">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ean" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="descripcion" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
@@ -70,14 +70,14 @@
   </Table>
   <Table Name="dbo.Roles" Member="Roles">
     <Type Name="Roles">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="rol" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Roles_Usuarios" Member="Usuarios" ThisKey="id" OtherKey="id_rol" Type="Usuarios" />
     </Type>
   </Table>
   <Table Name="dbo.Usuarios" Member="Usuarios">
     <Type Name="Usuarios">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="nombre" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="telefono" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="correo" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
