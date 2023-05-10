@@ -1,4 +1,4 @@
-﻿using GestionInventario.DB;
+﻿using GestionInventario.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +7,29 @@ using System.Threading.Tasks;
 
 namespace GestionInventario.Modelo
 {
-    class User
+    public class User
     {
-        public int Id { get; private set; }
-        public string Nombre { get; private set; }
-        public string Telefono { get; private set; }
-        public string Correo { get; private set; }
-#pragma warning disable IDE0052 // Quitar miembros privados no leídos
-        private string Clave { get; set; }
-#pragma warning restore IDE0052 // Quitar miembros privados no leídos
-        public Rol Tipo { get; private set; }
-        private int? Parent { get; set; }
+        public int Id { get; }
+        public string Nombre { get; }
+        public string Telefono { get; }
+        public string Correo { get; }
+        private string Clave;
+        private Role Tipo;
+        private User Parent { get; set; }
 
-        private static UserDao udao = new UserDao();
+        public string Rol
+        {
+            get
+            {
+                if(Tipo != null)
+                {
+                    return Tipo.Nombre.Trim();
+                }
+                return "";
+            }
+        }
+
+        private static readonly UserDao dao = new UserDao();
 
         public User(int id, string nombre, string correo, string clave, string telefono)
         {
@@ -28,69 +38,110 @@ namespace GestionInventario.Modelo
             Correo = correo;
             Clave = clave;
             Telefono = telefono;
-            Parent = null;
         }
-        public User(int id, string nombre, string correo, string clave, string telefono, Rol rol, User creador) : this(id, nombre, correo, clave, telefono)
+        public User(int id, string nombre, string correo, string clave, string telefono, Role rol, User creador) : this(id, nombre, correo, clave, telefono)
         {
             Tipo = rol;
-            Parent = creador.Id;
+            Parent = creador;
         }
         public User(string nombre, string correo, string clave, string telefono) : this(0, nombre, correo, clave, telefono) { }
 
-        public static User find(int id)
+        protected static Usuarios ToEntity(User u)
         {
-            var e = udao.Get(id);
-            if(e == null)
+            Usuarios entity;
+            if (u.Parent == null)
             {
-                return null;
+                entity = new Usuarios
+                {
+                    nombre = u.Nombre,
+                    telefono = u.Telefono,
+                    correo = u.Correo,
+                    clave = u.Clave,
+                    id_creador = null,
+                    id_rol = u.Tipo.Id
+                };
+            }else
+            {
+                entity = new Usuarios
+                {
+                    nombre = u.Nombre,
+                    telefono = u.Telefono,
+                    correo = u.Correo,
+                    clave = u.Clave,
+                    id_creador = u.Parent.Id,
+                    id_rol = u.Tipo.Id
+                };
             }
-            var user = new User(e.id, e.nombre, e.correo, e.clave, e.telefono);
-            return user;
-        }
-
-        public static bool exists(int id)
-        {
-            return udao.Get(id) != null;
-        }
-
-        private Usuarios ToEntity()
-        {
-            Usuarios entity = new Usuarios();
-            entity.id = Id;
-            entity.nombre = Nombre;
-            entity.telefono = Telefono;
-            entity.correo = Correo;
-            entity.clave = Clave;
-            entity.id_creador = Parent;
-            entity.id_rol = Tipo.Id;
+            if (u.Id > 0) entity.id = u.Id;
             return entity;
         }
 
-        public void save()
+        protected static User FromEntity(Usuarios e)
         {
-            Usuarios entity = ToEntity();
-            if (this.Id > 0)
+            User user = new User(e.id, e.nombre, e.correo, e.clave, e.telefono, Role.Find(e.id_rol), Find(e.id_creador ?? 0));
+            return user;
+        }
+
+        protected static List<User> ToList(List<Usuarios> list)
+        {
+            List<User> result = new List<User>();
+            foreach (Usuarios user in list)
             {
-                udao.Modify(entity);
+                result.Add(FromEntity(user));
+            }
+            return result;
+        }
+
+        public static User Find(int id)
+        {
+            if (!Exists(id)) return null;
+            Usuarios e = dao.Get(id);
+            User user = FromEntity(e);
+            return user;
+        }
+
+        public static List<User> All()
+        {
+            return ToList(dao.All());
+        }
+
+        public static List<User> Take(int from = 0, int count = 20)
+        {
+            return ToList(dao.Take(from, count));
+        }
+
+        public static bool Exists(int id)
+        {
+            return dao.Exists(id);
+        }
+
+        public void Save()
+        {
+            Usuarios entity = ToEntity(this);
+            if (Exists(Id))
+            {
+                dao.Modify(entity);
             } else
             {
-                udao.Insert(entity);
+                dao.Insert(entity);
             }
         }
 
         public bool Delete()
         {
-            if(Id == 0)
-            {
-                return false;
-            }
-            udao.Delete(ToEntity());
+            if (!Exists(Id)) return false;
+            dao.Delete(ToEntity(this));
             return true;
         }
 
-        public void SetTipo(Rol rol)
+        public bool IsAdmin()
         {
-            Tipo = rol;
+            return Rol == "Administrador";
+        }
+
+        public bool IsSeller()
+        {
+            return Rol == "Vendedor";
         }
 
         public override string ToString()

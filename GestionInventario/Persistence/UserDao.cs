@@ -4,39 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionInventario.DB
+namespace GestionInventario.Persistence
 {
     class UserDao: Dao<Usuarios>
     {
-        private DataClassesDataContext ctx;
-        public UserDao()
-        {
-            ctx = SQLConnectionManager.getInstance();
-        }
-        public List<Usuarios> All()
+
+        public override List<Usuarios> All()
         {
             return ctx.Usuarios.ToList();
         }
 
-        public Usuarios Get(int id)
+        public override List<Usuarios> Take(int index = 0, int count = 20)
         {
+            return ctx.Usuarios.Skip(index).Take(count).ToList();
+        }
+
+        public override Usuarios Get(int id)
+        {
+            if (id <= 0) return null;
             // funcion lambda => funcion flecha => funcion anonima
             return ctx.Usuarios.Where( (x) => x.id == id ).FirstOrDefault();
         }
 
-        public void Insert(Usuarios item)
+        public override void Insert(Usuarios item)
         {
-            ctx.Usuarios.InsertOnSubmit(item);
-            ctx.SubmitChanges();
+            if (!Exists(item.id))
+            {
+                item.id = -1;
+                ctx.Usuarios.InsertOnSubmit(item);
+                ctx.SubmitChanges();
+            }
         }
 
-        public void Modify(Usuarios item)
+        public override void Modify(Usuarios item)
         {
-            var entity = ctx.Usuarios.Where(x => x.id == item.id).FirstOrDefault();
-            if (entity == null)
-            {
-                return;
-            }
+            if (!Exists(item.id)) return;
+            var entity = Get(item.id);
             entity.nombre = item.nombre;
             entity.telefono = item.telefono;
             entity.correo = item.correo;
@@ -46,16 +49,17 @@ namespace GestionInventario.DB
             ctx.SubmitChanges();
         }
 
-        public void Delete(Usuarios item)
+        public override void Delete(Usuarios item)
         {
-            var entity = ctx.Usuarios.Where(x => x.id == item.id).FirstOrDefault();
-            if(entity == null)
-            {
-                return;
-            }
+            if (!Exists(item.id)) return;
+            var entity = Get(item.id);
             ctx.Usuarios.DeleteOnSubmit(entity);
             ctx.SubmitChanges();
         }
 
+        public override bool Exists(int id)
+        {
+            return Get(id) != null;
+        }
     }
 }
