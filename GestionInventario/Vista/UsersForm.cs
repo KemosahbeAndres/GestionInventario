@@ -18,7 +18,7 @@ namespace GestionInventario.Vista
             InitializeComponent();
         }
 
-        public usersForm(ListUsersController controller): this()
+        public usersForm(ListUsersController controller) : this()
         {
             this.controller = controller;
         }
@@ -26,7 +26,7 @@ namespace GestionInventario.Vista
         private void fillListView()
         {
             userList = new List<UserListViewItem>();
-            foreach(User u in controller.Execute())
+            foreach (User u in controller.Execute())
             {
                 userList.Add(new UserListViewItem(u));
             }
@@ -49,12 +49,12 @@ namespace GestionInventario.Vista
             lblConection.Text = "";
             lblSelected.Text = "No hay seleccion";
             lblData.Text = "Datos:\n";
-            if(usersListView.SelectedItems.Count > 0)
+            if (usersListView.SelectedItems.Count > 0)
             {
-                int index = Convert.ToInt32(usersListView.SelectedIndices[0])+1;
+                int index = Convert.ToInt32(usersListView.SelectedIndices[0]) + 1;
                 lblSelected.Text = $"Indice seleccionado: {index}";
                 //var item = ((UserListViewItem) usersListView.SelectedItems[0]).usr;
-                
+
                 if (!User.Exists(index))
                 {
                     lblConection.Text = "No existe el usuario";
@@ -67,12 +67,12 @@ namespace GestionInventario.Vista
                 }
 
             }
-            
+
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-       
+            /**
             Role r = new Role("Administrador");
             r.Save();
             r = new Role("Vendedor");
@@ -85,7 +85,7 @@ namespace GestionInventario.Vista
             u.Save();
             u = new User(0, "Manuel", "m.rojas@alumnos.santotomas.cl", "*****", "123456789", Role.Find("Vendedor"), admin);
             u.Save();
-            
+            **/
 
         }
 
