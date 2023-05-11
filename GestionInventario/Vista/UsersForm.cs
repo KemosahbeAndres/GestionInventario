@@ -72,7 +72,7 @@ namespace GestionInventario.Vista
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            /**
+       
             Role r = new Role("Administrador");
             r.Save();
             r = new Role("Vendedor");
@@ -85,8 +85,13 @@ namespace GestionInventario.Vista
             u.Save();
             u = new User(0, "Manuel", "m.rojas@alumnos.santotomas.cl", "*****", "123456789", Role.Find("Vendedor"), admin);
             u.Save();
-            */
+            
 
+        }
+
+        private void btnUserDelete_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
