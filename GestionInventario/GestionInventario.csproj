@@ -91,6 +91,12 @@
     <Compile Include="Vista\Controles\UserControlView.Designer.cs">
       <DependentUpon>UserControlView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vista\EditUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\EditUserForm.Designer.cs">
+      <DependentUpon>EditUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vista\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </Compile>
     <EmbeddedResource Include="Vista\Controles\UserControlView.resx">
       <DependentUpon>UserControlView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\EditUserForm.resx">
+      <DependentUpon>EditUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>

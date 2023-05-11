@@ -88,5 +88,10 @@ namespace GestionInventario.Vista
             */
 
         }
+
+        private void btnCreateUser_Click(object sender, EventArgs e)
+        {
+            new EditUserForm().ShowDialog(this);
+        }
     }
 }
