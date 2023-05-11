@@ -15,7 +15,6 @@ namespace GestionInventario.Vista
     public partial class MainForm : Form
     {
         private usersForm users;
-        private User user;
         private ListUsersController listUsersController;
 
         public MainForm()
@@ -43,8 +42,10 @@ namespace GestionInventario.Vista
                 if(users.userSelected == null)
                 {
                     MessageBox.Show("Usuario NULO");
+                }else
+                {
+                    MessageBox.Show(users.userSelected.Nombre + " seleccionado");
                 }
-                user = users.userSelected;
             }
         }
     }
