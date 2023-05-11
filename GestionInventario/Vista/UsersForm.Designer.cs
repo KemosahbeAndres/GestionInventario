@@ -168,6 +168,7 @@ namespace GestionInventario.Vista
             this.btnUserDelete.Text = "Eliminar";
             this.btnUserDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnUserDelete.UseVisualStyleBackColor = true;
+            this.btnUserDelete.Click += new System.EventHandler(this.btnUserDelete_Click);
             // 
             // btnAccept
             // 
