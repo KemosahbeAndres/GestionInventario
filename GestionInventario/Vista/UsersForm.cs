@@ -1,6 +1,5 @@
 ﻿using GestionInventario.Controlador;
 using GestionInventario.Modelo;
-using GestionInventario.Vista.Controles;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -12,6 +11,7 @@ namespace GestionInventario.Vista
         public User userSelected { get; private set; }
         private List<UserListViewItem> userList;
         private ListUsersController controller;
+        private EditUserForm editForm;
 
         private usersForm()
         {
@@ -92,7 +92,12 @@ namespace GestionInventario.Vista
 
         private void btnCreateUser_Click(object sender, EventArgs e)
         {
-            new EditUserForm().ShowDialog(this);
+            editForm = new EditUserForm();
+            editForm.ShowDialog(this);
+            if(editForm.DialogResult == DialogResult.OK)
+            {
+                fillListView();
+            }
         }
         private void btnUserDelete_Click(object sender, EventArgs e)
         {

@@ -47,6 +47,7 @@ namespace GestionInventario.Vista
             this.lblData = new System.Windows.Forms.Label();
             this.usersLeftPanel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.colRole = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.usersLeftLayout.SuspendLayout();
             this.usersLeftPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -59,7 +60,8 @@ namespace GestionInventario.Vista
             this.colId,
             this.colName,
             this.colEmail,
-            this.colPhone});
+            this.colPhone,
+            this.colRole});
             this.usersListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.usersListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usersListView.FullRowSelect = true;
@@ -82,12 +84,12 @@ namespace GestionInventario.Vista
             // colId
             // 
             this.colId.Text = "ID";
-            this.colId.Width = 52;
+            this.colId.Width = 38;
             // 
             // colName
             // 
             this.colName.Text = "Nombre";
-            this.colName.Width = 184;
+            this.colName.Width = 182;
             // 
             // colEmail
             // 
@@ -97,7 +99,7 @@ namespace GestionInventario.Vista
             // colPhone
             // 
             this.colPhone.Text = "Telefono";
-            this.colPhone.Width = 144;
+            this.colPhone.Width = 115;
             // 
             // usersLeftLayout
             // 
@@ -235,6 +237,11 @@ namespace GestionInventario.Vista
             this.panel1.Size = new System.Drawing.Size(695, 656);
             this.panel1.TabIndex = 5;
             // 
+            // colRole
+            // 
+            this.colRole.Text = "Rol";
+            this.colRole.Width = 133;
+            // 
             // usersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,5 +281,6 @@ namespace GestionInventario.Vista
         private System.Windows.Forms.Label lblConection;
         private System.Windows.Forms.Label lblData;
         private System.Windows.Forms.ColumnHeader colEmpty;
+        private System.Windows.Forms.ColumnHeader colRole;
     }
 }

@@ -25,7 +25,8 @@ namespace GestionInventario.Vista
                 $"{usr.Id}",
                 usr.Nombre,
                 usr.Correo,
-                usr.Telefono
+                usr.Telefono,
+                usr.Rol
             };
             this.SubItems.AddRange(range);
         }

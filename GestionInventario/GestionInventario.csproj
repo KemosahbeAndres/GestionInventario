@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\RoleType.cs" />
     <Compile Include="Persistence\Dao.cs" />
     <Compile Include="Persistence\RoleDao.cs" />
     <Compile Include="Persistence\SQLConnectionManager.cs" />
@@ -84,12 +85,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\Controles\UserControlView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Vista\Controles\UserControlView.Designer.cs">
-      <DependentUpon>UserControlView.cs</DependentUpon>
     </Compile>
     <Compile Include="Vista\EditUserForm.cs">
       <SubType>Form</SubType>
@@ -118,9 +113,6 @@
     <Compile Include="Vista\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Vista\Controles\UserControlView.resx">
-      <DependentUpon>UserControlView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Vista\EditUserForm.resx">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </EmbeddedResource>
