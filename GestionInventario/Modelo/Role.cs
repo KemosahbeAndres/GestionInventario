@@ -6,15 +6,26 @@ namespace GestionInventario.Modelo
     public class Role
     {
 
-        private static readonly RoleDao dao= new RoleDao();
+        private static readonly RoleDao dao = new RoleDao();
         
-        public int Id { get; private set; }
-        public string Nombre { get; private set; }
+        public int Id { get; }
+        private RoleType role;
+        public string Nombre
+        {
+            get;
+        }
 
         public Role(int id, string rol)
         {
             Id = id;
             Nombre = rol.Trim();
+            if(rol == "Vendedor")
+            {
+                this.role = RoleType.VENDEDOR;
+            }else if (rol == "Administrador")
+            {
+                this.role = RoleType.ADMIN;
+            }
         }
         public Role(string rol) : this(0, rol) { }
 
@@ -58,6 +69,22 @@ namespace GestionInventario.Modelo
                 {
                     return new Role(role.id, rol);
                 }
+            }
+            return null;
+        }
+
+        public static Role Find(RoleType rol)
+        {
+            if (rol == RoleType.ADMIN)
+            {
+                return Find("Administrador");
+            }
+            else if (rol == RoleType.VENDEDOR)
+            {
+                return Find("Vendedor");
+            }else if(rol == RoleType.USUARIO)
+            {
+                return Find("Usuario");
             }
             return null;
         }

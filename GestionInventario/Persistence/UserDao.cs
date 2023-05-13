@@ -45,7 +45,6 @@ namespace GestionInventario.Persistence
             entity.correo = item.correo;
             entity.clave = item.clave;
             entity.id_rol = item.id_rol;
-            entity.id_creador = item.id_creador;
             ctx.SubmitChanges();
         }
 

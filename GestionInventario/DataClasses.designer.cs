@@ -1680,8 +1680,6 @@ namespace GestionInventario
 		
 		private int _id_rol;
 		
-		private System.Nullable<int> _id_creador;
-		
 		private EntitySet<Ventas> _Ventas;
 		
 		private EntitySet<Compras> _Compras;
@@ -1704,8 +1702,6 @@ namespace GestionInventario
     partial void OnclaveChanged();
     partial void Onid_rolChanging(int value);
     partial void Onid_rolChanged();
-    partial void Onid_creadorChanging(System.Nullable<int> value);
-    partial void Onid_creadorChanged();
     #endregion
 		
 		public Usuarios()
@@ -1836,26 +1832,6 @@ namespace GestionInventario
 					this._id_rol = value;
 					this.SendPropertyChanged("id_rol");
 					this.Onid_rolChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_creador", DbType="Int")]
-		public System.Nullable<int> id_creador
-		{
-			get
-			{
-				return this._id_creador;
-			}
-			set
-			{
-				if ((this._id_creador != value))
-				{
-					this.Onid_creadorChanging(value);
-					this.SendPropertyChanging();
-					this._id_creador = value;
-					this.SendPropertyChanged("id_creador");
-					this.Onid_creadorChanged();
 				}
 			}
 		}

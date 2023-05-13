@@ -9,7 +9,7 @@ namespace GestionInventario.Persistence
 
         public override List<Roles> All()
         {
-            return ctx.Roles.ToList();
+            return ctx.Roles.OrderBy(x => x.id).ToList();
         }
 
         public override List<Roles> Take(int index = 0, int count = 20)

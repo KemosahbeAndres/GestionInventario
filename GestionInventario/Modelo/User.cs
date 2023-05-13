@@ -15,7 +15,6 @@ namespace GestionInventario.Modelo
         public string Correo { get; }
         private string Clave;
         private Role Tipo;
-        private User Parent { get; set; }
 
         public string Rol
         {
@@ -39,46 +38,42 @@ namespace GestionInventario.Modelo
             Clave = clave;
             Telefono = telefono;
         }
-        public User(int id, string nombre, string correo, string clave, string telefono, Role rol, User creador) : this(id, nombre, correo, clave, telefono)
+        
+        public User(string nombre, string correo, string clave, string telefono) : this(0, nombre, correo, clave, telefono) { }
+
+        public User(int id, string nombre, string correo, string clave, string telefono, Role rol) : this(id, nombre, correo, clave, telefono)
         {
             Tipo = rol;
-            Parent = creador;
         }
-        public User(string nombre, string correo, string clave, string telefono) : this(0, nombre, correo, clave, telefono) { }
+
+        public User(string nombre, string correo, string clave, string telefono, Role rol) : this(0, nombre, correo, clave, telefono, rol) { }
 
         protected static Usuarios ToEntity(User u)
         {
             Usuarios entity;
-            if (u.Parent == null)
+            entity = new Usuarios
             {
-                entity = new Usuarios
-                {
-                    nombre = u.Nombre,
-                    telefono = u.Telefono,
-                    correo = u.Correo,
-                    clave = u.Clave,
-                    id_creador = null,
-                    id_rol = u.Tipo.Id
-                };
-            }else
+                nombre = u.Nombre,
+                telefono = u.Telefono,
+                correo = u.Correo,
+                clave = u.Clave
+            };
+            if(u.Rol.Equals(""))
             {
-                entity = new Usuarios
-                {
-                    nombre = u.Nombre,
-                    telefono = u.Telefono,
-                    correo = u.Correo,
-                    clave = u.Clave,
-                    id_creador = u.Parent.Id,
-                    id_rol = u.Tipo.Id
-                };
+                entity.id_rol = Role.Find(RoleType.USUARIO).Id;
             }
+            else
+            {
+                entity.id_rol = u.Tipo.Id;
+            }
+            
             if (u.Id > 0) entity.id = u.Id;
             return entity;
         }
 
         protected static User FromEntity(Usuarios e)
         {
-            User user = new User(e.id, e.nombre, e.correo, e.clave, e.telefono, Role.Find(e.id_rol), Find(e.id_creador ?? 0));
+            User user = new User(e.id, e.nombre, e.correo, e.clave, e.telefono, Role.Find(e.id_rol));
             return user;
         }
 
