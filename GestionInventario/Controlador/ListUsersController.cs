@@ -10,24 +10,24 @@ namespace GestionInventario.Controlador
 {
     public class ListUsersController
     {
-        private static readonly UserDao userdao = new UserDao();
+        private FindUserController userFinder;
+        private UserDao userDao;
 
-        public List<User> Execute()
+        public ListUsersController()
         {
-            return User.All();
+            userDao = new UserDao();
+            userFinder = new FindUserController();
         }
 
-        protected static List<User> ToList(List<Usuarios> list)
+        public List<User> execute()
         {
-            List<User> result = new List<User>();
-            foreach (Usuarios user in list)
+            List<User> list = new List<User>();
+            foreach (Usuarios user in userDao.All())
             {
-                result.Add(new User(
-                    user.id,
-
-                    ));
+                list.Add(userFinder.execute(user.id));
             }
-            return result;
+            return list;
         }
+
     }
 }

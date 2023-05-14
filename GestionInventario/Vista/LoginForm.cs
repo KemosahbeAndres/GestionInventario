@@ -1,4 +1,5 @@
 ﻿using GestionInventario.Controlador;
+using GestionInventario.Modelo;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,18 +14,20 @@ namespace GestionInventario.Vista
 {
     public partial class LoginForm : Form, ILoginVista
     {
-        private readonly LoginControlador _controlador;
-
-        public LoginForm(string cadenaConexion)
+        private readonly LoginController _controlador;
+        private User loggedUser;
+        public User GetUser
         {
-            InitializeComponent();
-            _controlador = new LoginControlador(this, cadenaConexion);
-            InicializarEventos();
+            get
+            {
+                return loggedUser;
+            }
         }
 
-        private void InicializarEventos()
+        public LoginForm()
         {
-            btnIniciarSesion.Click += (sender, e) => _controlador.IniciarSesion();
+            InitializeComponent();
+            _controlador = new LoginController(this);
         }
 
         public string Rut
@@ -48,13 +51,25 @@ namespace GestionInventario.Vista
             txtContraseña.Text = "";
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
+        private void btnIniciarSesion_Click(object sender, EventArgs e)
         {
+            string username = txtRut.Text.Trim();
+            string password = txtContraseña.Text.Trim();
+            if(_controlador.IniciarSesion(username, password))
+            {
+                this.loggedUser = _controlador.GetUser;
+                this.DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 
-    internal interface ILoginVista
+    public interface ILoginVista
     {
         string Rut { get; }
         string Contraseña { get; }

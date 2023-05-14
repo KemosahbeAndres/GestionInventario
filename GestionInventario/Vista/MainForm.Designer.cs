@@ -51,22 +51,19 @@ namespace GestionInventario.Vista
             this.mainLayout.Cursor = System.Windows.Forms.Cursors.Default;
             this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayout.Location = new System.Drawing.Point(0, 0);
-            this.mainLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.mainLayout.Name = "mainLayout";
-            this.mainLayout.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
+            this.mainLayout.Padding = new System.Windows.Forms.Padding(20, 20, 20, 20);
             this.mainLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.mainLayout.Size = new System.Drawing.Size(424, 294);
+            this.mainLayout.Size = new System.Drawing.Size(318, 239);
             this.mainLayout.TabIndex = 0;
-            this.mainLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.mainLayout_Paint);
             // 
             // button1
             // 
             this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_user;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Location = new System.Drawing.Point(31, 29);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Location = new System.Drawing.Point(23, 23);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 111);
+            this.button1.Size = new System.Drawing.Size(75, 90);
             this.button1.TabIndex = 0;
             this.button1.Text = "Usuarios";
             this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -77,10 +74,9 @@ namespace GestionInventario.Vista
             // 
             this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
             this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button2.Location = new System.Drawing.Point(139, 29);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Location = new System.Drawing.Point(104, 23);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 111);
+            this.button2.Size = new System.Drawing.Size(75, 90);
             this.button2.TabIndex = 1;
             this.button2.Text = "Ventas";
             this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -91,10 +87,9 @@ namespace GestionInventario.Vista
             // 
             this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_buy;
             this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button3.Location = new System.Drawing.Point(247, 29);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Location = new System.Drawing.Point(185, 23);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 111);
+            this.button3.Size = new System.Drawing.Size(75, 90);
             this.button3.TabIndex = 2;
             this.button3.Text = "Compras";
             this.button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -104,10 +99,9 @@ namespace GestionInventario.Vista
             // 
             this.button5.BackgroundImage = global::GestionInventario.Properties.Resources.re_package;
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button5.Location = new System.Drawing.Point(31, 148);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button5.Location = new System.Drawing.Point(23, 119);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(100, 111);
+            this.button5.Size = new System.Drawing.Size(75, 90);
             this.button5.TabIndex = 4;
             this.button5.Text = "Productos";
             this.button5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -117,10 +111,9 @@ namespace GestionInventario.Vista
             // 
             this.button4.BackgroundImage = global::GestionInventario.Properties.Resources.re_exit;
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button4.Location = new System.Drawing.Point(139, 148);
-            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button4.Location = new System.Drawing.Point(104, 119);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 111);
+            this.button4.Size = new System.Drawing.Size(75, 90);
             this.button4.TabIndex = 3;
             this.button4.Text = "Salir";
             this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -129,15 +122,15 @@ namespace GestionInventario.Vista
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 294);
+            this.ClientSize = new System.Drawing.Size(318, 239);
             this.Controls.Add(this.mainLayout);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestion Inventario";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 

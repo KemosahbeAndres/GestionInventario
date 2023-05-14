@@ -13,7 +13,7 @@ namespace GestionInventario.Modelo
         public string Nombre { get; }
         public string Telefono { get; }
         public string Correo { get; }
-        private string Clave;
+        public string Clave { get; }
         private Role Tipo;
 
         public string Rol
@@ -27,9 +27,6 @@ namespace GestionInventario.Modelo
                 return "";
             }
         }
-
-        public string Rut { get; internal set; }
-        public string Contraseña { get; internal set; }
 
         private static readonly UserDao dao = new UserDao();
 
