@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controlador\CreateUserController.cs" />
     <Compile Include="Controlador\ListUsersController.cs" />
     <Compile Include="DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
