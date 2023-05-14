@@ -14,14 +14,21 @@ namespace GestionInventario.Vista
 {
     public partial class MainForm : Form
     {
+        private bool logged;
+        private User user;
         private usersForm users;
-        private ListUsersController listUsersController;
+        private LoginForm loginForm;
+        private ListUsersController userLister;
+        private FindUserController userFinder;
 
         public MainForm()
         {
-            listUsersController = new ListUsersController();
+            userLister = new ListUsersController();
+            userFinder = new FindUserController();
             InitializeComponent();
-            users = new usersForm(listUsersController);
+            users = new usersForm(userLister);
+            loginForm = new LoginForm();
+            logged = false;
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -31,7 +38,10 @@ namespace GestionInventario.Vista
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            logged = false;
+            user = null;
+            loginForm = new LoginForm();
+            loginForm.ShowDialog(this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -49,9 +59,35 @@ namespace GestionInventario.Vista
             }
         }
 
-        private void mainLayout_Paint(object sender, PaintEventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+            if (userLister.execute().Count <= 0) initApplication();
+            if (!logged)
+            {
+                loginForm.ShowDialog(this);
+                if(loginForm.DialogResult == DialogResult.OK && loginForm.GetUser != null)
+                {
+                    logged = true;
+                    user = loginForm.GetUser;
+                }
+            }
+            }catch(Exception error)
+            {
+                message("Error de conexion con base de datos!! Cerrando por precaucion! "+error.Message);
+                Application.Exit();
+            }
+        }
+
+        private void initApplication()
         {
 
+        }
+
+        protected void message(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

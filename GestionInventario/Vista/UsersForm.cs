@@ -26,7 +26,7 @@ namespace GestionInventario.Vista
         private void fillListView()
         {
             userList = new List<UserListViewItem>();
-            foreach (User u in controller.Execute())
+            foreach (User u in controller.execute())
             {
                 userList.Add(new UserListViewItem(u));
             }

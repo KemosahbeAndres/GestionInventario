@@ -9,44 +9,54 @@ using System.Threading.Tasks;
 
 namespace GestionInventario.Controlador
 {
-    public class LoginControlador
+    public class LoginController
     {
         private readonly ILoginVista _vista;
-        private readonly string _cadenaConexion;
+        private FindUserController userFinder;
+        private User loggedUser;
 
-        public LoginControlador(ILoginVista vista, string cadenaConexion)
+        public User GetUser
         {
-            _vista = vista;
-            _cadenaConexion = cadenaConexion;
+            get
+            {
+                return loggedUser;
+            }
         }
 
-        public void IniciarSesion()
+        public LoginController(ILoginVista vista)
         {
-            string rut = _vista.Rut;
-            string contraseña = _vista.Contraseña;
+            _vista = vista;
+            userFinder = new FindUserController();
+        }
+
+        public bool IniciarSesion(string username, string password)
+        {
+            string rut = username.Trim();
+            string contraseña = password.Trim();
 
             if (string.IsNullOrEmpty(rut) || string.IsNullOrEmpty(contraseña))
             {
                 _vista.MostrarMensaje("Debe ingresar el RUT y la contraseña");
-                return;
+                return false;
             }
 
             if (!ValidarRut(rut))
             {
                 _vista.MostrarMensaje("El RUT ingresado no es válido");
-                return;
+                return false;
             }
 
-            User usuario = ObtenerUsuario(rut, contraseña);
+            loggedUser = userFinder.execute(rut);
 
-            if (usuario == null)
+            if ( loggedUser == null || !ValidarContraseña(contraseña) )
             {
                 _vista.MostrarMensaje("El RUT o la contraseña son incorrectos");
-                return;
+                return false;
             }
 
             _vista.MostrarMensaje("Inicio de sesión exitoso");
             _vista.LimpiarCampos();
+            return true;
         }
 
         private bool ValidarRut(string rut)
@@ -55,8 +65,16 @@ namespace GestionInventario.Controlador
             return true;
         }
 
+        private bool ValidarContraseña(string password)
+        {
+            return this.loggedUser.Clave.Equals(password.Trim());
+        }
+
+
+        /**
         private User ObtenerUsuario(string rut, string contraseña)
         {
+            return userFinder.execute(rut);
             using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
             {
                 SqlCommand comando = new SqlCommand();
@@ -79,7 +97,8 @@ namespace GestionInventario.Controlador
                     return null;
                 }
             }
-        }
+        
+        }*/
     }
 
 }
