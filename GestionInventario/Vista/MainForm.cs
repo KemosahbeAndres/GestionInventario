@@ -48,5 +48,10 @@ namespace GestionInventario.Vista
                 }
             }
         }
+
+        private void mainLayout_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

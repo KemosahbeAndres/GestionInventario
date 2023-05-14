@@ -28,6 +28,9 @@ namespace GestionInventario.Modelo
             }
         }
 
+        public string Rut { get; internal set; }
+        public string Contraseña { get; internal set; }
+
         private static readonly UserDao dao = new UserDao();
 
         public User(int id, string nombre, string correo, string clave, string telefono)
@@ -47,6 +50,10 @@ namespace GestionInventario.Modelo
         }
 
         public User(string nombre, string correo, string clave, string telefono, Role rol) : this(0, nombre, correo, clave, telefono, rol) { }
+
+        public User()
+        {
+        }
 
         protected static Usuarios ToEntity(User u)
         {

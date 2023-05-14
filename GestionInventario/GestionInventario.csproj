@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Controlador\CreateUserController.cs" />
     <Compile Include="Controlador\ListUsersController.cs" />
+    <Compile Include="Controlador\LoginControlador.cs" />
     <Compile Include="DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
@@ -75,6 +76,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Modelo\LoginModelo.cs" />
     <Compile Include="Modelo\RoleType.cs" />
     <Compile Include="Persistence\Dao.cs" />
     <Compile Include="Persistence\RoleDao.cs" />
@@ -93,11 +95,11 @@
     <Compile Include="Vista\EditUserForm.Designer.cs">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vista\LoginForm.cs">
+    <Compile Include="Vista\ILoginVista.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vista\LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="Vista\ILoginVista.Designer.cs">
+      <DependentUpon>ILoginVista.cs</DependentUpon>
     </Compile>
     <Compile Include="Vista\MainForm.cs">
       <SubType>Form</SubType>
@@ -117,8 +119,8 @@
     <EmbeddedResource Include="Vista\EditUserForm.resx">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vista\LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <EmbeddedResource Include="Vista\ILoginVista.resx">
+      <DependentUpon>ILoginVista.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
