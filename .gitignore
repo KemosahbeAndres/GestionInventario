@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+GestionInventario/Properties/
+#GestionInventario/DataClasses.dbml
+#GestionInventario/DataClasses.cs
+#GestionInventario/DataClasses.dbml.layout
+#GestionInventario/DataClasses.designer.cs

@@ -34,7 +34,7 @@ namespace GestionInventario.Controlador
                 return false;
             }
 
-            if (!ValidarRut(rut))
+            if (!RunValidator.Validar(rut))
             {
                 _vista.MostrarMensaje("El RUT ingresado no es válido");
                 return false;
@@ -54,11 +54,7 @@ namespace GestionInventario.Controlador
             return true;
         }
 
-        private bool ValidarRut(string rut)
-        {
-            // Implementar la validación del RUT aquí
-            return true;
-        }
+        
 
         private bool ValidarContraseña(User user, string password)
         {

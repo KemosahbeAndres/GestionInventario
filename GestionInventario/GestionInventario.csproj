@@ -71,8 +71,11 @@
     <Compile Include="Controlador\CreateUserController.cs" />
     <Compile Include="Controlador\FindRoleController.cs" />
     <Compile Include="Controlador\FindUserController.cs" />
+    <Compile Include="Controlador\ListRolesController.cs" />
     <Compile Include="Controlador\ListUsersController.cs" />
     <Compile Include="Controlador\LoginController.cs" />
+    <Compile Include="Controlador\ModifyUserController.cs" />
+    <Compile Include="Controlador\RunValidator.cs" />
     <Compile Include="DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>

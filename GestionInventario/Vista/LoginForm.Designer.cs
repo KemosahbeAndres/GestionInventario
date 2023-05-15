@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.txtRut = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.labelRut = new System.Windows.Forms.Label();
@@ -56,12 +57,12 @@
             // labelRut
             // 
             this.labelRut.AutoSize = true;
-            this.labelRut.Location = new System.Drawing.Point(48, 82);
+            this.labelRut.Location = new System.Drawing.Point(85, 80);
             this.labelRut.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelRut.Name = "labelRut";
-            this.labelRut.Size = new System.Drawing.Size(41, 13);
+            this.labelRut.Size = new System.Drawing.Size(27, 13);
             this.labelRut.TabIndex = 2;
-            this.labelRut.Text = "Correo:";
+            this.labelRut.Text = "Rut:";
             // 
             // labelContra
             // 
@@ -96,10 +97,10 @@
             // 
             // LoginForm
             // 
+            this.AcceptButton = this.btnIniciarSesion;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(281, 269);
-            this.ControlBox = false;
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnIniciarSesion);
             this.Controls.Add(this.labelContra);
@@ -107,12 +108,14 @@
             this.Controls.Add(this.txtContraseña);
             this.Controls.Add(this.txtRut);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Iniciar Sesion";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LoginForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,4 +1,5 @@
 ﻿using GestionInventario.Modelo;
+using GestionInventario.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,28 +11,38 @@ namespace GestionInventario.Controlador
 {
     class CreateUserController
     {
-        private bool nameError;
-        private bool emailError;
-        private bool passwordError;
-        private bool phoneError;
-        private bool roleError;
+        private readonly UserDao userDao = new UserDao();
+        private readonly RoleDao roleDao = new RoleDao();
+        private FindRoleController roleFinder;
 
         public CreateUserController()
         {
-            nameError = false;
-            emailError = false;
-            passwordError = false;
-            phoneError = false;
-            roleError = false;
+            roleFinder = new FindRoleController();
         }
 
-        public void execute(string name, string email, string password, string phone, string role)
+        public void execute(string name, string rut, string password, string phone, string role)
         {
-            if (String.IsNullOrEmpty(name.Trim()) && hasNumber(name)) MessageBox.Show(null, "No puedes ingresar un numero en el nombre!", "Error de datos");
-            if (String.IsNullOrEmpty(email.Trim())) nameError = true;
-            if (String.IsNullOrEmpty(password.Trim())) nameError = true;
-            if (String.IsNullOrEmpty(phone.Trim())) nameError = true;
-            if (String.IsNullOrEmpty(role.Trim()) && Role.Find(role.Trim()) == null) nameError = true;
+            if (String.IsNullOrEmpty(name.Trim()) && hasNumber(name)) throw new Exception("Nombre invalido, los nombres no pueden llevar numeros en su contenido!");
+            string nombre = name.Trim();
+            if (String.IsNullOrEmpty(rut.Trim()) || !RunValidator.Validar(rut.Trim())) throw new Exception("Rut invalido, debes ingresar un numero de rut valido!");
+            string username = rut.Trim();
+            if (String.IsNullOrEmpty(password.Trim())) throw new Exception("Contraseña invalida, debes ingresar una contraseña valida!");
+            string clave = password.Trim();
+            string telefono = "";
+            if (!String.IsNullOrEmpty(phone.Trim())) telefono = phone.Trim();
+            if (String.IsNullOrEmpty(role.Trim()) && roleFinder.execute(role.Trim()) == null ) throw new Exception("Rol invalido, debes seleccionar un rol valido de la lista!");
+            var rol = roleFinder.execute(role.Trim());
+
+            Usuarios user = new Usuarios();
+
+            try
+            {
+                userDao.Insert(user);
+            }catch(Exception e)
+            {
+                throw new Exception("Error al guardar usuario!\n"+e.Message);
+            }
+
         }
 
         public bool hasNumber(string value)

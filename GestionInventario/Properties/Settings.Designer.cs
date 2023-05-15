@@ -12,7 +12,7 @@ namespace GestionInventario.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -28,20 +28,20 @@ namespace GestionInventario.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=PC-ANDRES\\SQLEXPRESS;Initial Catalog=GestionInventario;Integrated Sec" +
             "urity=True;Pooling=False")]
-        public string GestionInventarioConnectionString1 {
+        public string GestionInventarioConnectionString {
             get {
-                return ((string)(this["GestionInventarioConnectionString1"]));
+                return ((string)(this["GestionInventarioConnectionString"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-HTM5GRE\\SQLEXPRESS;Initial Catalog=GestionInventario;Integrat" +
-            "ed Security=True")]
-        public string GestionInventarioConnectionString2 {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=PC-ANDRES\\SQLEXPRESS;Initial Catalog=GestionInventario;Integrated Sec" +
+            "urity=True;Pooling=False")]
+        public string GestionInventarioConnectionString1 {
             get {
-                return ((string)(this["GestionInventarioConnectionString2"]));
+                return ((string)(this["GestionInventarioConnectionString1"]));
             }
         }
     }

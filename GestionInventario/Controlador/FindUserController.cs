@@ -19,7 +19,7 @@ namespace GestionInventario.Controlador
             if (!userDao.Exists(id)) return null;
             var e = userDao.Get(id);
             return new User(
-                e.id, e.nombre, e.correo, e.clave, e.telefono, roleFinder.execute(e.id_rol)
+                e.id, e.nombre, e.rut, e.clave, e.telefono, roleFinder.execute(e.id_rol)
                 );
         }
 
@@ -27,7 +27,7 @@ namespace GestionInventario.Controlador
         {
             foreach(Usuarios user in userDao.All())
             {
-                if (user.correo.Trim().Equals(correo.Trim()))
+                if (user.rut.Trim().Equals(correo.Trim()))
                 {
                     return this.execute(user.id);
                 }

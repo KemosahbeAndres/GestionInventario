@@ -41,7 +41,7 @@ namespace GestionInventario.Modelo
         
         public User(string nombre, string rut, string clave, string telefono) : this(0, nombre, rut, clave, telefono) { }
 
-        public User(int id, string nombre, string rut, string clave, string telefono, Role rol) : this(id, nombre, correo, clave, telefono)
+        public User(int id, string nombre, string rut, string clave, string telefono, Role rol) : this(id, nombre, rut, clave, telefono)
         {
             Tipo = rol;
         }
@@ -125,7 +125,7 @@ namespace GestionInventario.Modelo
         public bool Delete()
         {
             if (!Exists(Id)) return false;
-            dao.Delete(ToEntity(this));
+            dao.Delete(Id);
             return true;
         }
 

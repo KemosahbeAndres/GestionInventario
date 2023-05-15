@@ -35,7 +35,7 @@ namespace GestionInventario.Vista
             this.lblName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtRut = new System.Windows.Forms.TextBox();
             this.lblPhone = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtPhone = new System.Windows.Forms.TextBox();
@@ -69,7 +69,7 @@ namespace GestionInventario.Vista
             this.tLayout.Controls.Add(this.lblName, 0, 0);
             this.tLayout.Controls.Add(this.txtName, 1, 0);
             this.tLayout.Controls.Add(this.label1, 0, 1);
-            this.tLayout.Controls.Add(this.txtEmail, 1, 1);
+            this.tLayout.Controls.Add(this.txtRut, 1, 1);
             this.tLayout.Controls.Add(this.lblPhone, 0, 2);
             this.tLayout.Controls.Add(this.lblPassword, 0, 3);
             this.tLayout.Controls.Add(this.txtPhone, 1, 2);
@@ -118,17 +118,17 @@ namespace GestionInventario.Vista
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(92, 18);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Correo";
+            this.label1.Text = "Rut";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtEmail
+            // txtRut
             // 
-            this.txtEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEmail.Location = new System.Drawing.Point(101, 48);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(187, 24);
-            this.txtEmail.TabIndex = 3;
+            this.txtRut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRut.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRut.Location = new System.Drawing.Point(101, 48);
+            this.txtRut.Name = "txtRut";
+            this.txtRut.Size = new System.Drawing.Size(187, 24);
+            this.txtRut.TabIndex = 3;
             // 
             // lblPhone
             // 
@@ -171,6 +171,7 @@ namespace GestionInventario.Vista
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(187, 24);
             this.txtPassword.TabIndex = 7;
+            this.txtPassword.UseSystemPasswordChar = true;
             // 
             // cbRole
             // 
@@ -255,7 +256,7 @@ namespace GestionInventario.Vista
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtRut;
         private System.Windows.Forms.Label lblPhone;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox txtPhone;

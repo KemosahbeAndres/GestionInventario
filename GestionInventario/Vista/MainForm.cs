@@ -63,16 +63,16 @@ namespace GestionInventario.Vista
         {
             try
             {
-            if (userLister.execute().Count <= 0) initApplication();
-            if (!logged)
-            {
-                loginForm.ShowDialog(this);
-                if(loginForm.DialogResult == DialogResult.OK && loginForm.GetUser != null)
+                if (userLister.execute().Count <= 0) initApplication();
+                if (!logged)
                 {
-                    logged = true;
-                    user = loginForm.GetUser;
+                    loginForm.ShowDialog(this);
+                    if(loginForm.DialogResult == DialogResult.OK && loginForm.GetUser != null)
+                    {
+                        logged = true;
+                        user = loginForm.GetUser;
+                    }
                 }
-            }
             }catch(Exception error)
             {
                 message("Error de conexion con base de datos!! Cerrando por precaucion! "+error.Message);
@@ -82,7 +82,23 @@ namespace GestionInventario.Vista
 
         private void initApplication()
         {
-
+            if(new ListRolesController().execute().Count <= 0)
+            {
+                Role r = new Role("Administrador");
+                r.Save();
+                r = new Role("Vendedor");
+                r.Save();
+                r = new Role("Usuario");
+                r.Save();
+            }    
+                        
+            User admin = new User("Andres", "19149514-4", "admin", "123456789", Role.Find("Administrador"));
+            admin.Save();
+            User u = new User("Gerald", "12345678-9", "admin", "123456789", Role.Find("Vendedor"));
+            u.Save();
+            u = new User("Manuel", "1234567-8", "admin", "123456789", Role.Find("Vendedor"));
+            u.Save();
+            
         }
 
         protected void message(string mensaje)
