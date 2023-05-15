@@ -50,8 +50,8 @@ namespace GestionInventario.Persistence
 
         public override void Delete(int id)
         {
-            if (!Exists(item.id)) return;
-            var entity = Get(item.id);
+            if (!Exists(id)) return;
+            var entity = Get(id);
             ctx.Usuarios.DeleteOnSubmit(entity);
             ctx.SubmitChanges();
         }
