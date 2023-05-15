@@ -60,5 +60,13 @@ namespace GestionInventario.Persistence
         {
             return Get(id) != null;
         }
+
+        public void Delete(int id)
+        {
+            if (!Exists(id)) return;
+            var entity = Get(id);
+            ctx.Usuarios.DeleteOnSubmit(entity);
+            ctx.SubmitChanges();
+        }
     }
 }

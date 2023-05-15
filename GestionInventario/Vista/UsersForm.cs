@@ -1,5 +1,6 @@
 ﻿using GestionInventario.Controlador;
 using GestionInventario.Modelo;
+using GestionInventario.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -101,7 +102,27 @@ namespace GestionInventario.Vista
         }
         private void btnUserDelete_Click(object sender, EventArgs e)
         {
-
+            if (usersListView.SelectedItems.Count > 0)
+            {
+                int index = Convert.ToInt32(usersListView.SelectedIndices[0]) + 1;
+                var userSelected = User.Find(index);
+                if (userSelected != null)
+                {
+                    DialogResult user_resultado = MessageBox.Show
+                        ("¿Esta seguro que desea eliminar al siguiente usuario? \nNombre: " + userSelected.Nombre + "\nCorreo: " + userSelected.Correo, "Eliminar Usuario", MessageBoxButtons.YesNo);
+                    if (user_resultado == DialogResult.Yes)
+                    {
+                        UserDao userdao = new UserDao();
+                        userdao.Delete(userSelected.Id);
+                        fillListView();
+                        MessageBox.Show("Se ha eliminado el usuario seleccionado.");
+                    }
+                    else if (user_resultado == DialogResult.No)
+                    {
+                        MessageBox.Show("Se ha cancelado la operacion.");
+                    }
+                }
+            }
         }
     }
 }
