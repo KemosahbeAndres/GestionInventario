@@ -16,7 +16,10 @@ namespace GestionInventario.Persistence
         public abstract List<T> All();
         public abstract List<T> Take(int index = 0, int count = 20);
         public abstract T Get(int id);
-        public abstract bool Exists(int id);
+        public bool Exists(int id)
+        {
+            return Get(id) != null;
+        }
         public abstract void Insert(T item);
         public abstract void Modify(T item);
         public abstract void Delete(int id);

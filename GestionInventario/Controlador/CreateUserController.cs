@@ -35,6 +35,12 @@ namespace GestionInventario.Controlador
 
             Usuarios user = new Usuarios();
 
+            user.nombre = nombre;
+            user.rut = username;
+            user.clave = clave;
+            user.telefono = telefono;
+            user.id_rol = rol.Id;
+
             try
             {
                 userDao.Insert(user);

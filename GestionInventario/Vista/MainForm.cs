@@ -18,6 +18,7 @@ namespace GestionInventario.Vista
         private User user;
         private usersForm users;
         private LoginForm loginForm;
+        private ProductsForm productsForm;
         private ListUsersController userLister;
         private FindUserController userFinder;
 
@@ -104,6 +105,12 @@ namespace GestionInventario.Vista
         protected void message(string mensaje)
         {
             MessageBox.Show(mensaje, "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            productsForm = new ProductsForm();
+            productsForm.ShowDialog(this);
         }
     }
 }
