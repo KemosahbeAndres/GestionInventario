@@ -63,7 +63,7 @@ namespace GestionInventario.Vista
                 {
                     userSelected = User.Find(index);
                     lblConection.Text = "Usuario encontrado!!";
-                    lblData.Text += $"ID: {userSelected.Id}\nNombre: {userSelected.Nombre}\nCorreo: {userSelected.Correo}\nTelefono: {userSelected.Telefono}";
+                    lblData.Text += $"ID: {userSelected.Id}\nNombre: {userSelected.Nombre}\nCorreo: {userSelected.Rut}\nTelefono: {userSelected.Telefono}";
                 }
 
             }

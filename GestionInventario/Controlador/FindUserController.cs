@@ -1,10 +1,5 @@
 ﻿using GestionInventario.Modelo;
 using GestionInventario.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestionInventario.Controlador
 {
@@ -18,6 +13,7 @@ namespace GestionInventario.Controlador
             userDao = new UserDao();
             roleFinder = new FindRoleController();
         }
+
         public User execute(int id)
         {
             if (!userDao.Exists(id)) return null;
@@ -26,6 +22,7 @@ namespace GestionInventario.Controlador
                 e.id, e.nombre, e.correo, e.clave, e.telefono, roleFinder.execute(e.id_rol)
                 );
         }
+
         public User execute(string correo)
         {
             foreach(Usuarios user in userDao.All())

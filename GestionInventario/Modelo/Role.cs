@@ -5,7 +5,6 @@ namespace GestionInventario.Modelo
 {
     public class Role
     {
-
         private static readonly RoleDao dao = new RoleDao();
         
         public int Id { get; }

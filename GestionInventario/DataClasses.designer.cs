@@ -1674,7 +1674,7 @@ namespace GestionInventario
 		
 		private string _telefono;
 		
-		private string _correo;
+		private string _rut;
 		
 		private string _clave;
 		
@@ -1696,8 +1696,8 @@ namespace GestionInventario
     partial void OnnombreChanged();
     partial void OntelefonoChanging(string value);
     partial void OntelefonoChanged();
-    partial void OncorreoChanging(string value);
-    partial void OncorreoChanged();
+    partial void OnrutChanging(string value);
+    partial void OnrutChanged();
     partial void OnclaveChanging(string value);
     partial void OnclaveChanged();
     partial void Onid_rolChanging(int value);
@@ -1772,22 +1772,22 @@ namespace GestionInventario
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_correo", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string correo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rut", DbType="NVarChar(12) NOT NULL", CanBeNull=false)]
+		public string rut
 		{
 			get
 			{
-				return this._correo;
+				return this._rut;
 			}
 			set
 			{
-				if ((this._correo != value))
+				if ((this._rut != value))
 				{
-					this.OncorreoChanging(value);
+					this.OnrutChanging(value);
 					this.SendPropertyChanging();
-					this._correo = value;
-					this.SendPropertyChanged("correo");
-					this.OncorreoChanged();
+					this._rut = value;
+					this.SendPropertyChanged("rut");
+					this.OnrutChanged();
 				}
 			}
 		}

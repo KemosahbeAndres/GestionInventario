@@ -17,13 +17,13 @@ namespace GestionInventario.Persistence
             return ctx.Roles.Skip(index).Take(count).ToList();
         }
 
-        public override void Delete(Roles item)
+        public override void Delete(int id)
         {
-            if(!Exists(item.id))
+            if(!Exists(id))
             {
                 return;
             }
-            Roles e = ctx.Roles.Single(x => x.id == item.id);
+            Roles e = ctx.Roles.Single(x => x.id == id);
             ctx.Roles.DeleteOnSubmit(e);
             ctx.SubmitChanges();
         }
