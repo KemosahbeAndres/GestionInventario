@@ -28,11 +28,6 @@ namespace GestionInventario.Persistence
             ctx.SubmitChanges();
         }
 
-        public override bool Exists(int id)
-        {
-            return Get(id) != null;
-        }
-
         public override Roles Get(int id)
         {
             if (id <= 0) return null;
@@ -53,7 +48,7 @@ namespace GestionInventario.Persistence
         {
             if (Exists(item.id))
             {
-                Roles entity = ctx.Roles.Single(x => x.id == item.id);
+                Roles entity = Get(item.id);
                 entity.rol = item.rol;
                 ctx.SubmitChanges();
             }

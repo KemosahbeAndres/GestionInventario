@@ -52,7 +52,7 @@ namespace GestionInventario.Vista
             this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayout.Location = new System.Drawing.Point(0, 0);
             this.mainLayout.Name = "mainLayout";
-            this.mainLayout.Padding = new System.Windows.Forms.Padding(20, 20, 20, 20);
+            this.mainLayout.Padding = new System.Windows.Forms.Padding(20);
             this.mainLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.mainLayout.Size = new System.Drawing.Size(318, 239);
             this.mainLayout.TabIndex = 0;
@@ -106,6 +106,7 @@ namespace GestionInventario.Vista
             this.button5.Text = "Productos";
             this.button5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 

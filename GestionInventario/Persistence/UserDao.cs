@@ -56,9 +56,5 @@ namespace GestionInventario.Persistence
             ctx.SubmitChanges();
         }
 
-        public override bool Exists(int id)
-        {
-            return Get(id) != null;
-        }
     }
 }
