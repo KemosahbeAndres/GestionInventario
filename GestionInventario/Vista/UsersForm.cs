@@ -9,7 +9,7 @@ namespace GestionInventario.Vista
 {
     public partial class usersForm : Form
     {
-        public User userSelected { get; private set; }
+        public User userSelected;
         private List<UserListViewItem> userList;
         private ListUsersController controller;
         private EditUserForm editForm;
@@ -52,19 +52,21 @@ namespace GestionInventario.Vista
             lblData.Text = "Datos:\n";
             if (usersListView.SelectedItems.Count > 0)
             {
+                userSelected = ((UserListViewItem)usersListView.SelectedItems[0]).usr;
                 int index = Convert.ToInt32(usersListView.SelectedIndices[0]) + 1;
-                lblSelected.Text = $"Indice seleccionado: {index}";
+                lblSelected.Text = $"Indice seleccionado: {index} ID {userSelected.Id}";
                 //var item = ((UserListViewItem) usersListView.SelectedItems[0]).usr;
 
-                if (!User.Exists(index))
+                if (!User.Exists(userSelected.Id))
                 {
                     lblConection.Text = "No existe el usuario";
                 }
                 else
                 {
-                    userSelected = User.Find(index);
+                    //this.userSelected = User.Find(index);
+                    userSelected = ((UserListViewItem)usersListView.SelectedItems[0]).usr;
                     lblConection.Text = "Usuario encontrado!!";
-                    lblData.Text += $"ID: {userSelected.Id}\nNombre: {userSelected.Nombre}\nCorreo: {userSelected.Correo}\nTelefono: {userSelected.Telefono}";
+                    lblData.Text += $"ID: {userSelected.Id}\nNombre: {userSelected.Nombre}\nCorreo: {userSelected.Rut}\nTelefono: {userSelected.Telefono}";
                 }
 
             }
@@ -90,11 +92,10 @@ namespace GestionInventario.Vista
 
         }
 
-
         private void btnCreateUser_Click(object sender, EventArgs e)
         {
             editForm = new EditUserForm();
-            editForm.ShowDialog(this);
+            editForm.ShowCreateDialog(this);
             if(editForm.DialogResult == DialogResult.OK)
             {
                 fillListView();
@@ -104,12 +105,12 @@ namespace GestionInventario.Vista
         {
             if (usersListView.SelectedItems.Count > 0)
             {
-                int index = Convert.ToInt32(usersListView.SelectedIndices[0]) + 1;
-                var userSelected = User.Find(index);
+                //int index = Convert.ToInt32(usersListView.SelectedIndices[0]) + 1;
+                //var userSelected = User.Find(index);
                 if (userSelected != null)
                 {
                     DialogResult user_resultado = MessageBox.Show
-                        ("¿Esta seguro que desea eliminar al siguiente usuario? \nNombre: " + userSelected.Nombre + "\nCorreo: " + userSelected.Correo, "Eliminar Usuario", MessageBoxButtons.YesNo);
+                        ("¿Esta seguro que desea eliminar al siguiente usuario? \nNombre: " + userSelected.Nombre + "\nRUT: " + userSelected.Rut, "Eliminar Usuario", MessageBoxButtons.YesNo);
                     if (user_resultado == DialogResult.Yes)
                     {
                         UserDao userdao = new UserDao();
@@ -122,6 +123,16 @@ namespace GestionInventario.Vista
                         MessageBox.Show("Se ha cancelado la operacion.");
                     }
                 }
+            }
+        }
+
+        private void btnModifyUser_Click(object sender, EventArgs e)
+        {
+            editForm = new EditUserForm();
+            if(userSelected != null) editForm.ShowEditDialog(this, userSelected);
+            if (editForm.DialogResult == DialogResult.OK)
+            {
+                fillListView();
             }
         }
     }

@@ -50,6 +50,9 @@
   <PropertyGroup>
     <StartupObject>GestionInventario.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>inventory.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,15 +71,18 @@
     <Compile Include="Controlador\CreateUserController.cs" />
     <Compile Include="Controlador\FindRoleController.cs" />
     <Compile Include="Controlador\FindUserController.cs" />
+    <Compile Include="Controlador\ListRolesController.cs" />
     <Compile Include="Controlador\ListUsersController.cs" />
     <Compile Include="Controlador\LoginController.cs" />
+    <Compile Include="Controlador\ModifyUserController.cs" />
+    <Compile Include="Controlador\RunValidator.cs" />
     <Compile Include="DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="DataClasses.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>DataClasses.dbml</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Modelo\LoginModelo.cs" />
     <Compile Include="Modelo\RoleType.cs" />
@@ -136,9 +142,9 @@
       <DependentUpon>UsersForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DataClasses.dbml">
+      <SubType>Designer</SubType>
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </None>
     <None Include="DataClasses.dbml.layout">
       <DependentUpon>DataClasses.dbml</DependentUpon>
@@ -156,7 +162,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="inventory.ico" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\re_exit.png" />
   </ItemGroup>

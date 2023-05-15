@@ -19,6 +19,6 @@ namespace GestionInventario.Persistence
         public abstract bool Exists(int id);
         public abstract void Insert(T item);
         public abstract void Modify(T item);
-        public abstract void Delete(T item);
+        public abstract void Delete(int id);
     }
 }

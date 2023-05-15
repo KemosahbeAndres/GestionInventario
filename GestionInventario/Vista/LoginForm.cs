@@ -67,6 +67,11 @@ namespace GestionInventario.Vista
         {
             Application.Exit();
         }
+
+        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(loggedUser == null) Application.Exit();
+        }
     }
 
     public interface ILoginVista

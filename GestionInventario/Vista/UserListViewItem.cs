@@ -24,7 +24,7 @@ namespace GestionInventario.Vista
             string[] range = {
                 $"{usr.Id}",
                 usr.Nombre,
-                usr.Correo,
+                usr.Rut,
                 usr.Telefono,
                 usr.Rol
             };

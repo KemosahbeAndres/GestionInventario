@@ -42,16 +42,16 @@ namespace GestionInventario.Persistence
             var entity = Get(item.id);
             entity.nombre = item.nombre;
             entity.telefono = item.telefono;
-            entity.correo = item.correo;
+            entity.rut = item.rut;
             entity.clave = item.clave;
             entity.id_rol = item.id_rol;
             ctx.SubmitChanges();
         }
 
-        public override void Delete(Usuarios item)
+        public override void Delete(int id)
         {
-            if (!Exists(item.id)) return;
-            var entity = Get(item.id);
+            if (!Exists(id)) return;
+            var entity = Get(id);
             ctx.Usuarios.DeleteOnSubmit(entity);
             ctx.SubmitChanges();
         }
@@ -59,14 +59,6 @@ namespace GestionInventario.Persistence
         public override bool Exists(int id)
         {
             return Get(id) != null;
-        }
-
-        public void Delete(int id)
-        {
-            if (!Exists(id)) return;
-            var entity = Get(id);
-            ctx.Usuarios.DeleteOnSubmit(entity);
-            ctx.SubmitChanges();
         }
     }
 }

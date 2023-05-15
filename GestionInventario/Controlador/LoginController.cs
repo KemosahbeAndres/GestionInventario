@@ -1,11 +1,5 @@
 ﻿using GestionInventario.Modelo;
 using GestionInventario.Vista;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestionInventario.Controlador
 {
@@ -40,34 +34,31 @@ namespace GestionInventario.Controlador
                 return false;
             }
 
-            if (!ValidarRut(rut))
+            if (!RunValidator.Validar(rut))
             {
                 _vista.MostrarMensaje("El RUT ingresado no es válido");
                 return false;
             }
 
-            loggedUser = userFinder.execute(rut);
+            User user = userFinder.execute(rut);
 
-            if ( loggedUser == null || !ValidarContraseña(contraseña) )
+            if ( user == null || !ValidarContraseña(user, contraseña) )
             {
                 _vista.MostrarMensaje("El RUT o la contraseña son incorrectos");
                 return false;
             }
-
+            
+            loggedUser = user;
             _vista.MostrarMensaje("Inicio de sesión exitoso");
             _vista.LimpiarCampos();
             return true;
         }
 
-        private bool ValidarRut(string rut)
-        {
-            // Implementar la validación del RUT aquí
-            return true;
-        }
+        
 
-        private bool ValidarContraseña(string password)
+        private bool ValidarContraseña(User user, string password)
         {
-            return this.loggedUser.Clave.Equals(password.Trim());
+            return user.Clave.Equals(password.Trim());
         }
 
 

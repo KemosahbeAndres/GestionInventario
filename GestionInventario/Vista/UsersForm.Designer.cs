@@ -36,6 +36,7 @@ namespace GestionInventario.Vista
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colPhone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colRole = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.usersLeftLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnCreateUser = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@ namespace GestionInventario.Vista
             this.lblData = new System.Windows.Forms.Label();
             this.usersLeftPanel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.colRole = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.usersLeftLayout.SuspendLayout();
             this.usersLeftPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -100,6 +100,11 @@ namespace GestionInventario.Vista
             // 
             this.colPhone.Text = "Telefono";
             this.colPhone.Width = 115;
+            // 
+            // colRole
+            // 
+            this.colRole.Text = "Rol";
+            this.colRole.Width = 133;
             // 
             // usersLeftLayout
             // 
@@ -158,6 +163,7 @@ namespace GestionInventario.Vista
             this.btnModifyUser.Text = "Modificar";
             this.btnModifyUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnModifyUser.UseVisualStyleBackColor = true;
+            this.btnModifyUser.Click += new System.EventHandler(this.btnModifyUser_Click);
             // 
             // btnUserDelete
             // 
@@ -236,11 +242,6 @@ namespace GestionInventario.Vista
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(695, 656);
             this.panel1.TabIndex = 5;
-            // 
-            // colRole
-            // 
-            this.colRole.Text = "Rol";
-            this.colRole.Width = 133;
             // 
             // usersForm
             // 

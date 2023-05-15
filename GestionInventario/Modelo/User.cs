@@ -12,7 +12,7 @@ namespace GestionInventario.Modelo
         public int Id { get; }
         public string Nombre { get; }
         public string Telefono { get; }
-        public string Correo { get; }
+        public string Rut { get; }
         public string Clave { get; }
         private Role Tipo;
 
@@ -30,27 +30,23 @@ namespace GestionInventario.Modelo
 
         private static readonly UserDao dao = new UserDao();
 
-        public User(int id, string nombre, string correo, string clave, string telefono)
+        public User(int id, string nombre, string rut, string clave, string telefono)
         {
             Id = id;
             Nombre = nombre;
-            Correo = correo;
+            Rut = rut;
             Clave = clave;
             Telefono = telefono;
         }
         
-        public User(string nombre, string correo, string clave, string telefono) : this(0, nombre, correo, clave, telefono) { }
+        public User(string nombre, string rut, string clave, string telefono) : this(0, nombre, rut, clave, telefono) { }
 
-        public User(int id, string nombre, string correo, string clave, string telefono, Role rol) : this(id, nombre, correo, clave, telefono)
+        public User(int id, string nombre, string rut, string clave, string telefono, Role rol) : this(id, nombre, rut, clave, telefono)
         {
             Tipo = rol;
         }
 
-        public User(string nombre, string correo, string clave, string telefono, Role rol) : this(0, nombre, correo, clave, telefono, rol) { }
-
-        public User()
-        {
-        }
+        public User(string nombre, string rut, string clave, string telefono, Role rol) : this(0, nombre, rut, clave, telefono, rol) { }
 
         protected static Usuarios ToEntity(User u)
         {
@@ -59,7 +55,7 @@ namespace GestionInventario.Modelo
             {
                 nombre = u.Nombre,
                 telefono = u.Telefono,
-                correo = u.Correo,
+                rut = u.Rut,
                 clave = u.Clave
             };
             if(u.Rol.Equals(""))
@@ -77,7 +73,7 @@ namespace GestionInventario.Modelo
 
         protected static User FromEntity(Usuarios e)
         {
-            User user = new User(e.id, e.nombre, e.correo, e.clave, e.telefono, Role.Find(e.id_rol));
+            User user = new User(e.id, e.nombre, e.rut, e.clave, e.telefono, Role.Find(e.id_rol));
             return user;
         }
 
@@ -129,7 +125,7 @@ namespace GestionInventario.Modelo
         public bool Delete()
         {
             if (!Exists(Id)) return false;
-            dao.Delete(ToEntity(this));
+            dao.Delete(Id);
             return true;
         }
 
