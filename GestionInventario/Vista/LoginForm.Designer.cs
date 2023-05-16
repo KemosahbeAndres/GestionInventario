@@ -39,47 +39,54 @@
             // 
             // txtRut
             // 
+            this.txtRut.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.txtRut.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.txtRut.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRut.Location = new System.Drawing.Point(133, 77);
             this.txtRut.Margin = new System.Windows.Forms.Padding(2);
             this.txtRut.Name = "txtRut";
-            this.txtRut.Size = new System.Drawing.Size(102, 20);
+            this.txtRut.Size = new System.Drawing.Size(102, 24);
             this.txtRut.TabIndex = 0;
             // 
             // txtContraseña
             // 
+            this.txtContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtContraseña.Location = new System.Drawing.Point(133, 127);
             this.txtContraseña.Margin = new System.Windows.Forms.Padding(2);
             this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.Size = new System.Drawing.Size(102, 20);
+            this.txtContraseña.Size = new System.Drawing.Size(102, 24);
             this.txtContraseña.TabIndex = 1;
             this.txtContraseña.UseSystemPasswordChar = true;
             // 
             // labelRut
             // 
             this.labelRut.AutoSize = true;
+            this.labelRut.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRut.Location = new System.Drawing.Point(85, 80);
             this.labelRut.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelRut.Name = "labelRut";
-            this.labelRut.Size = new System.Drawing.Size(27, 13);
+            this.labelRut.Size = new System.Drawing.Size(35, 18);
             this.labelRut.TabIndex = 2;
             this.labelRut.Text = "Rut:";
             // 
             // labelContra
             // 
             this.labelContra.AutoSize = true;
-            this.labelContra.Location = new System.Drawing.Point(48, 129);
+            this.labelContra.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelContra.Location = new System.Drawing.Point(34, 133);
             this.labelContra.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelContra.Name = "labelContra";
-            this.labelContra.Size = new System.Drawing.Size(64, 13);
+            this.labelContra.Size = new System.Drawing.Size(89, 18);
             this.labelContra.TabIndex = 3;
             this.labelContra.Text = "Contraseña:";
             // 
             // btnIniciarSesion
             // 
-            this.btnIniciarSesion.Location = new System.Drawing.Point(152, 180);
+            this.btnIniciarSesion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIniciarSesion.Location = new System.Drawing.Point(133, 183);
             this.btnIniciarSesion.Margin = new System.Windows.Forms.Padding(2);
             this.btnIniciarSesion.Name = "btnIniciarSesion";
-            this.btnIniciarSesion.Size = new System.Drawing.Size(83, 26);
+            this.btnIniciarSesion.Size = new System.Drawing.Size(102, 30);
             this.btnIniciarSesion.TabIndex = 4;
             this.btnIniciarSesion.Text = "Iniciar sesion";
             this.btnIniciarSesion.UseVisualStyleBackColor = true;
@@ -87,9 +94,10 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(37, 183);
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExit.Location = new System.Drawing.Point(34, 183);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.Size = new System.Drawing.Size(86, 30);
             this.btnExit.TabIndex = 5;
             this.btnExit.Text = "Salir";
             this.btnExit.UseVisualStyleBackColor = true;

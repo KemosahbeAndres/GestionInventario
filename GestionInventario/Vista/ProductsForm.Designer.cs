@@ -33,7 +33,17 @@ namespace GestionInventario.Vista
             this.panelLeft = new System.Windows.Forms.Panel();
             this.buttonsLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddCategory = new System.Windows.Forms.Button();
+            this.txtNewCategory = new System.Windows.Forms.TextBox();
+            this.categoryList = new System.Windows.Forms.ListBox();
+            this.btnDeleteCategory = new System.Windows.Forms.Button();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.topLayout = new System.Windows.Forms.FlowLayoutPanel();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnAddProduct = new System.Windows.Forms.Button();
+            this.btnEditProduct = new System.Windows.Forms.Button();
+            this.btnDeleteProduct = new System.Windows.Forms.Button();
             this.panelContent = new System.Windows.Forms.Panel();
             this.listProductsView = new System.Windows.Forms.ListView();
             this.colEmpty = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -44,21 +54,11 @@ namespace GestionInventario.Vista
             this.columnCost = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnStock = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.topLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.txtNewCategory = new System.Windows.Forms.TextBox();
-            this.categoryList = new System.Windows.Forms.ListBox();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnDeleteCategory = new System.Windows.Forms.Button();
-            this.btnAddProduct = new System.Windows.Forms.Button();
-            this.btnEditProduct = new System.Windows.Forms.Button();
-            this.btnDeleteProduct = new System.Windows.Forms.Button();
             this.panelLeft.SuspendLayout();
             this.buttonsLayout.SuspendLayout();
             this.panelTop.SuspendLayout();
-            this.panelContent.SuspendLayout();
             this.topLayout.SuspendLayout();
+            this.panelContent.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelLeft
@@ -67,7 +67,7 @@ namespace GestionInventario.Vista
             this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelLeft.Location = new System.Drawing.Point(0, 0);
             this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(200, 535);
+            this.panelLeft.Size = new System.Drawing.Size(200, 541);
             this.panelLeft.TabIndex = 0;
             // 
             // buttonsLayout
@@ -81,7 +81,7 @@ namespace GestionInventario.Vista
             this.buttonsLayout.Location = new System.Drawing.Point(0, 0);
             this.buttonsLayout.Name = "buttonsLayout";
             this.buttonsLayout.Padding = new System.Windows.Forms.Padding(10);
-            this.buttonsLayout.Size = new System.Drawing.Size(200, 535);
+            this.buttonsLayout.Size = new System.Drawing.Size(200, 541);
             this.buttonsLayout.TabIndex = 0;
             // 
             // btnAddCategory
@@ -95,109 +95,6 @@ namespace GestionInventario.Vista
             this.btnAddCategory.Text = "Agregar Categoria";
             this.btnAddCategory.UseVisualStyleBackColor = true;
             this.btnAddCategory.Click += new System.EventHandler(this.btnAddCategory_Click);
-            // 
-            // panelTop
-            // 
-            this.panelTop.Controls.Add(this.topLayout);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.panelTop.Location = new System.Drawing.Point(200, 0);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(764, 40);
-            this.panelTop.TabIndex = 100;
-            // 
-            // panelContent
-            // 
-            this.panelContent.Controls.Add(this.listProductsView);
-            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContent.Location = new System.Drawing.Point(200, 40);
-            this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(764, 495);
-            this.panelContent.TabIndex = 101;
-            // 
-            // listProductsView
-            // 
-            this.listProductsView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colEmpty,
-            this.columnID,
-            this.columnEAN,
-            this.columnName,
-            this.columnCat,
-            this.columnCost,
-            this.columnStock,
-            this.columnDesc});
-            this.listProductsView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listProductsView.HideSelection = false;
-            this.listProductsView.Location = new System.Drawing.Point(0, 0);
-            this.listProductsView.Name = "listProductsView";
-            this.listProductsView.Size = new System.Drawing.Size(764, 495);
-            this.listProductsView.TabIndex = 0;
-            this.listProductsView.UseCompatibleStateImageBehavior = false;
-            this.listProductsView.View = System.Windows.Forms.View.Details;
-            // 
-            // colEmpty
-            // 
-            this.colEmpty.Text = "";
-            this.colEmpty.Width = 20;
-            // 
-            // columnID
-            // 
-            this.columnID.Text = "ID";
-            this.columnID.Width = 30;
-            // 
-            // columnEAN
-            // 
-            this.columnEAN.Text = "Codigo EAN";
-            this.columnEAN.Width = 80;
-            // 
-            // columnName
-            // 
-            this.columnName.Text = "Producto";
-            this.columnName.Width = 80;
-            // 
-            // columnCat
-            // 
-            this.columnCat.Text = "Categoria";
-            this.columnCat.Width = 80;
-            // 
-            // columnCost
-            // 
-            this.columnCost.Text = "Precio";
-            this.columnCost.Width = 80;
-            // 
-            // columnStock
-            // 
-            this.columnStock.Text = "Inventario";
-            // 
-            // columnDesc
-            // 
-            this.columnDesc.Text = "Descripcion";
-            this.columnDesc.Width = 240;
-            // 
-            // topLayout
-            // 
-            this.topLayout.Controls.Add(this.txtSearch);
-            this.topLayout.Controls.Add(this.btnSearch);
-            this.topLayout.Controls.Add(this.btnRefresh);
-            this.topLayout.Controls.Add(this.btnAddProduct);
-            this.topLayout.Controls.Add(this.btnEditProduct);
-            this.topLayout.Controls.Add(this.btnDeleteProduct);
-            this.topLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.topLayout.Location = new System.Drawing.Point(0, 0);
-            this.topLayout.Name = "topLayout";
-            this.topLayout.Padding = new System.Windows.Forms.Padding(5);
-            this.topLayout.Size = new System.Drawing.Size(764, 40);
-            this.topLayout.TabIndex = 0;
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefresh.Location = new System.Drawing.Point(293, 8);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(90, 23);
-            this.btnRefresh.TabIndex = 0;
-            this.btnRefresh.Text = "Refrescar";
-            this.btnRefresh.UseVisualStyleBackColor = true;
             // 
             // txtNewCategory
             // 
@@ -220,6 +117,44 @@ namespace GestionInventario.Vista
             this.categoryList.Size = new System.Drawing.Size(174, 274);
             this.categoryList.TabIndex = 2;
             // 
+            // btnDeleteCategory
+            // 
+            this.btnDeleteCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteCategory.Location = new System.Drawing.Point(10, 374);
+            this.btnDeleteCategory.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
+            this.btnDeleteCategory.Name = "btnDeleteCategory";
+            this.btnDeleteCategory.Size = new System.Drawing.Size(180, 30);
+            this.btnDeleteCategory.TabIndex = 3;
+            this.btnDeleteCategory.Text = "Borrar Categoria";
+            this.btnDeleteCategory.UseVisualStyleBackColor = true;
+            this.btnDeleteCategory.Click += new System.EventHandler(this.btnDeleteCategory_Click);
+            // 
+            // panelTop
+            // 
+            this.panelTop.Controls.Add(this.topLayout);
+            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTop.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.panelTop.Location = new System.Drawing.Point(200, 0);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Size = new System.Drawing.Size(769, 40);
+            this.panelTop.TabIndex = 100;
+            // 
+            // topLayout
+            // 
+            this.topLayout.Controls.Add(this.txtSearch);
+            this.topLayout.Controls.Add(this.btnSearch);
+            this.topLayout.Controls.Add(this.btnRefresh);
+            this.topLayout.Controls.Add(this.btnAddProduct);
+            this.topLayout.Controls.Add(this.btnEditProduct);
+            this.topLayout.Controls.Add(this.btnDeleteProduct);
+            this.topLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.topLayout.Location = new System.Drawing.Point(0, 0);
+            this.topLayout.Name = "topLayout";
+            this.topLayout.Padding = new System.Windows.Forms.Padding(5);
+            this.topLayout.Size = new System.Drawing.Size(769, 40);
+            this.topLayout.TabIndex = 0;
+            // 
             // txtSearch
             // 
             this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
@@ -239,18 +174,15 @@ namespace GestionInventario.Vista
             this.btnSearch.Text = "Buscar";
             this.btnSearch.UseVisualStyleBackColor = true;
             // 
-            // btnDeleteCategory
+            // btnRefresh
             // 
-            this.btnDeleteCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteCategory.Location = new System.Drawing.Point(10, 390);
-            this.btnDeleteCategory.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.btnDeleteCategory.Name = "btnDeleteCategory";
-            this.btnDeleteCategory.Size = new System.Drawing.Size(180, 30);
-            this.btnDeleteCategory.TabIndex = 3;
-            this.btnDeleteCategory.Text = "Borrar Categoria";
-            this.btnDeleteCategory.UseVisualStyleBackColor = true;
-            this.btnDeleteCategory.Click += new System.EventHandler(this.btnDeleteCategory_Click);
+            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.Location = new System.Drawing.Point(293, 8);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(90, 23);
+            this.btnRefresh.TabIndex = 0;
+            this.btnRefresh.Text = "Refrescar";
+            this.btnRefresh.UseVisualStyleBackColor = true;
             // 
             // btnAddProduct
             // 
@@ -282,11 +214,81 @@ namespace GestionInventario.Vista
             this.btnDeleteProduct.Text = "Borrar";
             this.btnDeleteProduct.UseVisualStyleBackColor = true;
             // 
+            // panelContent
+            // 
+            this.panelContent.Controls.Add(this.listProductsView);
+            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelContent.Location = new System.Drawing.Point(200, 40);
+            this.panelContent.Name = "panelContent";
+            this.panelContent.Size = new System.Drawing.Size(769, 501);
+            this.panelContent.TabIndex = 101;
+            // 
+            // listProductsView
+            // 
+            this.listProductsView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colEmpty,
+            this.columnID,
+            this.columnEAN,
+            this.columnName,
+            this.columnCat,
+            this.columnCost,
+            this.columnStock,
+            this.columnDesc});
+            this.listProductsView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listProductsView.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listProductsView.HideSelection = false;
+            this.listProductsView.Location = new System.Drawing.Point(0, 0);
+            this.listProductsView.Name = "listProductsView";
+            this.listProductsView.Size = new System.Drawing.Size(769, 501);
+            this.listProductsView.TabIndex = 0;
+            this.listProductsView.UseCompatibleStateImageBehavior = false;
+            this.listProductsView.View = System.Windows.Forms.View.Details;
+            // 
+            // colEmpty
+            // 
+            this.colEmpty.Text = "";
+            this.colEmpty.Width = 20;
+            // 
+            // columnID
+            // 
+            this.columnID.Text = "ID";
+            this.columnID.Width = 30;
+            // 
+            // columnEAN
+            // 
+            this.columnEAN.Text = "Codigo EAN";
+            this.columnEAN.Width = 105;
+            // 
+            // columnName
+            // 
+            this.columnName.Text = "Producto";
+            this.columnName.Width = 109;
+            // 
+            // columnCat
+            // 
+            this.columnCat.Text = "Categoria";
+            this.columnCat.Width = 104;
+            // 
+            // columnCost
+            // 
+            this.columnCost.Text = "Precio";
+            this.columnCost.Width = 85;
+            // 
+            // columnStock
+            // 
+            this.columnStock.Text = "Inventario";
+            this.columnStock.Width = 80;
+            // 
+            // columnDesc
+            // 
+            this.columnDesc.Text = "Descripcion";
+            this.columnDesc.Width = 219;
+            // 
             // ProductsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 535);
+            this.ClientSize = new System.Drawing.Size(969, 541);
             this.Controls.Add(this.panelContent);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.panelLeft);
@@ -299,9 +301,9 @@ namespace GestionInventario.Vista
             this.buttonsLayout.ResumeLayout(false);
             this.buttonsLayout.PerformLayout();
             this.panelTop.ResumeLayout(false);
-            this.panelContent.ResumeLayout(false);
             this.topLayout.ResumeLayout(false);
             this.topLayout.PerformLayout();
+            this.panelContent.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
