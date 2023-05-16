@@ -63,14 +63,14 @@ namespace GestionInventario.Vista
             this.colPhone,
             this.colRole});
             this.usersListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.usersListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.usersListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usersListView.FullRowSelect = true;
             this.usersListView.GridLines = true;
             this.usersListView.HideSelection = false;
             this.usersListView.Location = new System.Drawing.Point(0, 0);
             this.usersListView.MultiSelect = false;
             this.usersListView.Name = "usersListView";
-            this.usersListView.Size = new System.Drawing.Size(695, 656);
+            this.usersListView.Size = new System.Drawing.Size(695, 541);
             this.usersListView.TabIndex = 2;
             this.usersListView.UseCompatibleStateImageBehavior = false;
             this.usersListView.View = System.Windows.Forms.View.Details;
@@ -119,7 +119,7 @@ namespace GestionInventario.Vista
             this.usersLeftLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.usersLeftLayout.Location = new System.Drawing.Point(0, 0);
             this.usersLeftLayout.Name = "usersLeftLayout";
-            this.usersLeftLayout.Size = new System.Drawing.Size(200, 656);
+            this.usersLeftLayout.Size = new System.Drawing.Size(200, 541);
             this.usersLeftLayout.TabIndex = 3;
             // 
             // btnRefresh
@@ -188,6 +188,7 @@ namespace GestionInventario.Vista
             this.btnAccept.TabIndex = 4;
             this.btnAccept.Text = "Aceptar";
             this.btnAccept.UseVisualStyleBackColor = true;
+            this.btnAccept.Visible = false;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
             // lblSelected
@@ -201,6 +202,7 @@ namespace GestionInventario.Vista
             this.lblSelected.Size = new System.Drawing.Size(180, 13);
             this.lblSelected.TabIndex = 5;
             this.lblSelected.Text = "No hay seleccion";
+            this.lblSelected.Visible = false;
             // 
             // lblConection
             // 
@@ -212,6 +214,7 @@ namespace GestionInventario.Vista
             this.lblConection.Size = new System.Drawing.Size(180, 13);
             this.lblConection.TabIndex = 6;
             this.lblConection.Text = "...";
+            this.lblConection.Visible = false;
             // 
             // lblData
             // 
@@ -224,6 +227,7 @@ namespace GestionInventario.Vista
             this.lblData.Size = new System.Drawing.Size(180, 13);
             this.lblData.TabIndex = 7;
             this.lblData.Text = "Datos: ";
+            this.lblData.Visible = false;
             // 
             // usersLeftPanel
             // 
@@ -231,7 +235,7 @@ namespace GestionInventario.Vista
             this.usersLeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.usersLeftPanel.Location = new System.Drawing.Point(0, 0);
             this.usersLeftPanel.Name = "usersLeftPanel";
-            this.usersLeftPanel.Size = new System.Drawing.Size(200, 656);
+            this.usersLeftPanel.Size = new System.Drawing.Size(200, 541);
             this.usersLeftPanel.TabIndex = 4;
             // 
             // panel1
@@ -240,14 +244,14 @@ namespace GestionInventario.Vista
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(200, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(695, 656);
+            this.panel1.Size = new System.Drawing.Size(695, 541);
             this.panel1.TabIndex = 5;
             // 
             // usersForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(895, 656);
+            this.ClientSize = new System.Drawing.Size(895, 541);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.usersLeftPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

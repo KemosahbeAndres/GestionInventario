@@ -95,9 +95,9 @@ namespace GestionInventario.Vista
                         
             User admin = new User("Andres", "19149514-4", "admin", "123456789", Role.Find("Administrador"));
             admin.Save();
-            User u = new User("Gerald", "12345678-9", "admin", "123456789", Role.Find("Vendedor"));
+            User u = new User("Gerald", "21394949-7", "admin", "123456789", Role.Find("Vendedor"));
             u.Save();
-            u = new User("Manuel", "1234567-8", "admin", "123456789", Role.Find("Vendedor"));
+            u = new User("Manuel", "20919788-K", "admin", "123456789", Role.Find("Vendedor"));
             u.Save();
             
         }
