@@ -183,6 +183,7 @@ namespace GestionInventario.Vista
             this.btnRefresh.TabIndex = 0;
             this.btnRefresh.Text = "Refrescar";
             this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnAddProduct
             // 
@@ -236,6 +237,8 @@ namespace GestionInventario.Vista
             this.columnDesc});
             this.listProductsView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listProductsView.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listProductsView.FullRowSelect = true;
+            this.listProductsView.GridLines = true;
             this.listProductsView.HideSelection = false;
             this.listProductsView.Location = new System.Drawing.Point(0, 0);
             this.listProductsView.Name = "listProductsView";

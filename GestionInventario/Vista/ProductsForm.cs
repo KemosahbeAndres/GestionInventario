@@ -1,4 +1,5 @@
 ﻿using GestionInventario.Controlador;
+using GestionInventario.Modelo;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +17,15 @@ namespace GestionInventario.Vista
         private FindCategoryController categoryFinder;
         private CreateCategoryController categoryCreator;
         private DeleteCategoryController categoryDeletor;
+        private ListProductController productFinder;
+        private List<ProductListViewItem> productList;
         public ProductsForm()
         {
             InitializeComponent();
             categoryFinder = new FindCategoryController();
             categoryCreator = new CreateCategoryController();
             categoryDeletor = new DeleteCategoryController();
+            productFinder = new ListProductController();
         }
 
         private void ProductsForm_Load(object sender, EventArgs e)
@@ -75,6 +79,22 @@ namespace GestionInventario.Vista
                 categoryList.SelectedIndex = -1;
                 refreshCategoryList();
             }
+        }
+
+        protected void refreshProductList()
+        {
+            productList = new List<ProductListViewItem>();
+            foreach(Product p in productFinder.execute())
+            {
+                productList.Add(new ProductListViewItem(p));
+            }
+            listProductsView.Items.Clear();
+            listProductsView.Items.AddRange(productList.ToArray());
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            refreshProductList();
         }
     }
 }

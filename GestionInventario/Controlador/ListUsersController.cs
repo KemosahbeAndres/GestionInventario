@@ -22,10 +22,14 @@ namespace GestionInventario.Controlador
         public List<User> execute()
         {
             List<User> list = new List<User>();
-            foreach (Usuarios user in userDao.All())
+            try
             {
-                list.Add(userFinder.execute(user.id));
+                foreach (Usuarios user in userDao.All())
+                {
+                    list.Add(userFinder.execute(user.id));
+                }
             }
+            catch (Exception ex) { }
             return list;
         }
 

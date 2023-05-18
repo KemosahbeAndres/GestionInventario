@@ -19,6 +19,7 @@ namespace GestionInventario.Vista
         private usersForm users;
         private LoginForm loginForm;
         private ProductsForm productsForm;
+        private SalesForm salesForm;
         private ListUsersController userLister;
         private FindUserController userFinder;
 
@@ -111,6 +112,12 @@ namespace GestionInventario.Vista
         {
             productsForm = new ProductsForm();
             productsForm.ShowDialog(this);
+        }
+
+        private void btnSales_Click(object sender, EventArgs e)
+        {
+            salesForm = new SalesForm();
+            salesForm.ShowDialog(this);
         }
     }
 }
