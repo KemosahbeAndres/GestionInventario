@@ -69,8 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controlador\CreateCategoryController.cs" />
+    <Compile Include="Controlador\CreateProductController.cs" />
     <Compile Include="Controlador\CreateUserController.cs" />
     <Compile Include="Controlador\DeleteCategoryController.cs" />
+    <Compile Include="Controlador\BarCode.cs" />
     <Compile Include="Controlador\FindCategoryController.cs" />
     <Compile Include="Controlador\FindInventoryController.cs" />
     <Compile Include="Controlador\FindRoleController.cs" />
@@ -109,12 +111,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Vista\EditProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\EditProductForm.Designer.cs">
+      <DependentUpon>EditProductForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vista\EditUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Vista\EditUserForm.Designer.cs">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vista\ProductListViewItem.cs" />
     <Compile Include="Vista\ProductsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +144,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vista\SalesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\SalesForm.Designer.cs">
+      <DependentUpon>SalesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vista\UserListViewItem.cs" />
     <Compile Include="Vista\UsersForm.cs">
       <SubType>Form</SubType>
@@ -142,6 +157,9 @@
     <Compile Include="Vista\UsersForm.Designer.cs">
       <DependentUpon>UsersForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Vista\EditProductForm.resx">
+      <DependentUpon>EditProductForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Vista\EditUserForm.resx">
       <DependentUpon>EditUserForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -158,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\ProductsForm.resx">
       <DependentUpon>ProductsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\SalesForm.resx">
+      <DependentUpon>SalesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\UsersForm.resx">
       <DependentUpon>UsersForm.cs</DependentUpon>

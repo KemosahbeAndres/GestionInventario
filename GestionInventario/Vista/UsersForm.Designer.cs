@@ -182,7 +182,7 @@ namespace GestionInventario.Vista
             // 
             this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnAccept.Location = new System.Drawing.Point(10, 355);
-            this.btnAccept.Margin = new System.Windows.Forms.Padding(10);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(10, 10, 10, 10);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(180, 40);
             this.btnAccept.TabIndex = 4;
@@ -196,7 +196,7 @@ namespace GestionInventario.Vista
             this.lblSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSelected.AutoSize = true;
             this.lblSelected.Location = new System.Drawing.Point(10, 415);
-            this.lblSelected.Margin = new System.Windows.Forms.Padding(10);
+            this.lblSelected.Margin = new System.Windows.Forms.Padding(10, 10, 10, 10);
             this.lblSelected.MinimumSize = new System.Drawing.Size(180, 0);
             this.lblSelected.Name = "lblSelected";
             this.lblSelected.Size = new System.Drawing.Size(180, 13);
@@ -208,7 +208,7 @@ namespace GestionInventario.Vista
             // 
             this.lblConection.AutoSize = true;
             this.lblConection.Location = new System.Drawing.Point(10, 448);
-            this.lblConection.Margin = new System.Windows.Forms.Padding(10);
+            this.lblConection.Margin = new System.Windows.Forms.Padding(10, 10, 10, 10);
             this.lblConection.MinimumSize = new System.Drawing.Size(180, 0);
             this.lblConection.Name = "lblConection";
             this.lblConection.Size = new System.Drawing.Size(180, 13);
@@ -221,7 +221,7 @@ namespace GestionInventario.Vista
             this.lblData.AutoSize = true;
             this.usersLeftLayout.SetFlowBreak(this.lblData, true);
             this.lblData.Location = new System.Drawing.Point(10, 481);
-            this.lblData.Margin = new System.Windows.Forms.Padding(10);
+            this.lblData.Margin = new System.Windows.Forms.Padding(10, 10, 10, 10);
             this.lblData.MinimumSize = new System.Drawing.Size(180, 0);
             this.lblData.Name = "lblData";
             this.lblData.Size = new System.Drawing.Size(180, 13);
@@ -254,6 +254,7 @@ namespace GestionInventario.Vista
             this.ClientSize = new System.Drawing.Size(895, 541);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.usersLeftPanel);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "usersForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

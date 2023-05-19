@@ -22,11 +22,14 @@ namespace GestionInventario.Controlador
         public List<Product> execute()
         {
             List<Product> list = new List<Product>();
-            foreach (var e in productDao.All())
+            try
             {
-                int stock = inventoryFinder.execute(e.id);
-                list.Add(new Product(e.id, e.ean, e.nombre, e.descripcion, e.precio, stock, categoryFinder.execute(e.id_categoria)));
-            }
+                foreach (var e in productDao.All())
+                {
+                    int stock = inventoryFinder.execute(e.id);
+                    list.Add(new Product(e.id, e.ean, e.nombre, e.descripcion, e.precio, stock, categoryFinder.execute(e.id_categoria)));
+                }
+            }catch(Exception ex) { }
             return list;
         }
     }

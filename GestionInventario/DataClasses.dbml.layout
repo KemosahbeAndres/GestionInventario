@@ -91,7 +91,7 @@
         <classShapeMoniker Id="622ceedd-d263-4a69-b1a0-990f94c76dfd" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 4.59699625651042); (3.5 : 4.59699625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 4.59699625651042); (3.04166666666667 : 4.59699625651042 : JumpStart); (3.20833333333333 : 4.59699625651042 : JumpEnd); (3.5 : 4.59699625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClassesDataContext/Categorias/Categorias_Productos" />
       <nodes>
         <classShapeMoniker Id="1b0242d8-93f1-4efc-8e6c-9ec5f88ef074" />

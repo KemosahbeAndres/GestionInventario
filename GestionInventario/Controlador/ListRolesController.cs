@@ -15,10 +15,13 @@ namespace GestionInventario.Controlador
         public List<Role> execute()
         {
             List<Role> list = new List<Role>();
-            foreach(Roles role in roleDao.All())
+            try
             {
-                list.Add(new Role(role.id, role.rol));
-            }
+                foreach (Roles role in roleDao.All())
+                {
+                    list.Add(new Role(role.id, role.rol));
+                }
+            } catch(Exception ex) { }
             return list;
         }
     }

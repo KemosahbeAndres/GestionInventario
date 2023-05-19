@@ -31,11 +31,11 @@ namespace GestionInventario.Vista
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnUsers = new System.Windows.Forms.Button();
+            this.btnSales = new System.Windows.Forms.Button();
+            this.btnBuys = new System.Windows.Forms.Button();
+            this.btnProducts = new System.Windows.Forms.Button();
+            this.btnCloseSession = new System.Windows.Forms.Button();
             this.mainLayout.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,11 +43,11 @@ namespace GestionInventario.Vista
             // 
             this.mainLayout.BackColor = System.Drawing.Color.LightSteelBlue;
             this.mainLayout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mainLayout.Controls.Add(this.button1);
-            this.mainLayout.Controls.Add(this.button2);
-            this.mainLayout.Controls.Add(this.button3);
-            this.mainLayout.Controls.Add(this.button5);
-            this.mainLayout.Controls.Add(this.button4);
+            this.mainLayout.Controls.Add(this.btnUsers);
+            this.mainLayout.Controls.Add(this.btnSales);
+            this.mainLayout.Controls.Add(this.btnBuys);
+            this.mainLayout.Controls.Add(this.btnProducts);
+            this.mainLayout.Controls.Add(this.btnCloseSession);
             this.mainLayout.Cursor = System.Windows.Forms.Cursors.Default;
             this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayout.Location = new System.Drawing.Point(0, 0);
@@ -57,69 +57,71 @@ namespace GestionInventario.Vista
             this.mainLayout.Size = new System.Drawing.Size(318, 239);
             this.mainLayout.TabIndex = 0;
             // 
-            // button1
+            // btnUsers
             // 
-            this.button1.BackgroundImage = global::GestionInventario.Properties.Resources.re_user;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Location = new System.Drawing.Point(23, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 90);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Usuarios";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnUsers.BackgroundImage = global::GestionInventario.Properties.Resources.re_user;
+            this.btnUsers.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUsers.Location = new System.Drawing.Point(23, 23);
+            this.btnUsers.Name = "btnUsers";
+            this.btnUsers.Size = new System.Drawing.Size(75, 90);
+            this.btnUsers.TabIndex = 0;
+            this.btnUsers.Text = "Usuarios";
+            this.btnUsers.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnUsers.UseVisualStyleBackColor = true;
+            this.btnUsers.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // btnSales
             // 
-            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button2.Location = new System.Drawing.Point(104, 23);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 90);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Ventas";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnSales.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSales.BackgroundImage")));
+            this.btnSales.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSales.Location = new System.Drawing.Point(104, 23);
+            this.btnSales.Name = "btnSales";
+            this.btnSales.Size = new System.Drawing.Size(75, 90);
+            this.btnSales.TabIndex = 1;
+            this.btnSales.Text = "Ventas";
+            this.btnSales.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSales.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.btnSales.UseVisualStyleBackColor = true;
+            this.btnSales.Click += new System.EventHandler(this.btnSales_Click);
             // 
-            // button3
+            // btnBuys
             // 
-            this.button3.BackgroundImage = global::GestionInventario.Properties.Resources.re_buy;
-            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button3.Location = new System.Drawing.Point(185, 23);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 90);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Compras";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnBuys.BackgroundImage = global::GestionInventario.Properties.Resources.re_buy;
+            this.btnBuys.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnBuys.Location = new System.Drawing.Point(185, 23);
+            this.btnBuys.Name = "btnBuys";
+            this.btnBuys.Size = new System.Drawing.Size(75, 90);
+            this.btnBuys.TabIndex = 2;
+            this.btnBuys.Text = "Compras";
+            this.btnBuys.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnBuys.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // btnProducts
             // 
-            this.button5.BackgroundImage = global::GestionInventario.Properties.Resources.re_package;
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button5.Location = new System.Drawing.Point(23, 119);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 90);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Productos";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnProducts.BackgroundImage = global::GestionInventario.Properties.Resources.re_package;
+            this.btnProducts.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnProducts.Location = new System.Drawing.Point(23, 119);
+            this.btnProducts.Name = "btnProducts";
+            this.btnProducts.Size = new System.Drawing.Size(75, 90);
+            this.btnProducts.TabIndex = 4;
+            this.btnProducts.Text = "Productos";
+            this.btnProducts.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnProducts.UseVisualStyleBackColor = true;
+            this.btnProducts.Click += new System.EventHandler(this.button5_Click);
             // 
-            // button4
+            // btnCloseSession
             // 
-            this.button4.BackgroundImage = global::GestionInventario.Properties.Resources.re_exit;
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button4.Location = new System.Drawing.Point(104, 119);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 90);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Salir";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnCloseSession.BackgroundImage = global::GestionInventario.Properties.Resources.re_exit;
+            this.btnCloseSession.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnCloseSession.Location = new System.Drawing.Point(104, 119);
+            this.btnCloseSession.Name = "btnCloseSession";
+            this.btnCloseSession.Size = new System.Drawing.Size(75, 90);
+            this.btnCloseSession.TabIndex = 3;
+            this.btnCloseSession.Text = "Salir";
+            this.btnCloseSession.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnCloseSession.UseVisualStyleBackColor = true;
+            this.btnCloseSession.Click += new System.EventHandler(this.button4_Click);
             // 
             // MainForm
             // 
@@ -140,11 +142,11 @@ namespace GestionInventario.Vista
         #endregion
 
         private System.Windows.Forms.FlowLayoutPanel mainLayout;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnUsers;
+        private System.Windows.Forms.Button btnSales;
+        private System.Windows.Forms.Button btnBuys;
+        private System.Windows.Forms.Button btnCloseSession;
+        private System.Windows.Forms.Button btnProducts;
     }
 }
 
