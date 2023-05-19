@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionInventario.Modelo
 {
-    class Category
+    public class Category
     {
         public int Id { get; }
         public string Nombre { get; }

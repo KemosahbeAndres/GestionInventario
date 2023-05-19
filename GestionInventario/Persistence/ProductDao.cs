@@ -13,11 +13,12 @@ namespace GestionInventario.Persistence
             return ctx.Productos.OrderBy(x => x.id).ToList();
         }
 
-        public override void Delete(int id)
+        public override int Delete(int id)
         {
-            if (!Exists(id)) return;
+            if (!Exists(id)) return 0;
             ctx.Productos.DeleteOnSubmit(Get(id));
             ctx.SubmitChanges();
+            return id;
         }
 
         public override Productos Get(int id)
@@ -25,7 +26,7 @@ namespace GestionInventario.Persistence
             return ctx.Productos.SingleOrDefault(x => x.id == id);
         }
 
-        public override void Insert(Productos item)
+        public override int Insert(Productos item)
         {
             if (!Exists(item.id))
             {
@@ -39,24 +40,26 @@ namespace GestionInventario.Persistence
                 };
                 ctx.Productos.InsertOnSubmit(e);
                 ctx.SubmitChanges();
+                return ctx.Productos.OrderByDescending(x => x.id).First().id;
             }
+            return 0;
         }
 
-        public override void Modify(Productos item)
+        public override int Modify(Productos item)
         {
             if (!Exists(item.id))
             {
                 Productos e = Get(item.id);
-
                 e.id = item.id;
                 e.ean = item.ean;
                 e.nombre = item.nombre;
                 e.descripcion = item.descripcion;
                 e.precio = item.precio;
                 e.id_categoria = item.id_categoria;
-
                 ctx.SubmitChanges();
+                return item.id;
             }
+            return 0;
         }
 
         public override List<Productos> Take(int index = 0, int count = 20)

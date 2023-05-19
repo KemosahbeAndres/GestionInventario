@@ -17,15 +17,13 @@ namespace GestionInventario.Persistence
             return ctx.Roles.Skip(index).Take(count).ToList();
         }
 
-        public override void Delete(int id)
+        public override int Delete(int id)
         {
-            if(!Exists(id))
-            {
-                return;
-            }
+            if (!Exists(id)) return 0;
             Roles e = ctx.Roles.Single(x => x.id == id);
             ctx.Roles.DeleteOnSubmit(e);
             ctx.SubmitChanges();
+            return id;
         }
 
         public override Roles Get(int id)
@@ -35,23 +33,27 @@ namespace GestionInventario.Persistence
             return entity;
         }
 
-        public override void Insert(Roles item)
+        public override int Insert(Roles item)
         {
             if(!Exists(item.id))
             {
                 ctx.Roles.InsertOnSubmit(item);
                 ctx.SubmitChanges();
+                return ctx.Roles.OrderByDescending(x => x.id).First().id;
             }
+            return 0;
         }
 
-        public override void Modify(Roles item)
+        public override int Modify(Roles item)
         {
             if (Exists(item.id))
             {
                 Roles entity = Get(item.id);
                 entity.rol = item.rol;
                 ctx.SubmitChanges();
+                return item.id;
             }
+            return 0;
         }
 
         

@@ -19,7 +19,13 @@ namespace GestionInventario.Vista
         private DeleteCategoryController categoryDeletor;
         private ListProductController productFinder;
         private CreateProductController productCreator;
+        private DeleteProductController productDeletor;
+
         private List<ProductListViewItem> productList;
+
+        private Product selectedProduct;
+        private EditProductForm editProductForm;
+
         public ProductsForm()
         {
             InitializeComponent();
@@ -28,11 +34,13 @@ namespace GestionInventario.Vista
             categoryDeletor = new DeleteCategoryController();
             productFinder = new ListProductController();
             productCreator = new CreateProductController();
+            productDeletor = new DeleteProductController();
         }
 
         private void ProductsForm_Load(object sender, EventArgs e)
         {
             refreshCategoryList();
+            refreshProductList();
         }
 
         private void refreshCategoryList()
@@ -101,7 +109,35 @@ namespace GestionInventario.Vista
 
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
-            //productCreator.execute();
+            editProductForm = new EditProductForm();
+            if(editProductForm.ShowCreationDialog(this) == DialogResult.OK)
+            {
+                refreshProductList();
+            }
+        }
+
+        private void listProductsView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listProductsView.SelectedItems.Count > 0)
+            {
+                selectedProduct = (listProductsView.SelectedItems[0] as ProductListViewItem).product;
+            }
+            
+        }
+
+        private void btnDeleteProduct_Click(object sender, EventArgs e)
+        {
+            if (listProductsView.SelectedItems.Count > 0 && selectedProduct != null)
+            {
+                try
+                {
+                    productDeletor.execute(selectedProduct);
+                    refreshProductList();
+                }catch(Exception ex)
+                {
+                    showMessage("Error!\n" + ex.Message);
+                }
+            }
         }
     }
 }
