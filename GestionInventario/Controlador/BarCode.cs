@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace GestionInventario.Controlador
 {
     class BarCode
@@ -7,7 +9,13 @@ namespace GestionInventario.Controlador
         private static string manufact = "99876";
         public static string generate13(int count)
         {
-            return $"{country}{manufact}{count+1}";
+            string numero = "1";
+            if(count > 0)
+            {
+                numero = (count + 1).ToString();
+            }
+            string value = numero.PadLeft(5-numero.Length, '0');
+            return $"{country}{manufact}{value}";
         }
     }
 }

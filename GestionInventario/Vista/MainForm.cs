@@ -40,14 +40,12 @@ namespace GestionInventario.Vista
 
         private void button4_Click(object sender, EventArgs e)
         {
-            logged = false;
-            user = null;
-            loginForm = new LoginForm();
-            loginForm.ShowDialog(this);
+            login();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            users = new usersForm(userLister);
             users.ShowDialog(this);
             if(users.DialogResult == DialogResult.OK)
             {
@@ -63,21 +61,41 @@ namespace GestionInventario.Vista
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            login();
+        }
+        private void login()
+        {
+            logged = false;
+            user = null;
             try
             {
                 if (userLister.execute().Count <= 0) initApplication();
                 if (!logged)
                 {
-                    loginForm.ShowDialog(this);
-                    if(loginForm.DialogResult == DialogResult.OK && loginForm.GetUser != null)
+                    if (loginForm.ShowDialog(this) == DialogResult.OK && loginForm.GetUser != null)
                     {
                         logged = true;
                         user = loginForm.GetUser;
+                        if (user != null)
+                        {
+                            if (user.IsSeller())
+                            {
+                                btnUsers.Enabled = false;
+                                btnBuys.Enabled = false;
+                            }
+                            else
+                            {
+                                btnUsers.Enabled = true;
+                                btnBuys.Enabled = true;
+                            }
+                        }
                     }
+
                 }
-            }catch(Exception error)
+            }
+            catch (Exception error)
             {
-                message("Error de conexion con base de datos!! Cerrando por precaucion! "+error.Message);
+                message("Error de conexion con base de datos!! Cerrando por precaucion! " + error.Message);
                 Application.Exit();
             }
         }

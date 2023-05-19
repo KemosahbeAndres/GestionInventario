@@ -18,6 +18,7 @@ namespace GestionInventario.Vista
         private CreateCategoryController categoryCreator;
         private DeleteCategoryController categoryDeletor;
         private ListProductController productFinder;
+        private CreateProductController productCreator;
         private List<ProductListViewItem> productList;
         public ProductsForm()
         {
@@ -26,6 +27,7 @@ namespace GestionInventario.Vista
             categoryCreator = new CreateCategoryController();
             categoryDeletor = new DeleteCategoryController();
             productFinder = new ListProductController();
+            productCreator = new CreateProductController();
         }
 
         private void ProductsForm_Load(object sender, EventArgs e)
@@ -95,6 +97,11 @@ namespace GestionInventario.Vista
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             refreshProductList();
+        }
+
+        private void btnAddProduct_Click(object sender, EventArgs e)
+        {
+            //productCreator.execute();
         }
     }
 }

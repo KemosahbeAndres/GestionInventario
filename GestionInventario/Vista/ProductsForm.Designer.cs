@@ -194,6 +194,7 @@ namespace GestionInventario.Vista
             this.btnAddProduct.TabIndex = 3;
             this.btnAddProduct.Text = "Nuevo";
             this.btnAddProduct.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
             // btnEditProduct
             // 
