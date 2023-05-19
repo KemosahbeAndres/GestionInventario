@@ -215,6 +215,7 @@ namespace GestionInventario.Vista
             this.btnDeleteProduct.TabIndex = 5;
             this.btnDeleteProduct.Text = "Borrar";
             this.btnDeleteProduct.UseVisualStyleBackColor = true;
+            this.btnDeleteProduct.Click += new System.EventHandler(this.btnDeleteProduct_Click);
             // 
             // panelContent
             // 
@@ -247,6 +248,7 @@ namespace GestionInventario.Vista
             this.listProductsView.TabIndex = 0;
             this.listProductsView.UseCompatibleStateImageBehavior = false;
             this.listProductsView.View = System.Windows.Forms.View.Details;
+            this.listProductsView.SelectedIndexChanged += new System.EventHandler(this.listProductsView_SelectedIndexChanged);
             // 
             // colEmpty
             // 

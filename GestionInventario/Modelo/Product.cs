@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionInventario.Modelo
 {
-    class Product
+    public class Product
     {
         public int Id { get; }
         public string Ean { get; }

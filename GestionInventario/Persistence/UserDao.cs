@@ -26,19 +26,21 @@ namespace GestionInventario.Persistence
             return ctx.Usuarios.Where( (x) => x.id == id ).FirstOrDefault();
         }
 
-        public override void Insert(Usuarios item)
+        public override int Insert(Usuarios item)
         {
             if (!Exists(item.id))
             {
-                item.id = -1;
+                item.id = 0;
                 ctx.Usuarios.InsertOnSubmit(item);
                 ctx.SubmitChanges();
+                return ctx.Usuarios.OrderByDescending(x => x.id).First().id;
             }
+            return 0;
         }
 
-        public override void Modify(Usuarios item)
+        public override int Modify(Usuarios item)
         {
-            if (!Exists(item.id)) return;
+            if (!Exists(item.id)) return 0;
             var entity = Get(item.id);
             entity.nombre = item.nombre;
             entity.telefono = item.telefono;
@@ -46,14 +48,16 @@ namespace GestionInventario.Persistence
             entity.clave = item.clave;
             entity.id_rol = item.id_rol;
             ctx.SubmitChanges();
+            return item.id;
         }
 
-        public override void Delete(int id)
+        public override int Delete(int id)
         {
-            if (!Exists(id)) return;
+            if (!Exists(id)) return 0;
             var entity = Get(id);
             ctx.Usuarios.DeleteOnSubmit(entity);
             ctx.SubmitChanges();
+            return id;
         }
 
     }

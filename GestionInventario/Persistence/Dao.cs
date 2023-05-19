@@ -20,8 +20,8 @@ namespace GestionInventario.Persistence
         {
             return Get(id) != null;
         }
-        public abstract void Insert(T item);
-        public abstract void Modify(T item);
-        public abstract void Delete(int id);
+        public abstract int Insert(T item);
+        public abstract int Modify(T item);
+        public abstract int Delete(int id);
     }
 }

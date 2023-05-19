@@ -32,5 +32,15 @@ namespace GestionInventario.Controlador
             }catch(Exception ex) { }
             return list;
         }
+        public Product execute(int id)
+        {
+            if (!productDao.Exists(id)) throw new Exception("No se encontro el producto seleccionado!");
+            var e = execute().Find(x => x.Id == id);
+            return e;
+        }
+        public List<Product> execute(string keyword)
+        {
+            return execute().FindAll(x => x.Nombre.Contains(keyword) || x.Descripcion.Contains(keyword));
+        }
     }
 }
