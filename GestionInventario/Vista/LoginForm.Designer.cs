@@ -35,6 +35,7 @@
             this.labelContra = new System.Windows.Forms.Label();
             this.btnIniciarSesion = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.ckClave = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtRut
@@ -83,7 +84,7 @@
             // btnIniciarSesion
             // 
             this.btnIniciarSesion.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnIniciarSesion.Location = new System.Drawing.Point(133, 183);
+            this.btnIniciarSesion.Location = new System.Drawing.Point(133, 215);
             this.btnIniciarSesion.Margin = new System.Windows.Forms.Padding(2);
             this.btnIniciarSesion.Name = "btnIniciarSesion";
             this.btnIniciarSesion.Size = new System.Drawing.Size(102, 30);
@@ -95,7 +96,7 @@
             // btnExit
             // 
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExit.Location = new System.Drawing.Point(34, 183);
+            this.btnExit.Location = new System.Drawing.Point(37, 215);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(86, 30);
             this.btnExit.TabIndex = 5;
@@ -103,12 +104,24 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // ckClave
+            // 
+            this.ckClave.AutoSize = true;
+            this.ckClave.Location = new System.Drawing.Point(118, 177);
+            this.ckClave.Name = "ckClave";
+            this.ckClave.Size = new System.Drawing.Size(117, 17);
+            this.ckClave.TabIndex = 6;
+            this.ckClave.Text = "Mostrar contraseña";
+            this.ckClave.UseVisualStyleBackColor = true;
+            this.ckClave.CheckedChanged += new System.EventHandler(this.ckClave_CheckedChanged);
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.btnIniciarSesion;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(281, 269);
+            this.Controls.Add(this.ckClave);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnIniciarSesion);
             this.Controls.Add(this.labelContra);
@@ -137,5 +150,6 @@
         private System.Windows.Forms.Label labelContra;
         private System.Windows.Forms.Button btnIniciarSesion;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.CheckBox ckClave;
     }
 }

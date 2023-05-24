@@ -65,6 +65,11 @@ namespace GestionInventario.Vista
         {
             if(loggedUser == null) Application.Exit();
         }
+
+        private void ckClave_CheckedChanged(object sender, EventArgs e)
+        {
+            txtContraseña.UseSystemPasswordChar = !txtContraseña.UseSystemPasswordChar;
+        }
     }
 
     public interface ILoginVista
