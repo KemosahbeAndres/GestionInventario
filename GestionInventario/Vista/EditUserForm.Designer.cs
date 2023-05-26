@@ -124,6 +124,7 @@ namespace GestionInventario.Vista
             // txtRut
             // 
             this.txtRut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRut.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtRut.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtRut.Location = new System.Drawing.Point(101, 48);
             this.txtRut.Name = "txtRut";
