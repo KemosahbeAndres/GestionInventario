@@ -21,7 +21,7 @@ namespace GestionInventario.Controlador
         public void execute(int id, string name, string rut, string password, string phone, string role)
         {
             if (id <= 0) throw new Exception("El id especificado no existe!");
-            if (String.IsNullOrEmpty(name.Trim()) && hasNumber(name)) throw new Exception("Nombre invalido, los nombres no pueden llevar numeros en su contenido!");
+            if (String.IsNullOrEmpty(name.Trim()) || hasNumber(name)) throw new Exception("Nombre invalido, los nombres no pueden llevar numeros en su contenido!");
             string nombre = name.Trim();
             if (String.IsNullOrEmpty(rut.Trim()) || !RunValidator.Validar(rut.Trim())) throw new Exception("Rut invalido, debes ingresar un numero de rut valido!");
             string username = rut.Trim();

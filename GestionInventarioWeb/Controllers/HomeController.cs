@@ -2,16 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using GestionInventarioWeb.Models;
 
-namespace GestionInventarioWeb.Controllers;
-
-public class HomeController : Controller
+namespace GestionInventarioWeb.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
 
     public IActionResult Index()
     {
