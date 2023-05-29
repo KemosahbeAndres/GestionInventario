@@ -1,0 +1,51 @@
+﻿@{
+    var message = Context.Session.GetString("ErrorMessage");
+    var success = Context.Session.GetString("LoginMessage");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - GestionInventarioWeb</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GestionInventarioWeb.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+
+    <div class="login">
+        
+
+        <div id="loginForm">
+            @using (Html.BeginForm("LoginAsync", "LoginController", FormMethod.Post))
+            {
+                <input type="text" name="username" class="form-control" placeholder="Rut" required/>
+                <input type="password" name="password" class="form-control" placeholder="Contraseña" required/>
+                <div class="form-check">
+                    <input type="checkbox" name="rememberme" class="form-check-input"/>
+                    <label for="rememberme" class="form-check-label">Recordarme</label>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Iniciar Sesion" />
+            }
+        </div>
+        <div id="loginMessages">
+            @if (message != null)
+            {
+                <div class="alert alert-warning">@message</div>
+            }
+            @if (success != null)
+            {
+                <div class="alert alert-success">@success</div>
+            }
+        </div>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

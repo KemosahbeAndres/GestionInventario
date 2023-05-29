@@ -1,0 +1,153 @@
+* {
+    font-family: sans-serif !important;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: rgb(235, 235, 235);
+    color: #1d1d1d;
+    padding: 0;
+    margin: 0;
+}
+
+div {
+    padding: 0;
+}
+
+input.form-control,
+input.btn,
+select,
+button {
+    padding: .6em !important;
+    border: none !important;
+    border-radius: 0px !important;
+    width: 100%;
+}
+
+input[type='button'],
+button {
+    background-color: rgb(41, 144, 212);
+    color: white;
+    padding: .6em 1.4em
+}
+
+form > * {
+    margin-bottom: 1em !important;
+}
+
+.login {
+    background-color: rgb(235, 235, 235);
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: 36em auto;
+    grid-template-areas: "form white";
+}
+
+.login > * {
+    padding: 2em;
+}
+
+#loginForm {
+    grid-area: form;
+    background-color: #1d1d1d;
+    color: white;
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: max-content;
+    align-items: start;
+    justify-items: stretch;
+    align-content: space-between;
+    text-align: center;
+}
+
+#loginMessages {
+    grid-area: white;
+    grid-auto-rows: auto;
+}
+
+.main {
+    background-color: rgb(235, 235, 235);
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 12em auto;
+    grid-template-areas: "nav content";
+}
+
+.main * {
+    padding: 1em;
+}
+
+
+.nav {
+    grid-area: nav;
+    background-color: #1d1d1d;
+    color: white;
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: max-content;
+    align-items: start;
+    justify-items: stretch;
+    align-content: space-between;
+    text-align: center;
+    padding: 0;
+}
+
+.nav .usr-img {
+    border-radius: 50%;
+    margin: auto;
+}
+
+.nav .usr-name {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.nav-links, .nav-bottom {
+    list-style: none;
+    text-align: left;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.nav-bottom {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.nav-links li, .nav-bottom li {
+    padding: 0;
+}
+
+.nav-links li a, .nav-bottom li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+.nav-links li a:hover, .nav-bottom li a:hover {
+    background-color: rgb(235, 235, 235);
+    color: black;
+    transition: background-color 200ms, color 200ms;
+}
+
+.content {
+}

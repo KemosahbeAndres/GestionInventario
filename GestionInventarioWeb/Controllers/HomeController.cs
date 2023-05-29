@@ -1,30 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using GestionInventarioWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+        [Route("/")]
+        [HttpGet("/Dashboard", Name = "Dashboard")]
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        [HttpGet("/Privacy")]
+        public IActionResult Privacy()
         {
-            ViewBag.Message = "Your application description page.";
-
+            if(HttpContext.Session.GetString("username") == null)
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Debes iniciar sesion para entrar aqui!");
+                return RedirectToRoute("Login");
+            }
             return View();
         }
 
-        public ActionResult Contact()
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
