@@ -20,16 +20,25 @@
         
 
         <div id="loginForm">
-            @using (Html.BeginForm("LoginAsync", "LoginController", FormMethod.Post))
+            @if (!Context.User.Identity.IsAuthenticated)
             {
-                <input type="text" name="username" class="form-control" placeholder="Rut" required/>
-                <input type="password" name="password" class="form-control" placeholder="Contraseña" required/>
-                <div class="form-check">
-                    <input type="checkbox" name="rememberme" class="form-check-input"/>
-                    <label for="rememberme" class="form-check-label">Recordarme</label>
-                </div>
-                <input type="submit" class="btn btn-primary" value="Iniciar Sesion" />
+                @using (Html.BeginForm("LoginAsync", "LoginController", FormMethod.Post))
+                {
+                    <input type="text" name="username" class="form-control" placeholder="Rut" required />
+                    <input type="password" name="password" class="form-control" placeholder="Contraseña" required />
+                    <div class="form-check">
+                        <input type="checkbox" name="rememberme" class="form-check-input" />
+                        <label for="rememberme" class="form-check-label">Recordarme</label>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Iniciar Sesion" />
+                }
             }
+            else
+            {
+                <p>@User.Identity.Name, ya tienes una sesion activa!</p>
+                <a href="/Dashboard" class="btn btn-success" >Entrar al Dashboard</a>
+            }
+            
         </div>
         <div id="loginMessages">
             @if (message != null)
