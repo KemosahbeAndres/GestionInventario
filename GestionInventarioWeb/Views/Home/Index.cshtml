@@ -1,4 +1,5 @@
-﻿@{
+﻿@model GestionInventarioWeb.Data.User
+@{
     Layout = "_Layout";
     ViewData["Title"] = "Home Page";
 }
@@ -10,6 +11,8 @@
 
 <section>
     <h1>Dashboard</h1>
-    <h3>@User.Identity.Name</h3>
+    <h3>@Model.Name</h3>
+    <h3>@Model.Role</h3>
+    
     
 </section>

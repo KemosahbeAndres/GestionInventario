@@ -18,7 +18,7 @@ html {
 }
 
 body {
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(210, 210, 210);
     color: #1d1d1d;
     padding: 0;
     margin: 0;
@@ -50,7 +50,7 @@ form > * {
 }
 
 .login {
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(210, 210, 210);
     width: 100vw;
     height: 100vh;
     display: grid;
@@ -65,14 +65,14 @@ form > * {
 
 #loginForm {
     grid-area: form;
-    background-color: #1d1d1d;
+    background-color: #191B27;
     color: white;
     display: grid;
     grid-template-columns: auto;
     grid-auto-rows: max-content;
     align-items: start;
     justify-items: stretch;
-    align-content: space-between;
+    align-content: stretch;
     text-align: center;
 }
 
@@ -82,11 +82,11 @@ form > * {
 }
 
 .main {
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(210, 210, 210);
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 12em auto;
+    grid-template-columns: 20em auto;
     grid-template-areas: "nav content";
 }
 
@@ -94,10 +94,9 @@ form > * {
     padding: 1em;
 }
 
-
 .nav {
     grid-area: nav;
-    background-color: #1d1d1d;
+    background-color: #191B27;
     color: white;
     display: grid;
     grid-template-columns: auto;
@@ -107,6 +106,14 @@ form > * {
     align-content: space-between;
     text-align: center;
     padding: 0;
+}
+
+.nav > * {
+    padding: 0;
+}
+
+.nav .user-area {
+    margin-bottom: 2em;
 }
 
 .nav .usr-img {
@@ -119,6 +126,16 @@ form > * {
     margin-bottom: 0;
     padding-top: 8px;
     padding-bottom: 8px;
+}
+
+.nav .usr-name > *:first-child{
+    margin-bottom: 0px;
+}
+
+.nav .usr-name > * {
+    padding: inherit;
+    padding-bottom: 0px;
+    padding-top: 0px;
 }
 
 .nav-links, .nav-bottom {
@@ -144,10 +161,11 @@ form > * {
 }
 
 .nav-links li a:hover, .nav-bottom li a:hover {
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(210, 210, 210);
     color: black;
     transition: background-color 200ms, color 200ms;
 }
 
 .content {
+    background-color: rgb(210, 210, 210);
 }

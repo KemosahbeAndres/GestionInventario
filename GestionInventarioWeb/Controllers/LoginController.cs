@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using NuGet.Protocol;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -83,11 +85,6 @@ namespace GestionInventarioWeb.Controllers
                 authProperties);
 
             HttpContext.Session.SetString("LoginMessage", "Sesion iniciada con exito! Bienvenido " + user.Nombre);
-
-            ViewData["userId"] = user.Id;
-            ViewData["userName"] = user.Nombre;
-            ViewData["userRol"] = role.Rol;
-            ViewData["userRut"] = user.Rut;
 
             return LocalRedirect("/Dashboard");
         }
