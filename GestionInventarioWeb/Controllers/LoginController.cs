@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GestionInventarioWeb.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using GestionInventarioWeb.Models;
+using System.Security.Claims;
+using NuGet.Protocol;
+using Microsoft.AspNetCore.Identity;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class LoginController : Controller
     {
+
         private readonly GestionInventarioContext _context;
 
         public LoginController(GestionInventarioContext context)
@@ -18,149 +21,85 @@ namespace GestionInventarioWeb.Controllers
             _context = context;
         }
 
-        // GET: Login
-        public async Task<IActionResult> Index()
+        [HttpGet("/Login", Name = "Login")]
+        [AllowAnonymous]
+        public IActionResult Index()
         {
-            return View();
+            return View("Views/LoginView.cshtml");
         }
 
-        // GET: Login/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .Include(u => u.IdRolNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // GET: Login/Create
-        public IActionResult Create()
-        {
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id");
-            return View();
-        }
-
-        // POST: Login/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Login", Name = "TryLogin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginAsync(string username, string password, bool rememberme)
         {
-            if (ModelState.IsValid)
+            //Response.Cookies.Append("token", "bbbb");
+            //HttpContext.Session.Set("token", "");
+            //var user = await AuthenticateUser(username, password);
+            var user = _context.Usuarios.FirstOrDefault(u => u.Rut.Equals(username.Trim()) );
+
+             if ( user == null || !user.Clave.Equals(password.Trim()) )
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                HttpContext.Session.SetString("ErrorMessage", "El usuario no ha sido encontrado o contraseña incorrecta!");
+                LocalRedirect("/Login");
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+
+             var role = _context.Roles.FirstOrDefault(r => r.Id.Equals(user.IdRol));
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Nombre),
+                new Claim("Rut", user.Rut),
+                new Claim(ClaimTypes.Role, role.Rol)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                // Refreshing the authentication session should be allowed.
+
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                // The time at which the authentication ticket expires. A 
+                // value set here overrides the ExpireTimeSpan option of 
+                // CookieAuthenticationOptions set with AddCookie.
+
+                IsPersistent = rememberme,
+                // Whether the authentication session is persisted across 
+                // multiple requests. When used with cookies, controls
+                // whether the cookie's lifetime is absolute (matching the
+                // lifetime of the authentication ticket) or session-based.
+
+                IssuedUtc = DateTimeOffset.Now.AddHours(2),
+                // The time at which the authentication ticket was issued.
+
+                //RedirectUri = <string>
+                // The full path or absolute URI to be used as an http 
+                // redirect response value.
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+
+            HttpContext.Session.SetString("LoginMessage", "Sesion iniciada con exito! Bienvenido " + user.Nombre);
+
+            return LocalRedirect("/Dashboard");
         }
 
-        // GET: Login/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet("/Logout", Name = "Logout")]
+        public async Task<IActionResult> LogoutAsync()
         {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
+            HttpContext.Session.SetString("LoginMessage", "Sesion cerrada con exito!");
 
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
-        }
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
 
-        // POST: Login/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
-        {
-            if (id != usuario.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioExists(usuario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
-        }
-
-        // GET: Login/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Usuarios == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .Include(u => u.IdRolNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // POST: Login/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Usuarios == null)
-            {
-                return Problem("Entity set 'GestionInventarioContext.Usuarios'  is null.");
-            }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool UsuarioExists(int id)
-        {
-          return (_context.Usuarios?.Any(e => e.Id == id)).GetValueOrDefault();
+            return Redirect("/");
         }
     }
 }

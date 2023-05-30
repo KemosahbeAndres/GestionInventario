@@ -1,0 +1,23 @@
+﻿@model GestionInventarioWeb.Data.User;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Dashboard";
+    ViewData["model"] = Model;
+}
+
+<div class="container-fluid bg-white">
+    <h1>Hola mundo!</h1>
+</div>
+
+<div class="container-fluid bg-white">
+    <h1>Hola @User.Identity.Name</h1>
+    @if(Model == null)
+    {
+        <p>No hay modelo disponible!</p>
+    }
+    else
+    {
+        <p>Hola @Model.Name</p>
+        <p>Tu rut es @Model.Rut</p>
+    }
+</div>

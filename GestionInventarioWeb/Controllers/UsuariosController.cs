@@ -6,23 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly UsersFinder _usersFinder;
 
         public UsuariosController(GestionInventarioContext context)
         {
             _context = context;
+            _usersFinder = new UsersFinder(context);
         }
 
-        // GET: Usuarios
+        [HttpGet("/Dashboard/Users", Name = "Users")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index()
         {
-            var gestionInventarioContext = _context.Usuarios;
-            return View(await gestionInventarioContext.ToListAsync());
+            return View(_usersFinder.FindAll());
         }
 
         // GET: Usuarios/Details/5

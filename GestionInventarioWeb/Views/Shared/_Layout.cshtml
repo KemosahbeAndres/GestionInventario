@@ -1,15 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var Model = (GestionInventarioWeb.Data.User) ViewData["model"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GestionInventarioWeb</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GestionInventarioWeb.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
+    <div class="main">
+        <!--
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index">GestionInventarioWeb</a>
@@ -31,19 +37,56 @@
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </nav>-->
+        <nav class="nav">
+            <div>
+                <div class="user-area">
+                    <img src="https://dummyimage.com/80x80/ffffff/000000.png" alt="Usuario" class="usr-img">
+                    <div class="usr-name">
+                        
+                        @if(Model != null)
+                        {
+                            <h2>@Model.Name</h2>
+                            <h5>@Model.Role</h5>
+                        }
+                        else
+                        {
+                            <h2>@User.Identity.Name</h2>
+                        }
+                        </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/Dashboard"><i class="bi bi-house-door-fill"></i>Dashboard</a></li>
+                    @if(Model.Role == "Administrador")
+                    {
+                        <li><a href="/Dashboard/Users"><i class="bi bi-people-fill"></i>Usuarios</a></li>
+                        <li><a href="#"><i class="bi bi-box-seam-fill"></i>Productos</a></li>
+                        <li><a href="#"><i class="bi bi-cash"></i>Ventas</a></li>
+                        <li><a href="#"><i class="bi bi-cart-fill"></i>Compras</a></li>
+                    }else
+                    {
+                        <li><a href="#"><i class="bi bi-box-seam-fill"></i>Productos</a></li>
+                        <li><a href="#"><i class="bi bi-cash"></i>Ventas</a></li>
+                    }
 
+                </ul>
+            </div>
+            <ul class="nav-bottom">
+                <li><a href="#"><i class="bi bi-gear-fill"></i>Configuracion</a></li>
+                <li><a href="/Logout"><i class="bi bi-box-arrow-right"></i>Cerrar Sesion</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+    <!--
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - GestionInventarioWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

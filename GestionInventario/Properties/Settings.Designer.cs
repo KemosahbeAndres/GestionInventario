@@ -26,7 +26,7 @@ namespace GestionInventario.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=PC-ANDRES\\SQLEXPRESS;Initial Catalog=GestionInventario;Integrated Sec" +
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLEXPRESS;Initial Catalog=GestionInventario;Integrated Sec" +
             "urity=True;Pooling=False")]
         public string GestionInventarioConnectionString {
             get {
