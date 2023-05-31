@@ -62,7 +62,7 @@ namespace GestionInventarioWeb.Controllers
                 
                 return null;
             }
-            var role = _context.Roles.SingleOrDefault(r => r.Id == user.IdRol);
+            var role = _context.Roles.SingleOrDefault(r => r.Id.Equals(user.IdRol));
 
             string phone = user.Telefono == null ? "" : user.Telefono;
 
