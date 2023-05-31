@@ -58,6 +58,12 @@ form > * {
     margin-bottom: 1em !important;
 }
 
+.alert,
+.btn,
+.form-control {
+    border-radius: 0;
+}
+
 .login {
     background-color: rgb(210, 210, 210);
     width: 100vw;
@@ -88,6 +94,8 @@ form > * {
 #loginMessages {
     background: url("../img/fondo-login.jpg");
     background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-area: white;
     grid-auto-rows: auto;
 }
@@ -99,10 +107,6 @@ form > * {
     display: grid;
     grid-template-columns: 20em auto;
     grid-template-areas: "nav content";
-}
-
-.main * {
-    padding: 1em;
 }
 
 .nav {
@@ -123,9 +127,14 @@ form > * {
     padding: 0;
 }
 
+.nav .user-area {
+    padding: 1em;
+}
+
 .nav .usr-img {
     border-radius: 50%;
     margin: auto;
+    padding: 1em;
 }
 
 .nav .usr-name {
@@ -133,7 +142,8 @@ form > * {
     margin-bottom: 0;
     padding-top: 8px;
     padding-bottom: 8px;
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .nav .usr-name > *:first-child{
@@ -151,6 +161,15 @@ form > * {
     text-align: left;
     padding-left: 0;
     padding-right: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.nav-links a,
+.nav-bottom a,
+.nav-links i,
+.nav-bottom i {
+    padding: 1em;
 }
 
 .nav-bottom {
@@ -176,4 +195,10 @@ form > * {
 
 .content {
     background-color: rgb(210, 210, 210);
+    padding: 1em;
+}
+
+.content > div,
+.content > section {
+    padding: 1em;
 }
