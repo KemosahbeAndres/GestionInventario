@@ -1,15 +1,12 @@
 * {
     font-family: sans-serif !important;
+    
 }
 
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+html,
+body,
+p{
+    font-size: .95em;
 }
 
 html {
@@ -38,6 +35,10 @@ button {
     width: 100%;
 }
 
+.form-check label {
+    float: left;
+}
+
 input[type='button'],
 button {
     background-color: rgb(41, 144, 212);
@@ -45,8 +46,22 @@ button {
     padding: .6em 1.4em
 }
 
+.btn {
+    padding: .375rem .75rem !important;
+}
+.btn-oscuro {
+    background-color: #191B27;
+    border-color: #191B27;
+}
+
 form > * {
     margin-bottom: 1em !important;
+}
+
+.alert,
+.btn,
+.form-control {
+    border-radius: 0;
 }
 
 .login {
@@ -77,6 +92,10 @@ form > * {
 }
 
 #loginMessages {
+    background: url("../img/fondo-login.jpg");
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-area: white;
     grid-auto-rows: auto;
 }
@@ -88,10 +107,6 @@ form > * {
     display: grid;
     grid-template-columns: 20em auto;
     grid-template-areas: "nav content";
-}
-
-.main * {
-    padding: 1em;
 }
 
 .nav {
@@ -113,12 +128,13 @@ form > * {
 }
 
 .nav .user-area {
-    margin-bottom: 2em;
+    padding: 1em;
 }
 
 .nav .usr-img {
     border-radius: 50%;
     margin: auto;
+    padding: 1em;
 }
 
 .nav .usr-name {
@@ -126,6 +142,8 @@ form > * {
     margin-bottom: 0;
     padding-top: 8px;
     padding-bottom: 8px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .nav .usr-name > *:first-child{
@@ -143,6 +161,15 @@ form > * {
     text-align: left;
     padding-left: 0;
     padding-right: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.nav-links a,
+.nav-bottom a,
+.nav-links i,
+.nav-bottom i {
+    padding: 1em;
 }
 
 .nav-bottom {
@@ -168,4 +195,10 @@ form > * {
 
 .content {
     background-color: rgb(210, 210, 210);
+    padding: 1em;
+}
+
+.content > div,
+.content > section {
+    padding: 1em;
 }

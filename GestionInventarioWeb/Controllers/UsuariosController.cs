@@ -25,6 +25,7 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index()
         {
+            ViewData["model"] = _usersFinder.GetLoggedUser(HttpContext);
             return View(_usersFinder.FindAll());
         }
 

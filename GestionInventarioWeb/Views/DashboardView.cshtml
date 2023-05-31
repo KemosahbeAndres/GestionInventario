@@ -5,15 +5,11 @@
     ViewData["model"] = Model;
 }
 
-<div class="container-fluid bg-white">
-    <h1>Hola mundo!</h1>
-</div>
-
-<div class="container-fluid bg-white">
-    <h1>Hola @User.Identity.Name</h1>
+<div class="container-fluid bg-white mb-3">
+    <h1>Ventas</h1>
     @if(Model == null)
     {
-        <p>No hay modelo disponible!</p>
+        <div class="alert alert-warning">Error al obtener datos!</div>
     }
     else
     {

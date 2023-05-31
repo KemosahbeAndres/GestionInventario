@@ -17,9 +17,10 @@
 
 
     <div class="login">
-        
-
         <div id="loginForm">
+
+            <img src="/img/logo.png" width="70%" style="margin:auto;" />
+
             @if (!Context.User.Identity.IsAuthenticated)
             {
                 @using (Html.BeginForm("LoginAsync", "LoginController", FormMethod.Post))
