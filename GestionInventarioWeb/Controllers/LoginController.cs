@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using NuGet.Protocol;
-using Microsoft.AspNetCore.Identity;
+using GestionInventarioWeb.Data;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -86,6 +83,10 @@ namespace GestionInventarioWeb.Controllers
                 authProperties);
 
             HttpContext.Session.SetString("LoginMessage", "Sesion iniciada con exito! Bienvenido " + user.Nombre);
+            HttpContext.Session.SetString("name", user.Nombre);
+            HttpContext.Session.SetString("role", role.Rol);
+
+            ViewBag.user = new User(user.Id, user.Nombre, user.Rut, user.Telefono, role.Rol);
 
             return LocalRedirect("/Dashboard");
         }
