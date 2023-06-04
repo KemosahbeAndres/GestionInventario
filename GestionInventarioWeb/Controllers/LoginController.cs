@@ -86,6 +86,10 @@ namespace GestionInventarioWeb.Controllers
                 authProperties);
 
             HttpContext.Session.SetString("LoginMessage", "Sesion iniciada con exito! Bienvenido " + user.Nombre);
+            HttpContext.Session.SetString("Name", user.Nombre);
+            HttpContext.Session.SetString("Rut", user.Rut);
+            HttpContext.Session.SetString("Rol", role.Rol);
+            HttpContext.Session.SetInt32("Id", user.Id);
 
             return LocalRedirect("/Dashboard");
         }
