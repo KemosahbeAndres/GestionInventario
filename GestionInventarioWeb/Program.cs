@@ -26,6 +26,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Login";
         options.LogoutPath = "/Logout";
         options.ReturnUrlParameter = "redirect";
+        options.Cookie.HttpOnly = true;
     });
 
 builder.Services.AddControllersWithViews();

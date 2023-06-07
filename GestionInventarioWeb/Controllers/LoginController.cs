@@ -44,7 +44,7 @@ namespace GestionInventarioWeb.Controllers
                 LocalRedirect("/Login");
             }
 
-             var role = _context.Roles.FirstOrDefault(r => r.Id.Equals(user.IdRol));
+            var role = _context.Roles.FirstOrDefault(r => r.Id.Equals(user.IdRol));
 
             var claims = new List<Claim>
             {
