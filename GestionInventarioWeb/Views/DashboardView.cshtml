@@ -4,7 +4,7 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container-fluid bg-white mb-3">
+<div class="container-fluid">
     <h2>Ventas</h2>
     @if(Model == null)
     {
@@ -14,6 +14,8 @@
     {
         <p>Hola @Model.Name</p>
         <p>Tu rut es @Model.Rut</p>
-        <p>@Context.Session.GetString("Rol")</p>
+        <p>@Context.Session.GetString("Role")</p>
     }
 </div>
+
+<p>Hola que haces @Model.Name</p>

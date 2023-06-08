@@ -1,4 +1,5 @@
 ﻿using GestionInventario.Controlador;
+using GestionInventario.Controlador.Products.Categories;
 using GestionInventario.Modelo;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,21 @@ namespace GestionInventario.Vista
         {
             if (edition)
             {
-                // editar producto!
+                // editar producto
+                try
+                {
+                    string nombre = txtName.Text.Trim();
+                    string descripcion = txtDescription.Text.Trim();
+                    int precio = Convert.ToInt32(txtCost.Text);
+                    int stock = Convert.ToInt32(txtStock.Text);
+                    string categoria = cbCategory.SelectedItem.ToString().Trim();
+                    productCreator.execute(nombre, descripcion, precio, stock, categoria, product.Id);
+                    this.DialogResult = DialogResult.OK;
+                    Close();
+                }catch(Exception ex)
+                {
+                    showMessage("Datos incorrectos! Imposible modificar!\n" + ex.Message);
+                }
             }
             else
             {
@@ -92,7 +107,7 @@ namespace GestionInventario.Vista
                     Close();
                 }catch(Exception ex)
                 {
-                    showMessage("Datos incorrectos!\n"+ex.Message);
+                    showMessage("Datos incorrectos! Imposible crear\n"+ex.Message);
                 }
             }
         }

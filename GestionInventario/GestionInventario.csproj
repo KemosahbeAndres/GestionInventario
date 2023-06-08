@@ -68,22 +68,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controlador\CreateCategoryController.cs" />
-    <Compile Include="Controlador\CreateInventoryRecordController.cs" />
-    <Compile Include="Controlador\CreateProductController.cs" />
-    <Compile Include="Controlador\CreateUserController.cs" />
-    <Compile Include="Controlador\DeleteCategoryController.cs" />
+    <Compile Include="Controlador\Products\Categories\ModifyCategoryController.cs" />
+    <Compile Include="Controlador\Products\Categories\CreateCategoryController.cs" />
+    <Compile Include="Controlador\Products\CreateInventoryRecordController.cs" />
+    <Compile Include="Controlador\Products\CreateProductController.cs" />
+    <Compile Include="Controlador\Users\CreateUserController.cs" />
+    <Compile Include="Controlador\Products\Categories\DeleteCategoryController.cs" />
     <Compile Include="Controlador\BarCode.cs" />
-    <Compile Include="Controlador\DeleteProductController.cs" />
-    <Compile Include="Controlador\FindCategoryController.cs" />
-    <Compile Include="Controlador\FindInventoryController.cs" />
-    <Compile Include="Controlador\FindRoleController.cs" />
-    <Compile Include="Controlador\FindUserController.cs" />
-    <Compile Include="Controlador\ListProductController.cs" />
-    <Compile Include="Controlador\ListRolesController.cs" />
-    <Compile Include="Controlador\ListUsersController.cs" />
+    <Compile Include="Controlador\Products\DeleteProductController.cs" />
+    <Compile Include="Controlador\Products\Categories\FindCategoryController.cs" />
+    <Compile Include="Controlador\Products\FindInventoryController.cs" />
+    <Compile Include="Controlador\Users\FindRoleController.cs" />
+    <Compile Include="Controlador\Users\FindUserController.cs" />
+    <Compile Include="Controlador\Products\ListProductController.cs" />
+    <Compile Include="Controlador\Users\ListRolesController.cs" />
+    <Compile Include="Controlador\Users\ListUsersController.cs" />
     <Compile Include="Controlador\LoginController.cs" />
-    <Compile Include="Controlador\ModifyUserController.cs" />
+    <Compile Include="Controlador\Users\ModifyUserController.cs" />
     <Compile Include="Controlador\RunValidator.cs" />
     <Compile Include="DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
@@ -124,6 +125,12 @@
     </Compile>
     <Compile Include="Vista\EditUserForm.Designer.cs">
       <DependentUpon>EditUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\ModifyCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\ModifyCategoryForm.Designer.cs">
+      <DependentUpon>ModifyCategoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Vista\ProductListViewItem.cs" />
     <Compile Include="Vista\ProductsForm.cs">
@@ -175,6 +182,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\ModifyCategoryForm.resx">
+      <DependentUpon>ModifyCategoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\ProductsForm.resx">
       <DependentUpon>ProductsForm.cs</DependentUpon>

@@ -1,7 +1,7 @@
 ﻿using GestionInventario.Modelo;
 using GestionInventario.Persistence;
 
-namespace GestionInventario.Controlador
+namespace GestionInventario.Controlador.Users
 {
     class FindUserController
     {

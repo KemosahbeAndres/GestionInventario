@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionInventario.Controlador
+namespace GestionInventario.Controlador.Users
 {
     class ListRolesController
     {

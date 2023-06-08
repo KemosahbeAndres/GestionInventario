@@ -1,6 +1,7 @@
 ﻿using GestionInventario.Controlador;
 using GestionInventario.Modelo;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace GestionInventario.Vista
@@ -69,6 +70,15 @@ namespace GestionInventario.Vista
         private void ckClave_CheckedChanged(object sender, EventArgs e)
         {
             txtContraseña.UseSystemPasswordChar = !txtContraseña.UseSystemPasswordChar;
+        }
+
+        private void txtRut_TextChanged(object sender, EventArgs e)
+        {
+            //string text = txtRut.Text.Replace(".", "").Replace("-", "");
+            //txtRut.Text = Regex.Replace(text, @"(\w{0,3})(\w{0,3})(\w{1,3})(\w{1})", @"$1$2$3-$4");
+            txtRut.Text = RunValidator.format(txtRut.Text);
+            txtRut.SelectionStart = txtRut.Text.Length;
+            txtRut.SelectionLength = 0;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using GestionInventario.Modelo;
+﻿using GestionInventario.Controlador.Users;
+using GestionInventario.Modelo;
 using GestionInventario.Vista;
 
 namespace GestionInventario.Controlador

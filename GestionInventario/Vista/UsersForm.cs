@@ -1,4 +1,5 @@
 ﻿using GestionInventario.Controlador;
+using GestionInventario.Controlador.Users;
 using GestionInventario.Modelo;
 using GestionInventario.Persistence;
 using System;
