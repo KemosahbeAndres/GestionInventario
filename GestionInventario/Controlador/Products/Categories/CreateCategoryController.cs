@@ -5,28 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionInventario.Controlador
+namespace GestionInventario.Controlador.Products.Categories
 {
-    class DeleteCategoryController
+    class CreateCategoryController
     {
         private CategoryDao categoryDao;
         private FindCategoryController categoryFinder;
-        public DeleteCategoryController()
+        public CreateCategoryController()
         {
             categoryDao = new CategoryDao();
             categoryFinder = new FindCategoryController();
         }
         public void execute(string name)
         {
-            var cat = categoryFinder.execute(name.Trim());
-            if (cat == null) throw new Exception("La categoria seleccionada no existe!");
+            if (categoryFinder.execute(name.Trim()) != null) throw new Exception("La categoria ya existe!");
+            var e = new Categorias();
+            e.categoria = name.Trim();
             try
             {
-                categoryDao.Delete(cat.Id);
+                categoryDao.Insert(e);
             }
             catch(Exception ex)
             {
-                throw new Exception("Error al eliminar categoria!\n"+ex.Message);
+                throw new Exception("Error al guardar categoria!\n"+ex.Message);
             }
         }
     }

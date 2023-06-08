@@ -48,6 +48,7 @@
             this.txtRut.Name = "txtRut";
             this.txtRut.Size = new System.Drawing.Size(102, 24);
             this.txtRut.TabIndex = 0;
+            this.txtRut.TextChanged += new System.EventHandler(this.txtRut_TextChanged);
             // 
             // txtContraseña
             // 
@@ -107,9 +108,10 @@
             // ckClave
             // 
             this.ckClave.AutoSize = true;
-            this.ckClave.Location = new System.Drawing.Point(118, 177);
+            this.ckClave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckClave.Location = new System.Drawing.Point(85, 177);
             this.ckClave.Name = "ckClave";
-            this.ckClave.Size = new System.Drawing.Size(117, 17);
+            this.ckClave.Size = new System.Drawing.Size(150, 21);
             this.ckClave.TabIndex = 6;
             this.ckClave.Text = "Mostrar contraseña";
             this.ckClave.UseVisualStyleBackColor = true;

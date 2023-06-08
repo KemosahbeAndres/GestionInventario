@@ -47,7 +47,7 @@ namespace GestionInventario.Persistence
 
         public override int Modify(Productos item)
         {
-            if (!Exists(item.id))
+            if (Exists(item.id))
             {
                 Productos e = Get(item.id);
                 e.id = item.id;

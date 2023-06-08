@@ -2,7 +2,7 @@
 using GestionInventario.Persistence;
 using System.Collections.Generic;
 
-namespace GestionInventario.Controlador
+namespace GestionInventario.Controlador.Products.Categories
 {
     class FindCategoryController
     {

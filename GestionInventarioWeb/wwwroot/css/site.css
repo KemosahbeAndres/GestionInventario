@@ -1,6 +1,5 @@
 * {
     font-family: sans-serif !important;
-    
 }
 
 html,
@@ -198,7 +197,7 @@ form > * {
     padding: 1em;
 }
 
-.content > div,
-.content > section {
+.content > * {
     padding: 1em;
+    background-color: white;
 }
