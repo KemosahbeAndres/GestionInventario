@@ -18,4 +18,37 @@
     }
 </div>
 
-<p>Hola que haces @Model.Name</p>
+<div class="container-fluid">
+    <h2>Resultado</h2>
+    <input type="button" class="btn btn-primary mb-2" value="Obtener" onclick="getData()"/>
+    <ul id="lista" class="list-group mt-2">
+    </ul>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+<script>
+    function getData(){
+        $.ajax({
+            url: "/api/users",
+            method: "get",
+            datatype: "application/json",
+            success: function (data) {
+                console.log(data)
+                let list = document.querySelector("#lista")
+                let users = data
+                for(var user of users){
+                    let li = document.createElement("li")
+                    li.innerHTML = user
+                    li.classList.add("list-group-item")
+                    list.appendChild(li)
+                }
+
+            },
+            error: function (data) {
+                console.log("ERROR!!" + data)
+            }
+        })
+    }
+</script>

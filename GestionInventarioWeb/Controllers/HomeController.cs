@@ -39,6 +39,21 @@ namespace GestionInventarioWeb.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpGet("/api/users")]
+        [AllowAnonymous]
+        public IActionResult ajax()
+        {
+            var users = _context.Usuarios.ToArray();
+            var usuarios = new String[users.Length];
+
+            for(int i = 0; i <= users.Length-1; i++)
+            {
+                usuarios[i] = users[i].Nombre;
+            }
+
+            return Json(usuarios);
+        }
+
         private User? GetLoggedUser()
         {
             var claims = HttpContext.User.Claims.ToList();
