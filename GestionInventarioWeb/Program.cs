@@ -1,6 +1,5 @@
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

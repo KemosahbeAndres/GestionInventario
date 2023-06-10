@@ -7,30 +7,38 @@ namespace GestionInventarioWeb.Controllers
 {
     public class PDFBuilderController : Controller
     {
-        [Route("/pdf")]
-        [Route("/pdf/{Name?}")]
+        [Route("/pdf/result/{Text?}")]
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult renderDocument(string? Name)
+        public IActionResult renderDocument(string? Text)
         {
+            var stream = new MemoryStream();
             var doc = new Document();
+            var writer = PdfWriter.GetInstance(doc, stream);
+            writer.CloseStream = false;
 
-            var writer = PdfWriter.GetInstance(doc, HttpContext.Response.Body);
-            
             doc.Open();
-            writer.Add(new Paragraph("Ke pasa"));
             doc.AddTitle("Titulo perron");
-            doc.Add(new Paragraph("Hola mundo!"));
-            doc.Add(new Paragraph("Hola "+Name));
-
+            doc.Add(new Paragraph(Text));
             doc.Close();
+
+            stream.Seek(0, SeekOrigin.Begin);
+
 
             HttpContext.Response.ContentType = "application/pdf";
 
             HttpContext.Response.Headers.Add("content-disposition","attachment;filename=documento.pdf");
 
-            return new EmptyResult();
+            return new FileStreamResult(stream, "application/pdf");
 
+        }
+
+        [Route("/pdf")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Home()
+        {
+            return View("Views/pdf.cshtml");
         }
     }
 }
