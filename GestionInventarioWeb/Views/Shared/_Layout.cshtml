@@ -1,6 +1,6 @@
 ﻿@{
-    var Name = Context.Session.GetString("name");
-    var Role = Context.Session.GetString("role");
+    var Name = Context.Session.GetString("Name");
+    var Role = Context.Session.GetString("Role");
 }
 
 <!DOCTYPE html>
@@ -21,31 +21,25 @@
                 <div class="user-area">
                     <img src="https://dummyimage.com/80x80/ffffff/000000.png" alt="Usuario" class="usr-img">
                     <div class="usr-name">
-                        
-                        @if (Name != null)
-                        {
-                            <h2>@Name</h2>
-                            <h5>@Role</h5>
-                        }
-                        else
-                        {
-                            <h2>@User.Identity.Name</h2>
-                        }
-                        </div>
+                        <h2>@Name</h2>
+                        <h5>@Role</h5>
+                    </div>
                 </div>
                 <ul class="nav-links">
                     <li><a href="/Dashboard"><i class="bi bi-house-door-fill"></i>Dashboard</a></li>
-                    @if (Role != null && Role == "Administrador")
+                    @if (Role == "Administrador")
                     {
                         <li><a href="/Dashboard/Users"><i class="bi bi-people-fill"></i>Usuarios</a></li>
                         <li><a href="#"><i class="bi bi-box-seam-fill"></i>Productos</a></li>
                         <li><a href="#"><i class="bi bi-cash"></i>Ventas</a></li>
                         <li><a href="#"><i class="bi bi-cart-fill"></i>Compras</a></li>
-                    }else
+                    }
+                    else
                     {
                         <li><a href="#"><i class="bi bi-box-seam-fill"></i>Productos</a></li>
                         <li><a href="#"><i class="bi bi-cash"></i>Ventas</a></li>
                     }
+                    <li><a href="/Reports"><i class="bi bi-cash"></i>Reportes</a></li>
 
                 </ul>
             </div>
@@ -54,7 +48,7 @@
                 <li><a href="/Logout"><i class="bi bi-box-arrow-right"></i>Cerrar Sesion</a></li>
             </ul>
         </nav>
-        <div class="content">
+        <div class="content vstack gap-3">
             @RenderBody()
         </div>
     </div>

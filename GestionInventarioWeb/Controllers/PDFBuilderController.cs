@@ -7,38 +7,53 @@ namespace GestionInventarioWeb.Controllers
 {
     public class PDFBuilderController : Controller
     {
-        [Route("/pdf/result/{Text?}")]
-        [HttpGet]
+        [HttpGet("/pdf/build", Name = "BuildPdf")]
         [AllowAnonymous]
         public IActionResult renderDocument(string? Text)
         {
             var stream = new MemoryStream();
-            var doc = new Document();
+
+            var doc = new Document(PageSize.LETTER);
+
             var writer = PdfWriter.GetInstance(doc, stream);
+
             writer.CloseStream = false;
 
             doc.Open();
             doc.AddTitle("Titulo perron");
-            doc.Add(new Paragraph(Text));
+            if(Text != null)
+            {
+                doc.Add(new Paragraph("Hola " + Text));
+            }
+            else
+            {
+                doc.Add(new Paragraph("Contenido vacio! "));
+            }
             doc.Close();
 
-            stream.Seek(0, SeekOrigin.Begin);
+            writer.Flush();
 
+            stream.Seek(0, SeekOrigin.Begin);
 
             HttpContext.Response.ContentType = "application/pdf";
 
             HttpContext.Response.Headers.Add("content-disposition","attachment;filename=documento.pdf");
 
-            return new FileStreamResult(stream, "application/pdf");
+            //return new EmptyResult();
+
+            var file = new FileStreamResult(stream, "application/pdf");
+
+            file.FileDownloadName = $"report_{DateTime.Now}.pdf";
+
+            return file;
 
         }
 
-        [Route("/pdf")]
-        [HttpGet]
+        [HttpGet("/Reports", Name = "Reports")]
         [AllowAnonymous]
-        public IActionResult Home()
+        public IActionResult Index()
         {
-            return View("Views/pdf.cshtml");
+            return View("Views/pdfs.cshtml");
         }
     }
 }

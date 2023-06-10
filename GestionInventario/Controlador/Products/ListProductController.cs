@@ -1,4 +1,5 @@
-﻿using GestionInventario.Modelo;
+﻿using GestionInventario.Controlador.Products.Categories;
+using GestionInventario.Modelo;
 using GestionInventario.Persistence;
 using System;
 using System.Collections.Generic;

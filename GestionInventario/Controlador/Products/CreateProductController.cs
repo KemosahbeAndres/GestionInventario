@@ -1,4 +1,6 @@
-﻿using GestionInventario.Modelo;
+﻿using GestionInventario.Controlador.Products;
+using GestionInventario.Controlador.Products.Categories;
+using GestionInventario.Modelo;
 using GestionInventario.Persistence;
 using System;
 using System.Linq;
@@ -24,7 +26,7 @@ namespace GestionInventario.Controlador
             return BarCode.generate13(count);
         }
 
-        public void execute(string name, string desc, int cost, int stock, string category)
+        public void execute(string name, string desc, int cost, int stock, string category, int id = 0)
         {
             
             string nombre = name.Trim();
@@ -42,12 +44,23 @@ namespace GestionInventario.Controlador
             product.id_categoria = cat.Id;
             try
             {
-                int id = productDao.Insert(product);
-                inventoryCreator.execute(id, stock);
+                if(id <= 0)
+                {
+                    int pid = productDao.Insert(product);
+                    inventoryCreator.execute(pid, stock);
+                }
+                else
+                {
+                    product.id = id;
+                    int pid = productDao.Modify(product);
+                    inventoryCreator.execute(pid, stock);
+                }
+                
             }catch(Exception ex)
             {
                 throw new Exception("Error al guardar producto!\n"+ex.Message);
             }
         }
+
     }
 }
