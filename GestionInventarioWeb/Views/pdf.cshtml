@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_layout";
+}
+
+<div class="container-fluid">
+
+    <form asp-controller="PDFBuilder" asp-action="renderDocument" method="get" target="_blank">
+        <textarea rows="5" name="Text" class=""></textarea>
+        <input type="submit" class="btn btn-primary" value="Crear PDF"/>
+    </form>
+
+</div>

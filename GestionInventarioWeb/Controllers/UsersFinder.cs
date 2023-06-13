@@ -1,6 +1,7 @@
 ﻿using GestionInventarioWeb.Data;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
 namespace GestionInventarioWeb.Controllers
@@ -40,7 +41,7 @@ namespace GestionInventarioWeb.Controllers
         public IEnumerable<User> FindAll()
         {
             var userList = new Collection<User>();
-            foreach(var user in _context.Usuarios.ToList())
+            foreach(var user in _context.Usuarios.Include(u => u.IdRolNavigation).ToList())
             {
                 var role = _context.Roles.FirstOrDefault(r => r.Id.Equals(user.IdRol));
                 if (role == null)
