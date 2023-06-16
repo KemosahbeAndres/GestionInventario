@@ -15,13 +15,16 @@
     <thead>
         <tr>
             <th>
+                ID
+            </th>
+            <th>
                 Nombre
             </th>
             <th>
                 Telefono
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rut)
+                Rut
             </th>
             <th>
                 Rol
@@ -32,6 +35,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -45,9 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>            
             <td>
-                <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-dark" href="/Dashboard/Users/@item.Id">Details</a> |
             </td>
         </tr>
 }

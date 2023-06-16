@@ -203,3 +203,11 @@ form > * {
     padding: 1em;
     background-color: white;
 }
+
+tr.clickeable {
+    cursor: pointer;
+}
+
+tr.clickeable:hover {
+    background-color: gray;
+}
