@@ -10,95 +10,92 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GestionInventarioWeb.Controllers
 {
-    public class UsuariosController : Controller
+    public class ComprasController : Controller
     {
         private readonly GestionInventarioContext _context;
-        private readonly UsersFinder _usersFinder;
 
-        public UsuariosController(GestionInventarioContext context)
+        public ComprasController(GestionInventarioContext context)
         {
             _context = context;
-            _usersFinder = new UsersFinder(context);
         }
 
-        [HttpGet("/Dashboard/Users", Name = "Users")]
+        [HttpGet("/Compras")]
         [Authorize(Roles = "Administrador")]
+        // GET: Compras
         public async Task<IActionResult> Index()
         {
-            return View(_usersFinder.FindAll());
+            var gestionInventarioContext = _context.Compras.Include(c => c.IdUsuarioNavigation);
+            return View(await gestionInventarioContext.ToListAsync());
         }
 
-        [Route("/Dashboard/Users/{id}")]
-        [HttpGet]
-        [Authorize(Roles = "Administrador")]
-        // GET: Usuarios/Details/5
+        // GET: Compras/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null || _context.Compras == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .Include(u => u.IdRolNavigation)
+            var compra = await _context.Compras
+                .Include(c => c.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
+            if (compra == null)
             {
                 return NotFound();
             }
 
-            return View(usuario);
+            return View(compra);
         }
 
-        // GET: Usuarios/Create
+        // GET: Compras/Create
         public IActionResult Create()
         {
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id");
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: Compras/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,Fecha,IdUsuario")] Compra compra)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
+                _context.Add(compra);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            return View(compra);
         }
 
-        // GET: Usuarios/Edit/5
+        // GET: Compras/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null || _context.Compras == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
+            var compra = await _context.Compras.FindAsync(id);
+            if (compra == null)
             {
                 return NotFound();
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            return View(compra);
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: Compras/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,IdUsuario")] Compra compra)
         {
-            if (id != usuario.Id)
+            if (id != compra.Id)
             {
                 return NotFound();
             }
@@ -107,12 +104,12 @@ namespace GestionInventarioWeb.Controllers
             {
                 try
                 {
-                    _context.Update(usuario);
+                    _context.Update(compra);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.Id))
+                    if (!CompraExists(compra.Id))
                     {
                         return NotFound();
                     }
@@ -123,51 +120,51 @@ namespace GestionInventarioWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            return View(compra);
         }
 
-        // GET: Usuarios/Delete/5
+        // GET: Compras/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null || _context.Compras == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .Include(u => u.IdRolNavigation)
+            var compra = await _context.Compras
+                .Include(c => c.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
+            if (compra == null)
             {
                 return NotFound();
             }
 
-            return View(usuario);
+            return View(compra);
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: Compras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Usuarios == null)
+            if (_context.Compras == null)
             {
-                return Problem("Entity set 'GestionInventarioContext.Usuarios'  is null.");
+                return Problem("Entity set 'GestionInventarioContext.Compras'  is null.");
             }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
+            var compra = await _context.Compras.FindAsync(id);
+            if (compra != null)
             {
-                _context.Usuarios.Remove(usuario);
+                _context.Compras.Remove(compra);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsuarioExists(int id)
+        private bool CompraExists(int id)
         {
-          return (_context.Usuarios?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Compras?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
