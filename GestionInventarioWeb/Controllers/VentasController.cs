@@ -31,16 +31,17 @@ namespace GestionInventarioWeb.Controllers
         }
 
         // GET: Ventas/Details/5
+        [HttpGet("/Ventas/Detalles/{id}")]
+        [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Ventas == null)
+            int mid = 0;
+            if (id == null)
             {
                 return NotFound();
             }
+            var venta = _salesFinder.Find(mid);
 
-            var venta = await _context.Ventas
-                .Include(v => v.IdVendedorNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (venta == null)
             {
                 return NotFound();
