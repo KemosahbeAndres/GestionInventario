@@ -50,28 +50,43 @@ namespace GestionInventarioWeb.Controllers
             return View(usuario);
         }
 
+        [HttpGet("/Dashboard/Users/Create")]
+        [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id");
-            return View();
+            //ViewBag.Roles = new SelectList(_context.Roles, "Id", "Rol");
+            return View("Views/Usuarios/Create.cshtml");
         }
 
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Dashboard/Users/CreateNew")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> CreateNew(string name, string phone, string username, string password, int rolid)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(usuario);
+                
+                var user = new Usuario();
+                user.Nombre = name;
+                user.Telefono = phone;
+                user.Rut = username;
+                user.Clave = password;
+                user.IdRol = rolid;
+                _context.Add(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                throw new Exception("Llego: " + name + " | " + username + " | " + Convert.ToString(rolid) + " | ");
+                return LocalRedirect("/Dashboard/Users");
+            }catch(Exception ex)
+            {
+                HttpContext.Session.SetString("message", "Error " + ex.Message);
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            
+            //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
+            return LocalRedirect("/Dashboard/Users/Create");
         }
 
         // GET: Usuarios/Edit/5
