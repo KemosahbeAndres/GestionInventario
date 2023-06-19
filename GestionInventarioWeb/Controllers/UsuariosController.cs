@@ -21,13 +21,16 @@ namespace GestionInventarioWeb.Controllers
             _usersFinder = new UsersFinder(context);
         }
 
-        [HttpGet("/Dashboard/Users", Name = "Users")]
+        [HttpGet("/Users", Name = "Users")]
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Index()
         {
             return View(_usersFinder.FindAll());
         }
 
+        [Route("/Users/{id}")]
+        [HttpGet]
+        [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,30 +50,48 @@ namespace GestionInventarioWeb.Controllers
             return View(usuario);
         }
 
+        [HttpGet("/Users/Create")]
+        [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id");
-            return View();
+            //ViewBag.Roles = new SelectList(_context.Roles, "Id", "Rol");
+            return View("Views/Usuarios/Create.cshtml", _context.Roles.ToList());
         }
 
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Users/CreateNew"), ActionName("CreateNew")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> CreateNew(string name, string phone, string username, string password, int rolid)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var user = new Usuario();
+                user.Nombre = name;
+                user.Telefono = phone;
+                user.Rut = username;
+                user.Clave = password;
+                user.IdRol = rolid;
+                _context.Usuarios.Add(user);
+                _context.SaveChanges();
+                //throw new Exception("Llego: " + name + " | " + username + " | " + Convert.ToString(rolid) + " | ");
+                return LocalRedirect("/Users");
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            catch (Exception ex)
+            {
+                HttpContext.Session.SetString("message", "Error " + ex.Message);
+            }
+
+            //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
+            return LocalRedirect("/Users/Create");
         }
 
+        [Route("/Users/Edit/{id}")]
+        [HttpGet, ActionName("Edit")]
+        [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -84,16 +105,18 @@ namespace GestionInventarioWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
+            return View("Edit",usuario);
         }
-
+        [Route("/Users/Save")]
+        [HttpPost]
+        [Authorize(Roles = "Administrador")]
         // POST: Usuarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        public async Task<IActionResult> SaveUser(int id, [Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -120,12 +143,15 @@ namespace GestionInventarioWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return View(usuario);
+            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
+            return View("Edit",usuario);
         }
 
+        [Route("/Users/Delete/{id}")]
+        [HttpGet, ActionName("CanDelete")]
+        [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> CanDelete(int? id)
         {
             if (id == null || _context.Usuarios == null)
             {
@@ -140,12 +166,13 @@ namespace GestionInventarioWeb.Controllers
                 return NotFound();
             }
 
-            return View(usuario);
+            return View("Delete",usuario);
         }
 
+        [Route("/Users/DeleteConfirmed/{id}")]
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Usuarios == null)

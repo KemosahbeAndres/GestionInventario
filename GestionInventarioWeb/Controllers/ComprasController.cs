@@ -10,95 +10,92 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GestionInventarioWeb.Controllers
 {
-    public class VentasController : Controller
+    public class ComprasController : Controller
     {
         private readonly GestionInventarioContext _context;
-        private readonly SalesFinder _salesFinder;
 
-        public VentasController(GestionInventarioContext context)
+        public ComprasController(GestionInventarioContext context)
         {
             _context = context;
-            _salesFinder = new SalesFinder(_context);
         }
 
-        // GET: Ventas
-        [HttpGet("/Ventas")]
-        [Authorize(Roles = "Administrador, Vendedor")]
+        [HttpGet("/Compras")]
+        [Authorize(Roles = "Administrador")]
+        // GET: Compras
         public async Task<IActionResult> Index()
         {
-            var sales = await _salesFinder.FindAllAsync();
-            return View(sales);
+            var gestionInventarioContext = _context.Compras.Include(c => c.IdUsuarioNavigation);
+            return View(await gestionInventarioContext.ToListAsync());
         }
 
-        // GET: Ventas/Details/5
-        [HttpGet("/Ventas/Detalles/{id}")]
-        [Authorize(Roles = "Administrador,Vendedor")]
+        // GET: Compras/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            int mid = 0;
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var venta = _salesFinder.Find(mid);
-
-            if (venta == null)
+            if (id == null || _context.Compras == null)
             {
                 return NotFound();
             }
 
-            return View(venta);
+            var compra = await _context.Compras
+                .Include(c => c.IdUsuarioNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (compra == null)
+            {
+                return NotFound();
+            }
+
+            return View(compra);
         }
 
-        // GET: Ventas/Create
+        // GET: Compras/Create
         public IActionResult Create()
         {
-            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id");
             return View();
         }
 
-        // POST: Ventas/Create
+        // POST: Compras/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,IdVendedor")] Venta venta)
+        public async Task<IActionResult> Create([Bind("Id,Fecha,IdUsuario")] Compra compra)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(venta);
+                _context.Add(compra);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Id", venta.IdVendedor);
-            return View(venta);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            return View(compra);
         }
 
-        // GET: Ventas/Edit/5
+        // GET: Compras/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Ventas == null)
+            if (id == null || _context.Compras == null)
             {
                 return NotFound();
             }
 
-            var venta = await _context.Ventas.FindAsync(id);
-            if (venta == null)
+            var compra = await _context.Compras.FindAsync(id);
+            if (compra == null)
             {
                 return NotFound();
             }
-            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Id", venta.IdVendedor);
-            return View(venta);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            return View(compra);
         }
 
-        // POST: Ventas/Edit/5
+        // POST: Compras/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,IdVendedor")] Venta venta)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,IdUsuario")] Compra compra)
         {
-            if (id != venta.Id)
+            if (id != compra.Id)
             {
                 return NotFound();
             }
@@ -107,12 +104,12 @@ namespace GestionInventarioWeb.Controllers
             {
                 try
                 {
-                    _context.Update(venta);
+                    _context.Update(compra);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VentaExists(venta.Id))
+                    if (!CompraExists(compra.Id))
                     {
                         return NotFound();
                     }
@@ -123,51 +120,51 @@ namespace GestionInventarioWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Id", venta.IdVendedor);
-            return View(venta);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            return View(compra);
         }
 
-        // GET: Ventas/Delete/5
+        // GET: Compras/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Ventas == null)
+            if (id == null || _context.Compras == null)
             {
                 return NotFound();
             }
 
-            var venta = await _context.Ventas
-                .Include(v => v.IdVendedorNavigation)
+            var compra = await _context.Compras
+                .Include(c => c.IdUsuarioNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (venta == null)
+            if (compra == null)
             {
                 return NotFound();
             }
 
-            return View(venta);
+            return View(compra);
         }
 
-        // POST: Ventas/Delete/5
+        // POST: Compras/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Ventas == null)
+            if (_context.Compras == null)
             {
-                return Problem("Entity set 'GestionInventarioContext.Ventas'  is null.");
+                return Problem("Entity set 'GestionInventarioContext.Compras'  is null.");
             }
-            var venta = await _context.Ventas.FindAsync(id);
-            if (venta != null)
+            var compra = await _context.Compras.FindAsync(id);
+            if (compra != null)
             {
-                _context.Ventas.Remove(venta);
+                _context.Compras.Remove(compra);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VentaExists(int id)
+        private bool CompraExists(int id)
         {
-          return (_context.Ventas?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Compras?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

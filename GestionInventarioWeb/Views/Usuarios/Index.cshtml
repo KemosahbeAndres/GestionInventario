@@ -14,24 +14,20 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Telefono
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rut)
-            </th>
-            <th>
-                Rol
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Rut</th>
+            <th>Rol</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -45,9 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>            
             <td>
-                <a class="btn btn-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
