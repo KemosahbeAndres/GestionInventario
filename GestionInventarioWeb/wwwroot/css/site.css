@@ -209,5 +209,32 @@ tr.clickeable {
 }
 
 tr.clickeable:hover {
-    background-color: gray;
+    transition: all 200ms;
+    background-color: #d2d2d2;
+}
+
+table tbody td {
+    border: none;
+}
+
+
+.vstack > *, .hstack > * {
+    vertical-align: central;
+    margin: 0;
+}
+
+.input-group-text {
+    min-width: 8vw;
+    border-radius: 0;
+}
+
+.content input,
+.content select {
+    border-top: 1px #ced4da solid !important;
+    border-right: 1px #ced4da solid !important;
+    border-bottom: 1px #ced4da solid !important;
+}
+
+.btn-padding {
+    padding: .6em !important;
 }

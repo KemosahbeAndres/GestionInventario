@@ -14,22 +14,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                ID
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Telefono
-            </th>
-            <th>
-                Rut
-            </th>
-            <th>
-                Rol
-            </th>
-            <th></th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Rut</th>
+            <th>Rol</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>            
             <td>
-                <a class="btn btn-dark" href="/Dashboard/Users/@item.Id">Details</a> |
+                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Details</a> |
             </td>
         </tr>
 }
