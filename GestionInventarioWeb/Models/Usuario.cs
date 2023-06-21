@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 
 namespace GestionInventarioWeb.Models;
@@ -19,6 +20,7 @@ public partial class Usuario
 
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 
+    [ValidateNever]
     public virtual Role IdRolNavigation { get; set; } = null!;
 
     public virtual ICollection<Venta> Venta { get; set; } = new List<Venta>();

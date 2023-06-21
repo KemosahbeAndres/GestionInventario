@@ -217,12 +217,29 @@ table tbody td {
     border: none;
 }
 
-
-.vstack > *, .hstack > * {
-    vertical-align: central;
-    margin: 0;
+/*
+.vstack, hstack {
+    width: -webkit-fill-available;
 }
 
+*/
+
+.vstack > *, .hstack > * {
+    vertical-align: middle;
+    margin: 0;
+}
+/*
+.vstack .btn,
+hstack .btn {
+    width: inherit;
+}
+*/
+.btn-group {
+    width: 100%;
+}
+.btn-group .btn {
+    width: auto;
+}
 .input-group-text {
     min-width: 8vw;
     border-radius: 0;
