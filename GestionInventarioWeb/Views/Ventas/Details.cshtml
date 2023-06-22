@@ -4,65 +4,79 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid">
 
-<h1>Details</h1>
+    <div class="hstack gap-2">
+        <h1>Detalles</h1>
+        <a class="btn btn-dark" asp-action="Index">Atras</a>
+        <a class="btn btn-warning" asp-action="EditSale" asp-route-id="@Model.Id">Editar</a>
+        <a class="btn btn-danger" asp-action="DeleteSale" asp-route-id="@Model.Id">Borrar</a>
+    </div>
 
-<div>
-    <h4>Venta</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            ID Venta
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            Fecha
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            Vendedor
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Seller.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            Productos
-        </dt>
-        <dd class = "col-sm-10">
-            <table>
-                <thead>
-                    <tr>ID</tr>
-                    <tr>Codigo EAN</tr>
-                    <tr>Nombre</tr>
-                    <tr>Categoria</tr>
-                    <tr>Precio</tr>
-                    <tr>Cantidad</tr>
-                    <tr>Descripcion</tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model.Products)
-                    {
+    <div>
+        <dl class="row">
+            <dt class = "col-sm-2">
+                ID Venta
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class = "col-sm-2">
+                Fecha
+            </dt>
+            <dd class = "col-sm-10">
+                @Model.Date.ToShortDateString()
+            </dd>
+            <dt class = "col-sm-2">
+                Vendedor
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Seller.Name)
+            </dd>
+            <dt class = "col-sm-2">
+                Productos
+            </dt>
+            <dd class = "col-sm-10">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@product.Id</td>
-                            <td>@product.EAN</td>
-                            <td>@product.Name</td>
-                            <td>@product.Category</td>
-                            <td>@product.Price</td>
-                            <td>@product.Stock</td>
-                            <td>@product.Description</td>
+                            <th>ID</th>
+                            <th>Codigo EAN</th>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Descripcion</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </dd>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td>@product.Id</td>
+                                <td>@product.EAN</td>
+                                <td>@product.Name</td>
+                                <td>@product.Category</td>
+                                <td>@product.Price</td>
+                                <td>@product.Stock</td>
+                                <td>@product.Description</td>
+                            </tr>
+                        }
+                        @if (!Model.Products.Any())
+                        {
+                            <tr>
+                                <td colspan="7">
+                                No hay ningun producto
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </dd>
         
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        </dl>
+    </div>
+    <div>
+    </div>
 </div>

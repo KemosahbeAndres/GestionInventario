@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using GestionInventarioWeb.Data;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -15,11 +16,13 @@ namespace GestionInventarioWeb.Controllers
     {
         private readonly GestionInventarioContext _context;
         private readonly SalesFinder _salesFinder;
+        private readonly ProductsFinder _productsFinder;
 
         public VentasController(GestionInventarioContext context)
         {
             _context = context;
             _salesFinder = new SalesFinder(_context);
+            _productsFinder = new ProductsFinder(_context);
         }
 
         // GET: Ventas
@@ -82,7 +85,7 @@ namespace GestionInventarioWeb.Controllers
             {
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("EditSale", new { id = venta.Id });
             }
 
             return LocalRedirect("/Ventas/Detalles/"+venta.Id);
@@ -103,8 +106,8 @@ namespace GestionInventarioWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Id", venta.IdVendedor);
-            return View(venta);
+            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Nombre", venta.IdVendedor);
+            return View("Edit",venta);
         }
 
         // POST: Ventas/Edit/5
@@ -162,11 +165,11 @@ namespace GestionInventarioWeb.Controllers
                 return NotFound();
             }
 
-            return View(venta);
+            return View("Delete", venta);
         }
 
         // POST: Ventas/Delete/5
-        [HttpPost("/Ventas/Deleting/{id}"), ActionName("DeletingSale")]
+        [HttpPost("/Ventas/Deleting"), ActionName("DeletingSale")]
         [Authorize(Roles = "Administrador,Vendedor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -185,11 +188,17 @@ namespace GestionInventarioWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet("/api/Productos"), ActionName("GetAllProducts")]
+        public async Task<IActionResult> GetProducts(int id)
+        {
+            return Json(await _productsFinder.FindAllAsync());
+        }
+
         [HttpPost("/Ventas/Details/{id}/AddProduct/{pid}"), ActionName("SaleAddProduct")]
         [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> AddProduct(int id, int pid)
         {
-            return RedirectToAction("Details");
+            return RedirectToAction("Edit", new {id = id });
         }
 
         private bool VentaExists(int id)
