@@ -17,7 +17,6 @@ namespace GestionInventarioWeb.Controllers
 
         public static bool Validar(string rut)
         {
-			// Implementar la validación del RUT aquí
 			rut = rut.Replace(".", "").ToUpper();
 			Regex expresion = new Regex("^([0-9]+-[0-9K])$");
 			string dv = rut.Substring(rut.Length - 1, 1);
