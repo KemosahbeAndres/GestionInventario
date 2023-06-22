@@ -55,5 +55,14 @@ namespace GestionInventarioWeb.Controllers
         {
             return View("Views/pdfs.cshtml");
         }
+
+        /*public List<Data> ObtenerDatosBD()
+        {
+            List<Data> datos = new List<Data>();
+            {
+                datos = _context.Data.ToList();
+            }
+            return datos;
+        }*/
     }
 }
