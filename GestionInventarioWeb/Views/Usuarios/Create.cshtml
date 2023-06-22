@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string? error = Context.Session.GetString("error");
     var message = Context.Session.GetString("message");
 }
 
@@ -57,7 +58,12 @@
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
 </div>
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
 @if (!String.IsNullOrEmpty(message))
 {
-    <div class="alert alert-warning">@Context.Session.GetString("message")</div>
+    <div class="alert alert-success">@message</div>
 }
