@@ -1,33 +1,24 @@
 ﻿@model IEnumerable<GestionInventarioWeb.Models.Producto>
-
 @{
     ViewData["Title"] = "Index";
-}
-<div class="container-fluid">
-<h1>Productos</h1>
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+}
+
+<div class="container-fluid">
+    <div class="hstack gap-2">
+        <h2> Productos </h2>
+        <a class="btn btn-success" asp-action="Create">Nuevo Producto</a>
+    </div>
+    <hr />
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Codigo EAN
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            <th>
-                Categoria
-            </th>
-            <th></th>
+            <th>Codigo EAN</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Categoria</th>
         </tr>
     </thead>
     <tbody>
@@ -49,9 +40,7 @@
                 @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.Categoria1)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
             </td>
         </tr>
 }
