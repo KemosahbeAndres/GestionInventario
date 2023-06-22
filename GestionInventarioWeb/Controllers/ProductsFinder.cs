@@ -36,11 +36,11 @@ namespace GestionInventarioWeb.Controllers
             return products;
         }
 
-        public async Task<IEnumerable<Product>> FindBySaleAsync(int id)
+        public async Task<IEnumerable<Product>> FindBySale(int id)
         {
-            var items = _context.ItemVenta
+            var items = await _context.ItemVenta
                 .Include(i => i.IdProductoNavigation)
-                .Where(i => i.Id == id).ToList();
+                .Where(i => i.Id == id).ToListAsync();
             var products = new List<Product>();
             foreach (var item in items)
             {
@@ -51,11 +51,12 @@ namespace GestionInventarioWeb.Controllers
             return products;
         }
 
-        public async Task<IEnumerable<Product>> FindByBuyAsync(int id)
+        public async Task<IEnumerable<Product>> FindByBuy(int id)
         {
-            var items = _context.ItemCompras
+            var items =  await _context.ItemCompras
                 .Include(i => i.IdProductoNavigation)
-                .Where(i => i.Id == id).ToList();
+                .Where(i => i.Id == id).ToListAsync();
+
             var products = new List<Product>();
             foreach (var item in items)
             {

@@ -40,19 +40,18 @@ namespace GestionInventarioWeb.Controllers
             if (id == null)
             {
                 return NotFound();
+            }else
+            {
+                mid = (int)id;
             }
-            var venta = _salesFinder.Find(mid);
+
+            var venta = await _salesFinder.Find(mid);
 
             if (venta == null)
             {
-                return NotFound();
-            }
-            var sale = await _salesFinder.Find(mid);
-            if(sale == null)
-            {
                 return RedirectToAction("Index");
             }
-            return View(sale);
+            return View(venta);
         }
 
         // GET: Ventas/Create
