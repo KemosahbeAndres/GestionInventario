@@ -4,7 +4,7 @@
 }
 
 <div class="container-fluid">
-    <h2>Ventas</h2>
+    <h2>Dashboard</h2>
     @if(Model == null)
     {
         <div class="alert alert-warning">Error al obtener datos!</div>
@@ -16,14 +16,14 @@
         <p>@Context.Session.GetString("Role")</p>
     }
 </div>
-
+@*
 <div class="container-fluid">
     <h2>Resultado</h2>
     <input type="button" class="btn btn-primary mb-2" value="Obtener" onclick="getData()"/>
     <ul id="lista" class="list-group mt-2">
     </ul>
 
-</div>
+</div>*@
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
