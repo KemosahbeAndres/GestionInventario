@@ -28,5 +28,17 @@ namespace GestionInventarioWeb.Controllers
 
             return sales;
         }
+
+        public async Task<Sale?> Find(int id)
+        {
+            var sale = await _context.Ventas
+                .Include(s => s.IdVendedorNavigation)
+                .Include(s => s.IdVendedorNavigation.IdRolNavigation)
+                .SingleOrDefaultAsync(s => s.Id == id);
+            if(sale == null) return null;
+            var user = sale.IdVendedorNavigation;
+            var seller = new User(user.Id, user.Nombre, user.Rut, user.Telefono, user.IdRolNavigation.Rol);
+            return new Sale(sale.Id, sale.Fecha, seller, await _productsFinder.FindBySale(sale.Id));
+        }
     }
 }

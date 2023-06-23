@@ -209,21 +209,44 @@ tr.clickeable {
 }
 
 tr.clickeable:hover {
-    background-color: gray;
+    transition: all 200ms;
+    background-color: #d2d2d2;
 }
 
-.vstack > *, .hstack > *{
-    vertical-align: central;
+table tbody td {
+    border: none;
+}
+
+/*
+.vstack, hstack {
+    width: -webkit-fill-available;
+}
+
+*/
+
+.vstack > *, .hstack > * {
+    vertical-align: middle;
     margin: 0;
 }
-
+/*
+.vstack .btn,
+hstack .btn {
+    width: inherit;
+}
+*/
+.btn-group {
+    width: 100%;
+}
+.btn-group .btn {
+    width: auto;
+}
 .input-group-text {
     min-width: 8vw;
     border-radius: 0;
 }
 
 .content input,
-.content select{
+.content select {
     border-top: 1px #ced4da solid !important;
     border-right: 1px #ced4da solid !important;
     border-bottom: 1px #ced4da solid !important;

@@ -6,11 +6,11 @@
 }
 
 <div class="container-fluid">
-    <h2>Usuarios</h2>
-
-<p>
-    <a class="btn btn-success" href="/Dashboard/Users/Create">Create New</a>
-</p>
+    <div class="hstack gap-2">
+        <h2>Usuarios</h2>
+        <a class="btn btn-success" asp-action="Create">Crear Usuario</a>
+    </div>
+    <hr />
 <table class="table">
     <thead>
         <tr>
@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>            
             <td>
-                <a class="btn btn-dark" href="/Dashboard/Users/@item.Id">Details</a> |
+                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
             </td>
         </tr>
 }

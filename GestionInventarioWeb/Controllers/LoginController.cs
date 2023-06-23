@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using GestionInventarioWeb.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -25,7 +26,7 @@ namespace GestionInventarioWeb.Controllers
             return View("Views/LoginView.cshtml");
         }
 
-        [HttpPost("/Login", Name = "TryLogin")]
+        [HttpPost("/Login")]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync(string username, string password, bool rememberme)
@@ -36,6 +37,7 @@ namespace GestionInventarioWeb.Controllers
             try
             {
                 var user = _context.Usuarios.FirstOrDefault(u => u.Rut.Equals(username.Trim()));
+                user = _context.Usuarios.Include(u => u.IdRolNavigation).FirstOrDefault(u => u.Rut.Equals(username.Trim()));
 
                 if (user == null || !user.Clave.Equals(password.Trim()) || !RunValidator.Validar(RunValidator.format(user.Rut.Trim())))
                 {
@@ -49,7 +51,7 @@ namespace GestionInventarioWeb.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Nombre),
                 new Claim("Rut", user.Rut),
-                new Claim(ClaimTypes.Role, role.Rol)
+                new Claim(ClaimTypes.Role, user.IdRolNavigation.Rol)
             };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -111,7 +113,7 @@ namespace GestionInventarioWeb.Controllers
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return Redirect("/");
+            return LocalRedirect("/");
         }
     }
 }
