@@ -1,5 +1,6 @@
 ﻿using GestionInventarioWeb.Data;
 using GestionInventarioWeb.Models;
+using Humanizer;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionInventarioWeb.Controllers
@@ -15,9 +16,7 @@ namespace GestionInventarioWeb.Controllers
 
         private async Task<Product> fromModel(Producto p)
         {
-            var s = await _context.Inventarios
-                .OrderByDescending(i => i.Fecha)
-                .FirstOrDefaultAsync(i => i.IdProducto == p.Id);
+            var s = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == p.Id);
             var stock = 0;
             if (s != null)
             {
