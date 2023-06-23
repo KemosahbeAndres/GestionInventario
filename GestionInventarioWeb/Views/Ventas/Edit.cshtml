@@ -9,7 +9,7 @@
 <div class="container-fluid">
     <div class="hstack gap-2">
         <h2>Editando Venta</h2>
-        <a class="btn btn-danger" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
+        <a class="btn btn-danger visually-hidden" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
     </div>
     <hr />
     <div class="row">
@@ -45,12 +45,22 @@
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th>Descripcion</th>
+                        <th>SubTotal</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tblSale">
-
+                    
                 </tbody>
             </table>
+            <div class="hstack gap-2 justify-content-end">
+                <h2>Total Venta:</h2>
+                <h1 id="totalVenta">$0</h1>
+            </div>
+            <form name="productSaleForm" asp-action="SalePopProduct" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" name="pid" />
+            </form>
         </div>
     </div>
 
@@ -60,40 +70,76 @@
 </div>
 
 <script defer>
-        var tblSale = document.querySelector("#tblSale")
-        let idSale = document.querySelector("#idSale").value
-        fetch("/api/Productos/Venta/"+idSale)
-            .then(response => response.json())
-            .then(response => {
-                console.log(response)
-                for (let p of response) {
-                    let tr = document.createElement("tr")
-                    let id = document.createElement("td")
-                    id.innerHTML = p.id
-                    tr.appendChild(id)
-                    let ean = document.createElement("td")
-                    ean.textContent = p.ean
-                    tr.appendChild(ean)
-                    let name = document.createElement("td")
-                    name.textContent = p.name
-                    tr.appendChild(name)
-                    let cat = document.createElement("td")
-                    cat.textContent = p.category
-                    tr.appendChild(cat)
-                    let price = document.createElement("td")
-                    price.textContent = p.price
-                    tr.appendChild(price)
-                    let stock = document.createElement("td")
-                    stock.textContent = p.cantidad
-                    tr.appendChild(stock)
-                    let desc = document.createElement("td")
-                    desc.textContent = p.description
-                    tr.appendChild(desc)
+    function dropProduct(pid) {
+        document.forms.productSaleForm.pid.value = parseInt(pid)
+        document.forms.productSaleForm.submit()
+    }
+    var tblSale = document.querySelector("#tblSale")
+    let idSale = document.querySelector("#idSale").value
+    var totalVenta = document.querySelector("#totalVenta")
+    fetch("/api/Productos/Venta/"+idSale)
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            if (response.length <= 0) {
+                let tr = document.createElement("tr")
+                let td = document.createElement("td")
+                td.colSpan = 9
+                let div = document.createElement("div")
+                div.classList.add("alert")
+                div.classList.add("alert-info")
+                div.innerHTML = "No hay productos!"
+                td.appendChild(div)
+                tr.appendChild(td)
+                tblSale.appendChild(tr)
+            }
+            let suma = 0
+            for (let p of response) {
+                let tr = document.createElement("tr")
+                let id = document.createElement("td")
+                id.innerHTML = p.id
+                tr.appendChild(id)
+                let ean = document.createElement("td")
+                ean.textContent = p.ean
+                tr.appendChild(ean)
+                let name = document.createElement("td")
+                name.textContent = p.name
+                tr.appendChild(name)
+                let cat = document.createElement("td")
+                cat.textContent = p.category
+                tr.appendChild(cat)
+                let price = document.createElement("td")
+                price.textContent = "$" + p.price
+                tr.appendChild(price)
+                let stock = document.createElement("td")
+                stock.textContent = p.cantidad
+                tr.appendChild(stock)
+                let desc = document.createElement("td")
+                desc.textContent = p.description
+                tr.appendChild(desc)
 
-                    tblSale.appendChild(tr)
+                let sub = document.createElement("td")
+                let total = parseInt(p.cantidad) * parseInt(p.price)
+                suma += total
+                sub.textContent = "$" + total
+                tr.appendChild(sub)
 
+                let td = document.createElement("td")
+                let btn = document.createElement("input")
+                btn.type = "button"
+                btn.value = "Quitar"
+                btn.classList.add("btn")
+                btn.classList.add("btn-danger")
+                btn.onclick = e => {
+                    dropProduct(p.id)
                 }
-            }).catch(error => console.log(error))
+                td.appendChild(btn)
+                tr.appendChild(td)
+
+                tblSale.appendChild(tr)
+                totalVenta.innerHTML = "$"+suma
+            }
+        }).catch(error => console.log(error))
 </script>
 
 @if (!String.IsNullOrEmpty(error))
@@ -141,6 +187,18 @@
         .then(response => response.json())
         .then(response => {
             console.log(response)
+            if (response.length <= 0) {
+                let tr = document.createElement("tr")
+                let td = document.createElement("td")
+                td.colSpan = 9
+                let div = document.createElement("div")
+                div.classList.add("alert")
+                div.classList.add("alert-info")
+                div.innerHTML = "No hay productos!"
+                td.appendChild(div)
+                tr.appendChild(td)
+                tblBody.appendChild(tr)
+            }
             for (let p of response) {
                 let tr = document.createElement("tr")
                 let id = document.createElement("td")

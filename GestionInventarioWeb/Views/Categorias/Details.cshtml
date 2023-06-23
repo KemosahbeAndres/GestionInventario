@@ -1,0 +1,44 @@
+﻿@model GestionInventarioWeb.Models.Categoria
+
+@{
+    ViewData["Title"] = "Detalles " + Model.Categoria1;
+}
+
+<div class="container-fluid">
+    <div class="hstack gap-2">
+        <h2>Detalles</h2>
+        <a class="btn btn-dark" asp-action="Index">Atras</a>
+    </div>
+
+    <hr />
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">
+                ID
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                Categoria
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Categoria1)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model?.Id">Eliminar</a>
+    </div>
+
+</div>
+
+@{
+    var error = Context.Session.GetString("error");
+}
+
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}

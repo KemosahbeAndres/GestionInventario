@@ -1,0 +1,33 @@
+﻿@model GestionInventarioWeb.Models.Categoria
+
+@{
+    ViewData["Title"] = "Creando Categoria";
+}
+
+<div class="container-fluid">
+    <div class="hstack gap-2">
+        <h2>Categoria</h2>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="CreateNewCategory" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <span asp-validation-for="Categoria1" class="text-danger"></span>
+                <div class="input-group">
+                    <label asp-for="Categoria1" class="input-group-text">Nombre</label>
+                    <input asp-for="Categoria1" class="form-control" />
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Index">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

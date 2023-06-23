@@ -11,7 +11,7 @@
             {
                 numero = (count + 1).ToString();
             }
-            string value = numero.PadLeft(5 - numero.Length, '0');
+            string value = numero.PadLeft(6 - numero.Length, '0');
             return $"{country}{manufact}{value}";
         }
     }
