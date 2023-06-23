@@ -163,7 +163,7 @@ namespace GestionInventarioWeb.Controllers
         [HttpGet, ActionName("CanDelete")]
         [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Delete/5
-        public async Task<IActionResult> CanDelete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             HttpContext.Session.SetString("message", "");
             if (id == null || _context.Usuarios == null)
@@ -203,7 +203,7 @@ namespace GestionInventarioWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsuarioExists(int id)
+        private bool UsuarioExists(int id)  
         {
           return (_context.Usuarios?.Any(e => e.Id == id)).GetValueOrDefault();
         }

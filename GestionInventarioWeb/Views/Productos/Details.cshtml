@@ -2,46 +2,47 @@
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
 
-    <h1>Detalles</h1>
+    <div class="hstack gap-1">
+        <h2>Detalles Producto</h2>
+        <a class="btn btn-dark" asp-action="Index" style="margin-right:1em;">Atras</a>
+    </div>
 
     <div>
-        <h4>Producto</h4>
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Ean)
+                EAN
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Ean)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Nombre)
+                Nombre
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Nombre)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Descripcion)
+                Descripcion
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Descripcion)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Precio)
+                Precio
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Precio)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.IdCategoriaNavigation)
+                Categoria
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.IdCategoriaNavigation.Id)
+                @Html.DisplayFor(model => model.IdCategoriaNavigation.Categoria1)
             </dd>
         </dl>
         <hr />
