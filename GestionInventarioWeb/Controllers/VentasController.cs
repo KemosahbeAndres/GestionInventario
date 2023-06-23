@@ -213,6 +213,11 @@ namespace GestionInventarioWeb.Controllers
                     var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
                     item.Cantidad += cantidad;
                     _context.ItemVenta.Update(item);
+                    //Inventario
+                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
+                    inv.Cantidad -= cantidad;
+                    _context.Inventarios.Update(inv);
+
                     _context.SaveChanges();
                     mensaje = "Producto encontrado, sumando";
                 }
@@ -223,6 +228,11 @@ namespace GestionInventarioWeb.Controllers
                     item.IdProducto = pid;
                     item.Cantidad = cantidad;
                     _context.ItemVenta.Add(item);
+                    //Inventario
+                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
+                    inv.Cantidad -= cantidad;
+                    _context.Inventarios.Update(inv);
+
                     _context.SaveChanges();
                     mensaje = "Producto agregado!";
                 }
@@ -245,6 +255,11 @@ namespace GestionInventarioWeb.Controllers
                     var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
                     if (item == null) throw new Exception("No se encuentra el producto!");
                     _context.ItemVenta.Remove(item);
+                    //Inventario
+                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
+                    inv.Cantidad += item.Cantidad;
+                    _context.Inventarios.Update(inv);
+
                     _context.SaveChanges();
                 }
             }catch(Exception ex)
