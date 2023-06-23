@@ -70,6 +70,7 @@ namespace GestionInventarioWeb.Controllers
         public async Task<IActionResult> CreateNew([Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
         {
             HttpContext.Session.SetString("message", "");
+            HttpContext.Session.SetString("error", "");
             if (ModelState.IsValid)
             {
                 try
@@ -83,7 +84,7 @@ namespace GestionInventarioWeb.Controllers
                 }
                 catch (Exception ex)
                 {
-                    HttpContext.Session.SetString("message", "Error " + ex.Message);
+                    HttpContext.Session.SetString("error", "Error " + ex.Message);
                 }
             }
 

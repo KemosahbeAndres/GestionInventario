@@ -5,34 +5,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Venta</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
-                <span asp-validation-for="Fecha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdVendedor" class="control-label"></label>
-                <select asp-for="IdVendedor" class ="form-control" asp-items="ViewBag.IdVendedor"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container-fluid">
+    <div class="hstack gap-2">
+        <h4>Venta</h4>
+        <a asp-action="Index" class="btn btn-dark">Atras</a>
     </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="CreateSaleConfirm" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <span asp-validation-for="Fecha" class="text-danger"></span>
+                <div class="input-group">
+                    <label asp-for="Fecha" class="input-group-text">Fecha</label>
+                    <input type="date" asp-for="Fecha" id="fecha" class="form-control" />
+                </div>
+                <span asp-validation-for="IdVendedor" class="text-danger"></span>
+                <div class="input-group">
+                    <label asp-for="IdVendedor" class="input-group-text">Vendedor</label>
+                    <select asp-for="IdVendedor" class="form-select" asp-items="ViewBag.IdVendedor"></select>
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Siguiente" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+<script>
+    function getDate() {
+        var date = new Date()
+        var dd = date.getDate()
+        var mm = date.getMonth() + 1
+        var yyyy = date.getFullYear()
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        var fecha = yyyy + '-' + mm + '-' + dd;
+        return fecha
+    }
+    document.querySelector("#fecha").value = getDate()
+</script>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

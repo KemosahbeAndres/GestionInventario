@@ -8,7 +8,8 @@
 <h1>Ventas</h1>
 
 <p>
-        <a class="btn btn-success" asp-action="Create">Nueva Vemta</a>
+  <a asp-action="CreateSale" class="btn btn-success">Nueva Venta</a>
+
 </p>
 <table class="table">
     <thead>
@@ -20,7 +21,7 @@
             <th>
                 Vendedor
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -31,14 +32,14 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @item.Date.ToShortDateString()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Seller.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Modificar</a> |
-                <a asp-route="/Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
             </td>
         </tr>
