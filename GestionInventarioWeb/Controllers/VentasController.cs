@@ -234,7 +234,7 @@ namespace GestionInventarioWeb.Controllers
             return RedirectToAction("EditSale", new { id = id });
         }
 
-        [HttpPost("/Ventas/Details/DropProduct"), ActionName("SaleDropProduct")]
+        [HttpPost("/Ventas/Details/PopProduct"), ActionName("SalePopProduct")]
         [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> DropProduct(int id, int pid)
         {
@@ -242,11 +242,14 @@ namespace GestionInventarioWeb.Controllers
             {
                 if(await _salesFinder.HasProduct(id, pid))
                 {
-                    //_context.ItemVenta.Remove();
+                    var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
+                    if (item == null) throw new Exception("No se encuentra el producto!");
+                    _context.ItemVenta.Remove(item);
+                    _context.SaveChanges();
                 }
             }catch(Exception ex)
             {
-
+                HttpContext.Session.SetString("error", "No logramos eliminar el producto! \n"+ ex.Message);
             }
             return RedirectToAction("EditSale", new { id = id });
         }

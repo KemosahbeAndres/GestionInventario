@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GestionInventarioWeb.Models.Producto>
+﻿@model IEnumerable<GestionInventarioWeb.Data.Product>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,6 +9,7 @@
     <div class="hstack gap-2">
         <h2> Productos </h2>
         <a class="btn btn-success" asp-action="Create">Nuevo Producto</a>
+        <a class="btn btn-primary" asp-action="Index" asp-controller="Categorias">Gestionar Categorias</a>
     </div>
     <hr />
 <table class="table">
@@ -26,19 +27,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Ean)
+                @Html.DisplayFor(modelItem => item.EAN)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Precio)
+                $@Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.Categoria1)
+                @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
                 <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>

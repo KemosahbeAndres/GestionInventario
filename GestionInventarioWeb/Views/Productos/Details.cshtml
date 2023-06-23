@@ -36,7 +36,7 @@
                 Precio
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Precio)
+                $@Html.DisplayFor(model => model.Precio)
             </dd>
             <dt class="col-sm-2">
                 Categoria
@@ -53,3 +53,12 @@
     </div>
 
 </div>
+
+@{
+    var error = Context.Session.GetString("error");
+}
+
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}

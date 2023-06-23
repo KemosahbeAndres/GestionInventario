@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
-using iTextSharp.text.pdf;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -22,11 +21,11 @@ namespace GestionInventarioWeb.Controllers
             _productsFinder = new ProductsFinder(context);
         }
 
-        [HttpGet("/Productos", Name = "Productos")]
+        [HttpGet("/Productos", Name = "Productos"), ActionName("Index")]
         [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> Index()
         {
-            return View(_productsFinder.FindAllAsync());
+            return View(await _productsFinder.FindAllAsync());
         }
 
         [Route("/Productos/{id}")]
@@ -52,14 +51,14 @@ namespace GestionInventarioWeb.Controllers
             return View(producto);
         }
 
-        [HttpGet("/Productos/Create")]
+        [HttpGet("/Productos/Create"), ActionName("Create")]
         [Authorize(Roles = "Administrador, Vendedor")]
         // GET: Productos/Create
         public IActionResult Create()
         {
             HttpContext.Session.SetString("message", "");
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id");
-            return View("Views/Productos/Create.cshtml");
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1");
+            return View("Create");
         }
 
         // POST: Productos/Create
@@ -76,10 +75,14 @@ namespace GestionInventarioWeb.Controllers
             {
                 try
                 {
+                    int count = await _context.Productos.CountAsync() > 0
+                        ? (await _context.Productos.OrderBy(p => p.Id).LastAsync()).Id
+                        : 0;
+                    producto.Ean = BarCodeController.generate13(count);
                     _context.Add(producto);
                     _context.SaveChanges();
                     HttpContext.Session.SetString("message", "Producto creado con exito.");
-                    return LocalRedirect("/Productos");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +91,7 @@ namespace GestionInventarioWeb.Controllers
             }
 
             //ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
-            return LocalRedirect("/Productos/Create");
+            return RedirectToAction("Create");
         }
 
         [Route("/Productos/Edit/{id}")]
@@ -108,7 +111,7 @@ namespace GestionInventarioWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
             return View(producto);
         }
 
@@ -122,6 +125,7 @@ namespace GestionInventarioWeb.Controllers
         public async Task<IActionResult> SaveProduct(int id, [Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
         {
             HttpContext.Session.SetString("message", "");
+            HttpContext.Session.SetString("error", "");
             if (id != producto.Id)
             {
                 return NotFound();
@@ -153,8 +157,9 @@ namespace GestionInventarioWeb.Controllers
                 //return RedirectToAction(nameof(Index));
                 HttpContext.Session.SetString("message", "Producto guardado con exito.");
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
             return View("Edit", producto);
+            //return RedirectToAction("Edit", new { id = producto.Id });
         }
 
         [Route("/Productos/Delete/{id}")]
@@ -164,6 +169,7 @@ namespace GestionInventarioWeb.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             HttpContext.Session.SetString("message", "");
+            HttpContext.Session.SetString("error", "");
             if (id == null || _context.Productos == null)
             {
                 return NotFound();
@@ -187,18 +193,28 @@ namespace GestionInventarioWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             HttpContext.Session.SetString("message", "");
-            if (_context.Productos == null)
+            try
             {
-                return Problem("Entity set 'GestionInventarioContext.Productos'  is null.");
-            }
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto != null)
-            {
-                _context.Productos.Remove(producto);
-            }
+
+                if (_context.Productos == null)
+                {
+                    return Problem("Entity set 'GestionInventarioContext.Productos'  is null.");
+                }
+                var producto = await _context.Productos.FindAsync(id);
+                if (producto != null)
+                {
+                    _context.Productos.Remove(producto);
+                }
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Session.SetString("error", "No puedes eliminar este producto! Hay registros de venta que lo usan!");
+            }
+
+            return RedirectToAction("Details", new { id = id });
         }
 
         private bool ProductoExists(int id)

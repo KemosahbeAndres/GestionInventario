@@ -1,0 +1,41 @@
+﻿@model IEnumerable<GestionInventarioWeb.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<div class="container-fluid">
+
+    <div class="hstack gap-2">
+        <h2>Categorias</h2>
+        <a class="btn btn-dark" asp-action="Index" asp-controller="Productos">Volver a Productos</a>
+        <a class="btn btn-success" asp-action="Create">Nueva</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>
+                    Categoria
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria1)
+                </td>
+                <td>
+                    <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+</table>
+</div>
+

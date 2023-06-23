@@ -1,0 +1,34 @@
+﻿@model GestionInventarioWeb.Models.Categoria
+
+@{
+    ViewData["Title"] = "Editando " + Model.Categoria1;
+}
+
+<div class="container-fluid">
+    <div class="hstack gap-2">
+        <h4>Categoria</h4>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EdittingCategory" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <span asp-validation-for="Categoria1" class="text-danger"></span>
+                <div class="input-group">
+                    <label asp-for="Categoria1" class="input-group-text">Nombre</label>
+                    <input asp-for="Categoria1" class="form-control" />
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

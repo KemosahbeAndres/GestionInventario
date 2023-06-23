@@ -4,6 +4,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var message = Context.Session.GetString("message");
+    var error = Context.Session.GetString("error");
 }
 
 <div class="container-fluid">
@@ -42,21 +43,24 @@
                     <select asp-for="IdCategoria" class="form-select" asp-items="ViewBag.IdCategoria"></select>
                 </div>
                 <div class="btn-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
                     <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-danger">Cancelar</a>
                 </div>
             </form>
         </div>
     </div>
 
-
-
-    @if (!String.IsNullOrEmpty(message))
-    {
-        <div class="alert alert-success">@Context.Session.GetString("message")</div>
-    }
+</div>
 
     @section Scripts {
         @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
-</div>
+
+    @if (!String.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-success">@message</div>
+    }
+    @if (!String.IsNullOrEmpty(error))
+    {
+        <div class="alert alert-success">@error</div>
+    }
