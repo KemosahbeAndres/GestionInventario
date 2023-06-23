@@ -175,7 +175,7 @@ namespace GestionInventarioWeb.Controllers
             {
                 HttpContext.Session.SetString("error", "No puedes eliminar, hay productos usando esta categoria!");
             }
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Index");
         }
 
         private bool CategoriaExists(int id)

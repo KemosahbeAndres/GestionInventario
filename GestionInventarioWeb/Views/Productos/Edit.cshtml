@@ -9,14 +9,15 @@
 
 <div class="container-fluid">
     <div class="hstack gap-2">
-        <h4> Modificando Producto </h4>
+        <h4>Modificando Producto</h4>
+        <a class="btn btn-dark" asp-action="Index">Volver a Productos</a>
     </div>
     <hr />
     <div class="row">
         <div class="col-md-8">
             <form asp-action="SaveProduct" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" name="id"/>
+                <input type="hidden" asp-for="Id" name="id" id="pid" />
                 <span asp-validation-for="Ean" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="Ean" class="input-group-text" readonly>Codigo EAN</label>
@@ -37,6 +38,10 @@
                     <label asp-for="Precio" class="input-group-text">Precio</label>
                     <input asp-for="Precio" class="form-control" />
                 </div>
+                <div class="input-group">
+                    <label class="input-group-text">Stock</label>
+                    <input type="number" name="stock" min="1" id="pstock" class="form-control" />
+                </div>
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="IdCategoria" class="input-group-text">Categoria</label>
@@ -49,18 +54,29 @@
             </form>
         </div>
     </div>
-
 </div>
+<script>
+    let stock = document.querySelector("#pstock")
+    let pid = document.querySelector("#pid")
+   
+    fetch("/Inventario/" + pid.value)
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            stock.value = response.stock
+        }).catch(error => console.log(error))
 
-    @section Scripts {
-        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+</script>
 
-    @if (!String.IsNullOrEmpty(message))
-    {
-        <div class="alert alert-success">@message</div>
-    }
-    @if (!String.IsNullOrEmpty(error))
-    {
-        <div class="alert alert-success">@error</div>
-    }
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@if (!String.IsNullOrEmpty(message))
+{
+    <div class="alert alert-success">@message</div>
+}
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="alert alert-success">@error</div>
+}
