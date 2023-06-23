@@ -123,13 +123,15 @@
     <form name="productForm" asp-action="SaleAddProduct" method="post">
         <input type="hidden" asp-for="Id" />
         <input type="hidden" name="pid"/>
+        <input type="hidden" name="cantidad" />
     </form>
 </div>
 
 <script defer>
-    function select(id) {
+    function select(id, cantidad) {
         let pid = parseInt(id)
         document.forms.productForm.pid.value = pid;
+        document.forms.productForm.cantidad.value = parseInt(cantidad)
         document.forms.productForm.submit();
     }
 
@@ -163,6 +165,15 @@
                 desc.textContent = p.description
                 tr.appendChild(desc)
 
+                let numbers = document.createElement("td")
+                let input = document.createElement("input")
+                input.type = "number"
+                input.value = 1
+                input.min = 0
+                input.id = "value-for-"+p.id
+                numbers.appendChild(input)
+                tr.appendChild(numbers)
+
                 let td = document.createElement("td")
                 let btn = document.createElement("input")
                 btn.type = "button"
@@ -171,7 +182,8 @@
                 btn.value = "Agregar"
                 btn.setAttribute("product-id", p.id)
                 btn.onclick = function() {
-                    select(p.id)
+                    let numbers = document.querySelector("#value-for-"+p.id)
+                    select(p.id, parseInt(numbers.value))
                 }
                 //btn.href = "/Ventas/Details/AddProduct/" + p.id
                 td.appendChild(btn)

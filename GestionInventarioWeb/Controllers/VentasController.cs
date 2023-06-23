@@ -203,7 +203,7 @@ namespace GestionInventarioWeb.Controllers
 
         [HttpPost("/Ventas/Details/AddProduct"), ActionName("SaleAddProduct")]
         [Authorize(Roles = "Administrador,Vendedor")]
-        public async Task<IActionResult> AddProduct(int id, int pid)
+        public async Task<IActionResult> AddProduct(int id, int pid, int cantidad = 1)
         {
             var mensaje = "";
             try
@@ -211,7 +211,7 @@ namespace GestionInventarioWeb.Controllers
                 if(await _salesFinder.HasProduct(id, pid))
                 {
                     var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
-                    item.Cantidad += 1;
+                    item.Cantidad += cantidad;
                     _context.ItemVenta.Update(item);
                     _context.SaveChanges();
                     mensaje = "Producto encontrado, sumando";
@@ -221,7 +221,7 @@ namespace GestionInventarioWeb.Controllers
                     var item = new ItemVentum();
                     item.IdVenta = id;
                     item.IdProducto = pid;
-                    item.Cantidad = 1;
+                    item.Cantidad = cantidad;
                     _context.ItemVenta.Add(item);
                     _context.SaveChanges();
                     mensaje = "Producto agregado!";
@@ -231,7 +231,24 @@ namespace GestionInventarioWeb.Controllers
                 HttpContext.Session.SetString("error", ex.Message);
             }
             HttpContext.Session.SetString("message", mensaje);
-            return RedirectToAction("EditSale", new {id = id });
+            return RedirectToAction("EditSale", new { id = id });
+        }
+
+        [HttpPost("/Ventas/Details/DropProduct"), ActionName("SaleDropProduct")]
+        [Authorize(Roles = "Administrador,Vendedor")]
+        public async Task<IActionResult> DropProduct(int id, int pid)
+        {
+            try
+            {
+                if(await _salesFinder.HasProduct(id, pid))
+                {
+                    //_context.ItemVenta.Remove();
+                }
+            }catch(Exception ex)
+            {
+
+            }
+            return RedirectToAction("EditSale", new { id = id });
         }
 
         private bool VentaExists(int id)
