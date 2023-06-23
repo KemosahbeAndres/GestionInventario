@@ -15,7 +15,9 @@ namespace GestionInventarioWeb.Controllers
 
         private async Task<Product> fromModel(Producto p)
         {
-            var s = await _context.Inventarios.OrderByDescending(i => i.Fecha).FirstOrDefaultAsync(i => i.IdProducto == p.Id);
+            var s = await _context.Inventarios
+                .OrderByDescending(i => i.Fecha)
+                .FirstOrDefaultAsync(i => i.IdProducto == p.Id);
             var stock = 0;
             if (s != null)
             {
@@ -40,7 +42,8 @@ namespace GestionInventarioWeb.Controllers
         {
             var items = await _context.ItemVenta
                 .Include(i => i.IdProductoNavigation)
-                .Where(i => i.Id == id).ToListAsync();
+                .Include(i => i.IdProductoNavigation.IdCategoriaNavigation)
+                .Where(i => i.IdVenta == id).ToListAsync();
             var products = new List<Product>();
             foreach (var item in items)
             {
@@ -55,7 +58,8 @@ namespace GestionInventarioWeb.Controllers
         {
             var items =  await _context.ItemCompras
                 .Include(i => i.IdProductoNavigation)
-                .Where(i => i.Id == id).ToListAsync();
+                .Include(i => i.IdProductoNavigation.IdCategoriaNavigation)
+                .Where(i => i.IdCompra == id).ToListAsync();
 
             var products = new List<Product>();
             foreach (var item in items)

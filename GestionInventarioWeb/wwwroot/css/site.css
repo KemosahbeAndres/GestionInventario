@@ -25,6 +25,7 @@ dl, ol, ul {
 
 input.form-control,
 input.btn,
+input[type=button],
 select,
 button {
     padding: .6em !important;
@@ -37,8 +38,8 @@ button {
     float: left;
 }
 
-input[type='button'],
-button {
+input[type='button'].btn-primary,
+button.btn-primary {
     background-color: rgb(41, 144, 212);
     color: white;
     padding: .6em 1.4em
