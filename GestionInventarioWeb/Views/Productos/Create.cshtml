@@ -15,27 +15,31 @@
         <div class="col-md-4">
             @using (Html.BeginForm("CreateNew", "Productos", FormMethod.Post))
             {
-                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                <span asp-validation-for="Nombre" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Nombre</label>
                     <input asp-for="Nombre" class="form-control" />
                 </div>
-                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Descripcion</label>
                     <input asp-for="Descripcion" class="form-control" />
                 </div>
-                    <span asp-validation-for="Precio" class="text-danger"></span>
+                <span asp-validation-for="Precio" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Precio</label>
                     <input asp-for="Precio" class="form-control" />
                 </div>
-                    <span asp-validation-for="IdCategoria" class="text-danger"></span>
+                <div class="input-group">
+                    <label class="input-group-text">Stock</label>
+                    <input type="number" name="stock" min="1" value="1" class="form-control" />
+                </div>
+                <span asp-validation-for="IdCategoria" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Categoria</label>
                     <select asp-for="IdCategoria" class="form-select" asp-items="ViewBag.IdCategoria"></select>
                 </div>
-                 <div class="btn-group">
+                <div class="btn-group">
                     <input type="submit" value="Guardar" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-danger btn-padding">Cancelar</a>
                 </div>

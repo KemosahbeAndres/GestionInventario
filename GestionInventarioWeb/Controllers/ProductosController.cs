@@ -67,7 +67,7 @@ namespace GestionInventarioWeb.Controllers
         [HttpPost("Productos/CreateNew"), ActionName("CreateNew")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador, Vendedor")]
-        public async Task<IActionResult> CreateNew([Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
+        public async Task<IActionResult> CreateNew([Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto, int stock = 1)
         {
             HttpContext.Session.SetString("message", "");
             HttpContext.Session.SetString("error", "");
@@ -76,10 +76,18 @@ namespace GestionInventarioWeb.Controllers
                 try
                 {
                     int count = await _context.Productos.CountAsync() > 0
-                        ? (await _context.Productos.OrderBy(p => p.Id).LastAsync()).Id
+                        ? await LastProductId()
                         : 0;
                     producto.Ean = BarCodeController.generate13(count);
                     _context.Add(producto);
+                    _context.SaveChanges();
+                    // Inventario
+                    var inv = new Inventario();
+                    inv.IdProducto = await LastProductId();
+                    inv.Cantidad = stock;
+                    inv.Fecha = DateTime.Now;
+
+                    _context.Add(inv);
                     _context.SaveChanges();
                     HttpContext.Session.SetString("message", "Producto creado con exito.");
                     return RedirectToAction("Index");
@@ -92,6 +100,27 @@ namespace GestionInventarioWeb.Controllers
 
             //ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
             return RedirectToAction("Create");
+        }
+
+        private async Task<int> LastProductId()
+        {
+            var p = await _context.Productos.OrderByDescending(p => p.Id).FirstOrDefaultAsync();
+            return p.Id;
+        }
+
+        [HttpGet("/Inventario/{id}")]
+        public async Task<IActionResult> getInventory(int id)
+        {
+            int stock = 1;
+            try
+            {
+                var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == id);
+                stock = inv.Cantidad;
+            }catch(Exception ex)
+            {
+                stock = 1;
+            }
+            return Json(new { stock = stock });
         }
 
         [Route("/Productos/Edit/{id}")]
@@ -122,7 +151,7 @@ namespace GestionInventarioWeb.Controllers
         [HttpPost, ActionName("SaveProduct")]
         [Authorize(Roles = "Administrador, Vendedor")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveProduct(int id, [Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
+        public async Task<IActionResult> SaveProduct(int id, [Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto, int stock)
         {
             HttpContext.Session.SetString("message", "");
             HttpContext.Session.SetString("error", "");
@@ -131,11 +160,28 @@ namespace GestionInventarioWeb.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && stock > 0)
             {
                 try
                 {
                     _context.Update(producto);
+                    //await _context.SaveChangesAsync();
+                    // Inventario
+                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == producto.Id);
+                    if (inv == null)
+                    {
+                        inv = new Inventario();
+                        inv.IdProducto = producto.Id;
+                        inv.Fecha = DateTime.Now;
+                        inv.Cantidad = stock;
+                        _context.Inventarios.Add(inv);
+                    }
+                    else
+                    {
+                        inv.Cantidad = stock;
+                        _context.Inventarios.Update(inv);
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -151,7 +197,7 @@ namespace GestionInventarioWeb.Controllers
                 }catch (Exception ex)
                 {
                     HttpContext.Session.SetString("message", ex.Message);
-                    ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
+                    ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
                     return View("Edit", producto);
                 }
                 //return RedirectToAction(nameof(Index));
@@ -214,7 +260,7 @@ namespace GestionInventarioWeb.Controllers
                 HttpContext.Session.SetString("error", "No puedes eliminar este producto! Hay registros de venta que lo usan!");
             }
 
-            return RedirectToAction("Details", new { id = id });
+            return RedirectToAction("Index");
         }
 
         private bool ProductoExists(int id)
