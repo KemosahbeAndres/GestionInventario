@@ -3,38 +3,198 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var error = Context.Session.GetString("error");
 }
 
-<h1>Edit</h1>
-
-<h4>Venta</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
-                <span asp-validation-for="Fecha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdVendedor" class="control-label"></label>
-                <select asp-for="IdVendedor" class="form-control" asp-items="ViewBag.IdVendedor"></select>
-                <span asp-validation-for="IdVendedor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container-fluid">
+    <div class="hstack gap-2">
+        <h2>Editando Venta</h2>
+        <a class="btn btn-danger" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
     </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EdittingSale" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" id="idSale"/>
+                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                <div class="input-group">
+                    <label asp-for="Fecha" class="input-group-text">Fecha</label>
+                    <input type="date" asp-for="Fecha" class="form-control" />
+                </div>
+                    <span asp-validation-for="IdVendedor" class="text-danger"></span>
+                <div class="input-group">
+                    <label asp-for="IdVendedor" class="input-group-text">Vendedor</label>
+                    <select asp-for="IdVendedor" class="form-select" asp-items="ViewBag.IdVendedor"></select>
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <h4>Productos</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Codigo EAN</th>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody id="tblSale">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script defer>
+        var tblSale = document.querySelector("#tblSale")
+        let idSale = document.querySelector("#idSale").value
+        fetch("/api/Productos/Venta/"+idSale)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                for (let p of response) {
+                    let tr = document.createElement("tr")
+                    let id = document.createElement("td")
+                    id.innerHTML = p.id
+                    tr.appendChild(id)
+                    let ean = document.createElement("td")
+                    ean.textContent = p.ean
+                    tr.appendChild(ean)
+                    let name = document.createElement("td")
+                    name.textContent = p.name
+                    tr.appendChild(name)
+                    let cat = document.createElement("td")
+                    cat.textContent = p.category
+                    tr.appendChild(cat)
+                    let price = document.createElement("td")
+                    price.textContent = p.price
+                    tr.appendChild(price)
+                    let stock = document.createElement("td")
+                    stock.textContent = p.cantidad
+                    tr.appendChild(stock)
+                    let desc = document.createElement("td")
+                    desc.textContent = p.description
+                    tr.appendChild(desc)
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                    tblSale.appendChild(tr)
+
+                }
+            }).catch(error => console.log(error))
+</script>
+
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
 }
+
+<div class="container-fluid">
+    <h2>Productos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Codigo EAN</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Descripcion</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody id="tblBody">
+            
+        </tbody>
+    </table>
+    <form name="productForm" asp-action="SaleAddProduct" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="pid"/>
+        <input type="hidden" name="cantidad" />
+    </form>
+</div>
+
+<script defer>
+    function select(id, cantidad) {
+        let pid = parseInt(id)
+        document.forms.productForm.pid.value = pid;
+        document.forms.productForm.cantidad.value = parseInt(cantidad)
+        document.forms.productForm.submit();
+    }
+
+    var tblBody = document.querySelector("#tblBody")
+    
+    fetch("/api/Productos")
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            for (let p of response) {
+                let tr = document.createElement("tr")
+                let id = document.createElement("td")
+                id.innerHTML = p.id
+                tr.appendChild(id)
+                let ean = document.createElement("td")
+                ean.textContent = p.ean
+                tr.appendChild(ean)
+                let name = document.createElement("td")
+                name.textContent = p.name
+                tr.appendChild(name)
+                let cat = document.createElement("td")
+                cat.textContent = p.category
+                tr.appendChild(cat)
+                let price = document.createElement("td")
+                price.textContent = p.price
+                tr.appendChild(price)
+                let stock = document.createElement("td")
+                stock.textContent = p.stock
+                tr.appendChild(stock)
+                let desc = document.createElement("td")
+                desc.textContent = p.description
+                tr.appendChild(desc)
+
+                let numbers = document.createElement("td")
+                let input = document.createElement("input")
+                input.type = "number"
+                input.value = 1
+                input.min = 0
+                input.id = "value-for-"+p.id
+                numbers.appendChild(input)
+                tr.appendChild(numbers)
+
+                let td = document.createElement("td")
+                let btn = document.createElement("input")
+                btn.type = "button"
+                btn.classList.add("btn")
+                btn.classList.add("btn-success")
+                btn.value = "Agregar"
+                btn.setAttribute("product-id", p.id)
+                btn.onclick = function() {
+                    let numbers = document.querySelector("#value-for-"+p.id)
+                    select(p.id, parseInt(numbers.value))
+                }
+                //btn.href = "/Ventas/Details/AddProduct/" + p.id
+                td.appendChild(btn)
+                tr.appendChild(td)
+
+                tblBody.appendChild(tr)
+
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+  
+</script>

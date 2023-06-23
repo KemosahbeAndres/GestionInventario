@@ -40,5 +40,10 @@ namespace GestionInventarioWeb.Controllers
             var seller = new User(user.Id, user.Nombre, user.Rut, user.Telefono, user.IdRolNavigation.Rol);
             return new Sale(sale.Id, sale.Fecha, seller, await _productsFinder.FindBySale(sale.Id));
         }
+
+        public async Task<bool> HasProduct(int saleid, int productid)
+        {
+            return _context.ItemVenta.Any(i => i.IdVenta == saleid && i.IdProducto == productid);
+        }
     }
 }

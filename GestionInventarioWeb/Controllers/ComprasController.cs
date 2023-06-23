@@ -19,9 +19,9 @@ namespace GestionInventarioWeb.Controllers
             _context = context;
         }
 
+        // GET: Compras
         [HttpGet("/Compras")]
         [Authorize(Roles = "Administrador")]
-        // GET: Compras
         public async Task<IActionResult> Index()
         {
             var gestionInventarioContext = _context.Compras.Include(c => c.IdUsuarioNavigation);
@@ -29,6 +29,8 @@ namespace GestionInventarioWeb.Controllers
         }
 
         // GET: Compras/Details/5
+        [HttpGet("/Compras/Detalles")]
+        [Authorize(Roles = "Administrador")]        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Compras == null)

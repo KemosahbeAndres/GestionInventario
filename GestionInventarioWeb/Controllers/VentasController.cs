@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using GestionInventarioWeb.Data;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -15,11 +16,13 @@ namespace GestionInventarioWeb.Controllers
     {
         private readonly GestionInventarioContext _context;
         private readonly SalesFinder _salesFinder;
+        private readonly ProductsFinder _productsFinder;
 
         public VentasController(GestionInventarioContext context)
         {
             _context = context;
             _salesFinder = new SalesFinder(_context);
+            _productsFinder = new ProductsFinder(_context);
         }
 
         // GET: Ventas
@@ -82,7 +85,7 @@ namespace GestionInventarioWeb.Controllers
             {
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("EditSale", new { id = venta.Id });
             }
 
             return LocalRedirect("/Ventas/Detalles/"+venta.Id);
@@ -103,14 +106,14 @@ namespace GestionInventarioWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Id", venta.IdVendedor);
-            return View(venta);
+            ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Nombre", venta.IdVendedor);
+            return View("Edit",venta);
         }
 
         // POST: Ventas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("/Ventas/Editting/{id}"), ActionName("EdittingSale")]
+        [HttpPost("/Ventas/Editting"), ActionName("EdittingSale")]
         [Authorize(Roles = "Administrador,Vendedor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,IdVendedor")] Venta venta)
@@ -141,7 +144,8 @@ namespace GestionInventarioWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return LocalRedirect("/Ventas/Detalles/"+venta.Id);
+            return RedirectToAction("Details", new { id = id });
+            //return LocalRedirect("/Ventas/Detalles/"+venta.Id);
         }
 
         // GET: Ventas/Delete/5
@@ -162,11 +166,11 @@ namespace GestionInventarioWeb.Controllers
                 return NotFound();
             }
 
-            return View(venta);
+            return View("Delete", venta);
         }
 
         // POST: Ventas/Delete/5
-        [HttpPost("/Ventas/Deleting/{id}"), ActionName("DeletingSale")]
+        [HttpPost("/Ventas/Deleting"), ActionName("DeletingSale")]
         [Authorize(Roles = "Administrador,Vendedor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -185,11 +189,66 @@ namespace GestionInventarioWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost("/Ventas/Details/{id}/AddProduct/{pid}"), ActionName("SaleAddProduct")]
-        [Authorize(Roles = "Administrador,Vendedor")]
-        public async Task<IActionResult> AddProduct(int id, int pid)
+        [HttpGet("/api/Productos"), ActionName("GetAllProducts")]
+        public async Task<IActionResult> GetProducts(int id)
         {
-            return RedirectToAction("Details");
+            return Json(await _productsFinder.FindAllAsync());
+        }
+
+        [HttpGet("/api/Productos/Venta/{id}")]
+        public async Task<IActionResult> GetProductsFromSale(int id)
+        {
+            return Json(await _productsFinder.FindBySale(id));
+        }
+
+        [HttpPost("/Ventas/Details/AddProduct"), ActionName("SaleAddProduct")]
+        [Authorize(Roles = "Administrador,Vendedor")]
+        public async Task<IActionResult> AddProduct(int id, int pid, int cantidad = 1)
+        {
+            var mensaje = "";
+            try
+            {
+                if(await _salesFinder.HasProduct(id, pid))
+                {
+                    var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
+                    item.Cantidad += cantidad;
+                    _context.ItemVenta.Update(item);
+                    _context.SaveChanges();
+                    mensaje = "Producto encontrado, sumando";
+                }
+                else
+                {
+                    var item = new ItemVentum();
+                    item.IdVenta = id;
+                    item.IdProducto = pid;
+                    item.Cantidad = cantidad;
+                    _context.ItemVenta.Add(item);
+                    _context.SaveChanges();
+                    mensaje = "Producto agregado!";
+                }
+            }catch(Exception ex)
+            {
+                HttpContext.Session.SetString("error", ex.Message);
+            }
+            HttpContext.Session.SetString("message", mensaje);
+            return RedirectToAction("EditSale", new { id = id });
+        }
+
+        [HttpPost("/Ventas/Details/DropProduct"), ActionName("SaleDropProduct")]
+        [Authorize(Roles = "Administrador,Vendedor")]
+        public async Task<IActionResult> DropProduct(int id, int pid)
+        {
+            try
+            {
+                if(await _salesFinder.HasProduct(id, pid))
+                {
+                    //_context.ItemVenta.Remove();
+                }
+            }catch(Exception ex)
+            {
+
+            }
+            return RedirectToAction("EditSale", new { id = id });
         }
 
         private bool VentaExists(int id)
