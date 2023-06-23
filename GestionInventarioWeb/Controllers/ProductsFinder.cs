@@ -28,9 +28,15 @@ namespace GestionInventarioWeb.Controllers
         {
             var products = new List<Product>();
 
-            foreach(var p in await _context.Productos.Include(p => p.IdCategoriaNavigation).ToListAsync())
+            foreach (var p in await _context.Productos.Include(p => p.IdCategoriaNavigation).ToListAsync())
             {
-                products.Add(await fromModel(p));
+                var s = _context.Inventarios.FirstOrDefault(i => i.IdProducto == p.Id);
+                var stock = 0;
+                if (s != null)
+                {
+                    stock = s.Cantidad;
+                }
+                products.Add(new Product(p.Id, p.Ean, p.Nombre, p.Descripcion, p.Precio, p.IdCategoriaNavigation.Categoria1, stock));
             }
 
             return products;
@@ -41,22 +47,6 @@ namespace GestionInventarioWeb.Controllers
             var items = await _context.ItemVenta
                 .Include(i => i.IdProductoNavigation)
                 .Where(i => i.Id == id).ToListAsync();
-            var products = new List<Product>();
-            foreach (var item in items)
-            {
-                var p = await fromModel(item.IdProductoNavigation);
-                p.Cantidad = item.Cantidad;
-                products.Add(p);
-            }
-            return products;
-        }
-
-        public async Task<IEnumerable<Product>> FindByBuy(int id)
-        {
-            var items =  await _context.ItemCompras
-                .Include(i => i.IdProductoNavigation)
-                .Where(i => i.Id == id).ToListAsync();
-
             var products = new List<Product>();
             foreach (var item in items)
             {

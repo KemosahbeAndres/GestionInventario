@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string? error = Context.Session.GetString("error");
     var message = Context.Session.GetString("message");
 }
 
@@ -14,11 +15,6 @@
         <div class="col-md-4">
             @using (Html.BeginForm("CreateNew", "Productos", FormMethod.Post))
             {
-                    <span asp-validation-for="Ean" class="text-danger"></span>
-                <div class="input-group">
-                    <label class="input-group-text">Codigo Ean</label>
-                    <input asp-for="Ean" class="form-control" />
-                </div>
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Nombre</label>
@@ -34,6 +30,15 @@
                     <label class="input-group-text">Precio</label>
                     <input asp-for="Precio" class="form-control" />
                 </div>
+                    <span asp-validation-for="IdCategoria" class="text-danger"></span>
+                <div class="input-group">
+                    <label class="input-group-text">Categoria</label>
+                    <select asp-for="IdCategoria" class="form-select" asp-items="ViewBag.IdCategoria"></select>
+                </div>
+                 <div class="btn-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-danger btn-padding">Cancelar</a>
+                </div>
             }
         </div>
     </div>
@@ -42,7 +47,12 @@
     }
 </div>
 
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
 @if (!String.IsNullOrEmpty(message))
 {
-    <div class="alert alert-warning"> @Context.Session.GetString("message")</div>
+    <div class="alert alert-success">@message</div>
 }

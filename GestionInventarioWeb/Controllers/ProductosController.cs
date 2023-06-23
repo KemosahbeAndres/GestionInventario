@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using iTextSharp.text.pdf;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -25,7 +26,7 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> Index()
         {
-            return View(_productsFinder.FindAll());
+            return View(_productsFinder.FindAllAsync());
         }
 
         [Route("/Productos/{id}")]
@@ -67,9 +68,10 @@ namespace GestionInventarioWeb.Controllers
         [HttpPost("Productos/CreateNew"), ActionName("CreateNew")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador, Vendedor")]
-        public async Task<IActionResult> Create([Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
+        public async Task<IActionResult> CreateNew([Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
         {
             HttpContext.Session.SetString("message", "");
+            HttpContext.Session.SetString("error", "");
             if (ModelState.IsValid)
             {
                 try
@@ -95,6 +97,7 @@ namespace GestionInventarioWeb.Controllers
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Productos == null)
             {
                 return NotFound();
@@ -112,10 +115,13 @@ namespace GestionInventarioWeb.Controllers
         // POST: Productos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [Route("/Productos/Save")]
+        [HttpPost, ActionName("SaveProduct")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
+        public async Task<IActionResult> SaveProduct(int id, [Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
         {
+            HttpContext.Session.SetString("message", "");
             if (id != producto.Id)
             {
                 return NotFound();
@@ -138,16 +144,26 @@ namespace GestionInventarioWeb.Controllers
                     {
                         throw;
                     }
+                }catch (Exception ex)
+                {
+                    HttpContext.Session.SetString("message", ex.Message);
+                    ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
+                    return View("Edit", producto);
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                HttpContext.Session.SetString("message", "Producto guardado con exito.");
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
-            return View(producto);
+            return View("Edit", producto);
         }
 
+        [Route("/Productos/Delete/{id}")]
+        [HttpGet, ActionName("CanDelete")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Productos == null)
             {
                 return NotFound();
@@ -161,14 +177,16 @@ namespace GestionInventarioWeb.Controllers
                 return NotFound();
             }
 
-            return View(producto);
+            return View("Delete",producto);
         }
 
+        [Route("/Productos/DeleteConfirmed")]
         // POST: Productos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            HttpContext.Session.SetString("message", "");
             if (_context.Productos == null)
             {
                 return Problem("Entity set 'GestionInventarioContext.Productos'  is null.");
