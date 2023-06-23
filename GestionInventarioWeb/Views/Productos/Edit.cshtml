@@ -18,8 +18,8 @@
                 <input type="hidden" asp-for="Id" name="id"/>
                 <span asp-validation-for="Ean" class="text-danger"></span>
                 <div class="input-group">
-                    <label asp-for="Ean" class="control-label">Codigo EAN</label>
-                    <input asp-for="Ean" class="form-control" />
+                    <label asp-for="Ean" class="input-group-text" readonly>Codigo EAN</label>
+                    <input asp-for="Ean" class="form-control" readonly />
                 </div>
                 <span asp-validation-for="Nombre" class="text-danger"></span>
                 <div class="input-group">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="btn-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
-                    <a asp-action="Details" asp-route-id="@Model.IdCategoria" class="btn btn-danger">Cancelar</a>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-danger">Cancelar</a>
                 </div>
             </form>
         </div>
