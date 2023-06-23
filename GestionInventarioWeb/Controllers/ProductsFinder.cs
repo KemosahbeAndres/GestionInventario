@@ -30,7 +30,7 @@ namespace GestionInventarioWeb.Controllers
         {
             var products = new List<Product>();
 
-            foreach(var p in await _context.Productos.Include(p => p.IdCategoriaNavigation).ToListAsync())
+            foreach (var p in await _context.Productos.Include(p => p.IdCategoriaNavigation).ToListAsync())
             {
                 products.Add(await fromModel(p));
             }
@@ -70,5 +70,6 @@ namespace GestionInventarioWeb.Controllers
             }
             return products;
         }
+
     }
 }
