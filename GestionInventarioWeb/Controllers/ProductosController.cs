@@ -13,24 +13,28 @@ namespace GestionInventarioWeb.Controllers
     public class ProductosController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly ProductsFinder _productsFinder;
 
         public ProductosController(GestionInventarioContext context)
         {
             _context = context;
+            _productsFinder = new ProductsFinder(context);
         }
 
-        // GET: Productos
-        [HttpGet("/Productos")]
+        [HttpGet("/Productos", Name = "Productos")]
         [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> Index()
         {
-            var gestionInventarioContext = _context.Productos.Include(p => p.IdCategoriaNavigation);
-            return View(await gestionInventarioContext.ToListAsync());
+            return View(_productsFinder.FindAll());
         }
 
+        [Route("/Productos/{id}")]
+        [HttpGet, ActionName("Details")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         // GET: Productos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Productos == null)
             {
                 return NotFound();
@@ -47,30 +51,47 @@ namespace GestionInventarioWeb.Controllers
             return View(producto);
         }
 
+        [HttpGet("/Productos/Create")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         // GET: Productos/Create
         public IActionResult Create()
         {
+            HttpContext.Session.SetString("message", "");
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id");
-            return View();
+            return View("Views/Productos/Create.cshtml");
         }
 
         // POST: Productos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Productos/CreateNew"), ActionName("CreateNew")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> Create([Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto)
         {
+            HttpContext.Session.SetString("message", "");
             if (ModelState.IsValid)
             {
-                _context.Add(producto);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(producto);
+                    _context.SaveChanges();
+                    HttpContext.Session.SetString("message", "Producto creado con exito.");
+                    return LocalRedirect("/Productos");
+                }
+                catch (Exception ex)
+                {
+                    HttpContext.Session.SetString("message", "Error." + ex.Message);
+                }
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
-            return View(producto);
+
+            //ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Id", producto.IdCategoria);
+            return LocalRedirect("/Productos/Create");
         }
 
+        [Route("/Productos/Edit/{id}")]
+        [HttpGet, ActionName("Edit")]
+        [Authorize(Roles = "Administrador, Vendedor")]
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

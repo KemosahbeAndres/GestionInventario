@@ -19,6 +19,8 @@
             <th>Descripcion</th>
             <th>Precio</th>
             <th>Categoria</th>
+            <th>Stock</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +40,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.Categoria1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
             </td>
             <td>
                 <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
