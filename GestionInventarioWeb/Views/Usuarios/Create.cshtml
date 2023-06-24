@@ -18,12 +18,12 @@
                     <span asp-validation-for="Nombre" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Nombre</label>
-                    <input asp-for="Nombre" class="form-control" />
+                    <input asp-for="Nombre" class="form-control" id="name"/>
                 </div>
                     <span asp-validation-for="Telefono" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Telefono</label>
-                    <input asp-for="Telefono" class="form-control" />
+                    <input asp-for="Telefono" class="form-control" id="phone"/>
                 </div>
                     <span asp-validation-for="Rut" class="text-danger"></span>
                 <div class="input-group">
@@ -48,6 +48,15 @@
         </div>
     </div>
     <script type="module">
+        document.querySelector("#name").addEventListener("input", function (e) {
+            let text = this.value.replace(/(\s|\W|\d)/g, "")
+            this.value = text
+        })
+
+        document.querySelector("#phone").addEventListener("input", function (e) {
+            let text = this.value.replace(/(\s|\W|\D)/g, "")
+            this.value = text
+        })
         document.querySelector("#username").addEventListener("input", function (e) {
             let text = this.value.replace(/(\s|\W)/g, "")
             let exp = /(\d{0,3})(\d{0,3})(\d{1,3})(\w{1})\b/

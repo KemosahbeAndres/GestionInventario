@@ -76,6 +76,7 @@ namespace GestionInventarioWeb.Controllers
                 try
                 {
                     if (!RunValidator.Validar(usuario.Rut)) throw new Exception("Rut invalido");
+                    if (await _context.Usuarios.SingleOrDefaultAsync(u => u.Rut.Equals(usuario.Rut)) != null) throw new Exception("El usuario ya existe!");
                     _context.Usuarios.Add(usuario);
                     _context.SaveChanges();
                     HttpContext.Session.SetString("message", "Usuario creado con exito!");
@@ -133,6 +134,7 @@ namespace GestionInventarioWeb.Controllers
                 try
                 {
                     if (!RunValidator.Validar(usuario.Rut)) throw new Exception("Rut invalido");
+                    if (await _context.Usuarios.SingleOrDefaultAsync(u => u.Rut.Equals(usuario.Rut)) != null) throw new Exception("Ya existe un usuario con ese rut!");
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
@@ -189,17 +191,24 @@ namespace GestionInventarioWeb.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             HttpContext.Session.SetString("message", "");
-            if (_context.Usuarios == null)
+            try
             {
-                return Problem("Entity set 'GestionInventarioContext.Usuarios'  is null.");
-            }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-            }
+                if (_context.Usuarios == null)
+                {
+                    return Problem("Entity set 'GestionInventarioContext.Usuarios'  is null.");
+                }
+                var usuario = await _context.Usuarios.FindAsync(id);
+                if (usuario != null)
+                {
+                    _context.Usuarios.Remove(usuario);
+                }
             
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+
+            }catch(Exception ex)
+            {
+                HttpContext.Session.SetString("message", "No puedes eliminar un usuario con ventas registradas!");
+            }
             return RedirectToAction(nameof(Index));
         }
 

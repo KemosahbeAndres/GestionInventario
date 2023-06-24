@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 <div class="container-fluid">
     <div class="hstack gap-2">
         <h1>Ventas</h1>
@@ -20,6 +22,7 @@
                 <th>
                     Vendedor
                 </th>
+                <th>Total</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -35,6 +38,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Seller.Name)
                 </td>
+                <td id="item-for-@item.Id"></td>
                 <td>
                     <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
                 </td>
@@ -43,3 +47,14 @@
         </tbody>
     </table>
 </div>
+
+<script defer>
+    fetch("/api/Ventas")
+    .then(r => r.json())
+    .then(r => {
+        for(let sale of r){
+            let item = document.querySelector("#item-for-"+sale.id)
+            item.innerHTML = "$"+sale.cost
+        }
+    }).catch(error => console.log(error))
+</script>
