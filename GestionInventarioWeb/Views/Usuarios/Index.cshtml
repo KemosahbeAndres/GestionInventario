@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<GestionInventarioWeb.Data.User?>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Usuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
 }
 
 <div class="container-fluid">
@@ -11,41 +10,42 @@
         <a class="btn btn-success" asp-action="Create">Crear Usuario</a>
     </div>
     <hr />
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Telefono</th>
-            <th>Rut</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rut)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>            
-            <td>
-                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Rut</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rut)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+                    <td>
+                        <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 </div>

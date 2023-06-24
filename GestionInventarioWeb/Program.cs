@@ -1,3 +1,5 @@
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ReturnUrlParameter = "redirect";
         options.Cookie.HttpOnly = true;
     });
+
+builder.Services.AddNotyf(config => { 
+    config.DurationInSeconds = 6;
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.TopRight; 
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -60,6 +68,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
+
+app.UseNotyf();
 
 app.MapControllers();
 

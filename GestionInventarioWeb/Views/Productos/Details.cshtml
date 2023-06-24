@@ -1,7 +1,7 @@
 ﻿@model GestionInventarioWeb.Models.Producto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de Producto";
 }
 
 <div class="container-fluid">
@@ -59,15 +59,6 @@
     </div>
 
 </div>
-
-@{
-    var error = Context.Session.GetString("error");
-}
-
-@if (!String.IsNullOrEmpty(error))
-{
-    <div class="alert alert-danger">@error</div>
-}
 
 <script>
     let stock = document.querySelector("#pstock")

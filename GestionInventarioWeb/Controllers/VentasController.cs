@@ -290,7 +290,7 @@ namespace GestionInventarioWeb.Controllers
                     if (item == null) throw new Exception("No se encuentra el producto!");
                     _context.ItemVenta.Remove(item);
                     //Inventario
-                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
+                    var inv = await getLastInventory(pid);
                     inv.Cantidad += item.Cantidad;
                     _context.Inventarios.Update(inv);
 
@@ -306,6 +306,11 @@ namespace GestionInventarioWeb.Controllers
         private bool VentaExists(int id)
         {
           return (_context.Ventas?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task<Inventario?> getLastInventory(int productid)
+        {
+            return await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == productid);
         }
 
         private User? GetLoggedUser()

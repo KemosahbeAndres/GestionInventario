@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_RecoverLayout";
+    ViewData["Title"] = "Recuperando contraseña";
+}
+
+<div class="container">
+    <div class="hstack gap-2">
+        <h1>Recuperar contraseña</h1>
+        <a asp-action="Login" class="btn btn-dark">Volver</a>
+    </div>
+    <p>Para recuperar su contraseña ingrese su rut.</p>
+    <hr dfsd/>
+    <div class="row">
+        <div class="col-md-8">
+            @using (Html.BeginForm("ConfirmRecover", "Login", FormMethod.Post))
+            {              
+                <div class="input-group">
+                    <label class="input-group-text">RUT</label>
+                    <input name="username" type="text" class="form-control" id="username"/>
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Recuperar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-danger btn-padding">Cancelar</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script type="module" defer>
+    document.querySelector("#username").addEventListener("input", function (e) {
+        let text = this.value.replace(/(\s|\W)/g, "")
+        let exp = /(\d{0,3})(\d{0,3})(\d{1,3})(\w{1})\b/
+        this.value = text.replace(exp, "$1$2$3-$4")
+    })
+</script>

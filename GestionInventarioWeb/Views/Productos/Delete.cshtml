@@ -1,7 +1,7 @@
 ﻿@model GestionInventarioWeb.Models.Producto
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Borrar Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -38,10 +38,10 @@
                 @Html.DisplayFor(model => model.Precio)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.IdCategoriaNavigation)
+                Categoria
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.IdCategoriaNavigation.Id)
+                @Html.DisplayFor(model => model.IdCategoriaNavigation.Categoria1)
             </dd>
         </dl>
 

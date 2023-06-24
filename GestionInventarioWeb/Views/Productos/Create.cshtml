@@ -1,9 +1,7 @@
 ﻿@model GestionInventarioWeb.Models.Producto
 
 @{
-    ViewData["Title"] = "Create";
-    string? error = Context.Session.GetString("error");
-    var message = Context.Session.GetString("message");
+    ViewData["Title"] = "Creando Producto";
 }
 
 <div class="container-fluid">
@@ -51,12 +49,3 @@
     }
 </div>
 
-@if (!String.IsNullOrEmpty(error))
-{
-    <div class="alert alert-danger">@error</div>
-}
-
-@if (!String.IsNullOrEmpty(message))
-{
-    <div class="alert alert-success">@message</div>
-}

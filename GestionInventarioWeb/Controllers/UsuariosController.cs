@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class UsuariosController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly INotyfService _notifyService;
         private readonly UsersFinder _usersFinder;
 
-        public UsuariosController(GestionInventarioContext context)
+        public UsuariosController(GestionInventarioContext context, INotyfService notify)
         {
             _context = context;
+            _notifyService = notify;
             _usersFinder = new UsersFinder(context);
         }
 
@@ -34,10 +37,10 @@ namespace GestionInventarioWeb.Controllers
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Usuarios == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos ingresados incorrectos!");
+                return RedirectToAction("Index");
             }
 
             var usuario = await _context.Usuarios
@@ -45,7 +48,8 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {
-                return NotFound();
+                _notifyService.Error("Usuario no encontrado!");
+                return RedirectToAction("Index");
             }
 
             return View(usuario);
@@ -56,7 +60,6 @@ namespace GestionInventarioWeb.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            HttpContext.Session.SetString("message", "");
             ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol");
             return View("Views/Usuarios/Create.cshtml");
         }
@@ -69,8 +72,6 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> CreateNew([Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
         {
-            HttpContext.Session.SetString("message", "");
-            HttpContext.Session.SetString("error", "");
             if (ModelState.IsValid)
             {
                 try
@@ -79,14 +80,18 @@ namespace GestionInventarioWeb.Controllers
                     if (await _context.Usuarios.SingleOrDefaultAsync(u => u.Rut.Equals(usuario.Rut)) != null) throw new Exception("El usuario ya existe!");
                     _context.Usuarios.Add(usuario);
                     _context.SaveChanges();
-                    HttpContext.Session.SetString("message", "Usuario creado con exito!");
+                    _notifyService.Success("Usuario creado con exito!");
                     //throw new Exception("Llego: " + name + " | " + username + " | " + Convert.ToString(rolid) + " | ");
                     return LocalRedirect("/Users");
                 }
                 catch (Exception ex)
                 {
-                    HttpContext.Session.SetString("error", "Error " + ex.Message);
+                    _notifyService.Error("No pudimos crear al usuario "+ usuario.Nombre);
                 }
+            }
+            else
+            {
+                _notifyService.Warning("Datos invalidos!");
             }
 
             //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
@@ -99,16 +104,17 @@ namespace GestionInventarioWeb.Controllers
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Usuarios == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos ingresados invalidos!");
+                return RedirectToAction("Index");
             }
 
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null)
             {
-                return NotFound();
+                _notifyService.Error("Usuario no encontrado!");
+                return RedirectToAction("Index");
             }
             ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
             return View("Edit",usuario);
@@ -123,10 +129,10 @@ namespace GestionInventarioWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveUser(int id, [Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
         {
-            HttpContext.Session.SetString("message", "");
             if (id != usuario.Id)
             {
-                return NotFound();
+                _notifyService.Error("Los datos no concuerdan!");
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
@@ -150,15 +156,18 @@ namespace GestionInventarioWeb.Controllers
                     }
                 }catch(Exception ex)
                 {
-                    HttpContext.Session.SetString("message", ex.Message);
-                    ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
-                    return View("Edit", usuario);
+                    _notifyService.Error(ex.Message);
+                    //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
+                    return RedirectToAction("Edit", new { id = usuario.Id });
                 }
                 //return LocalRedirect("/Users/"+id);
-                HttpContext.Session.SetString("message", "Usuario guardado con exito!");
+                _notifyService.Success("Usuario guardado con exito!");
             }
-            ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
-            return View("Edit",usuario);
+            else
+            {
+                _notifyService.Warning("Datos invalidos!");
+            }
+            return RedirectToAction("Edit", new { id = usuario.Id });
         }
 
         [Route("/Users/Delete/{id}")]
@@ -167,10 +176,10 @@ namespace GestionInventarioWeb.Controllers
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Usuarios == null)
             {
-                return NotFound();
+                _notifyService.Error("Los datos no concuerdan!");
+                return RedirectToAction("Index");
             }
 
             var usuario = await _context.Usuarios
@@ -178,7 +187,8 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {
-                return NotFound();
+                _notifyService.Error("Usuario no encontrado!");
+                return RedirectToAction("Index");
             }
 
             return View("Delete",usuario);
@@ -195,20 +205,31 @@ namespace GestionInventarioWeb.Controllers
             {
                 if (_context.Usuarios == null)
                 {
-                    return Problem("Entity set 'GestionInventarioContext.Usuarios'  is null.");
+                    _notifyService.Error("Error en la base de datos! La tabla usuarios no existe!");
+                    return RedirectToAction("Index");
                 }
                 var usuario = await _context.Usuarios.FindAsync(id);
                 if (usuario != null)
                 {
                     _context.Usuarios.Remove(usuario);
                 }
+                else
+                {
+                    _notifyService.Information("No se encontro ningun usuario para eliminar!");
+                }
             
                 await _context.SaveChangesAsync();
 
+            }catch(DbUpdateException ex)
+            {
+                _notifyService.Error("No puedes eliminar un usuario con ventas registradas!");
+                return RedirectToAction("Index");
             }catch(Exception ex)
             {
-                HttpContext.Session.SetString("message", "No puedes eliminar un usuario con ventas registradas!");
+                _notifyService.Error(ex.Message);
+                return RedirectToAction("Index");
             }
+            _notifyService.Success("Usuario eliminado con exito!");
             return RedirectToAction(nameof(Index));
         }
 

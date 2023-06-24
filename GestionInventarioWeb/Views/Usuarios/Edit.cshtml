@@ -1,9 +1,7 @@
 ﻿@model GestionInventarioWeb.Models.Usuario
-
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var message = Context.Session.GetString("message");
 }
 
 <div class="container-fluid">
@@ -16,27 +14,27 @@
             <form asp-action="SaveUser" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" name="id" />
-                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                <span asp-validation-for="Nombre" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="Nombre" class="input-group-text">NOMBRE</label>
-                    <input asp-for="Nombre" class="form-control" id="name"/>
+                    <input asp-for="Nombre" class="form-control" id="name" />
                 </div>
-                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                <span asp-validation-for="Telefono" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="Telefono" class="input-group-text">TELEFONO</label>
-                    <input asp-for="Telefono" class="form-control" id="phone"/>
+                    <input asp-for="Telefono" class="form-control" id="phone" />
                 </div>
-                    <span asp-validation-for="Rut" class="text-danger"></span>
+                <span asp-validation-for="Rut" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="Rut" class="input-group-text">RUT</label>
                     <input asp-for="Rut" class="form-control" id="username" />
                 </div>
-                    <span asp-validation-for="Clave" class="text-danger"></span>
+                <span asp-validation-for="Clave" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="Clave" class="input-group-text">CONTRASEÑA</label>
-                    <input asp-for="Clave" class="form-control" />
+                    <input asp-for="Clave" class="form-control" type="hidden" id="pwd" disabled />
                 </div>
-                    <span asp-validation-for="IdRol" class="text-danger"></span>
+                <span asp-validation-for="IdRol" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="IdRol" class="input-group-text">ROL</label>
                     <select asp-for="IdRol" class="form-select" asp-items="ViewBag.IdRol"></select>
@@ -49,7 +47,12 @@
         </div>
     </div>
 
-    <script type="module">
+    <script type="module" defer>
+        document.body.onload = function (e) {
+            let pwd = document.querySelector("#pwd")
+            pwd.type = "password"
+        }
+
         document.querySelector("#name").addEventListener("input", function (e) {
             let text = this.value.replace(/(\s|\W|\d)/g, "")
             this.value = text
@@ -67,12 +70,7 @@
         })
     </script>
 
-    @if (!String.IsNullOrEmpty(message))
-    {
-        <div class="alert alert-success">@Context.Session.GetString("message")</div>
-    }
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
