@@ -127,7 +127,7 @@ namespace GestionInventarioWeb.Controllers
             return View("Recover");
         }
 
-        [HttpPost("/ConfirmandoRecuperar"), ActionName("ConfirmRecover")]
+        [HttpGet("/ConfirmandoRecuperar"), ActionName("ConfirmRecover")]
         [AllowAnonymous]
         public async Task<IActionResult> recoverStepTwo(string? username)
         {
@@ -151,12 +151,18 @@ namespace GestionInventarioWeb.Controllers
 
         [HttpPost("/Recuperando"), ActionName("Recovering")]
         [AllowAnonymous]
-        public async Task<IActionResult> recoverStepThree(int id, string username, string password)
+        public async Task<IActionResult> recoverStepThree(int id, string password, string confirmpwd)
         {
             try
             {
-                if (!RunValidator.Validar(username)) throw new Exception("Rut invalido!");
                 var user = await _context.Usuarios.FindAsync(id);
+                if (user == null) throw new Exception("Ocurrio un problema, no encontramos al usuario!");
+                if (!RunValidator.Validar(user.Rut)) throw new Exception("Rut invalido!");
+                if (!password.Trim().Equals(confirmpwd.Trim()))
+                {
+                    _notifyService.Error("Las contraseñas no coinciden!");
+                    return RedirectToAction("ConfirmRecover", new { username = user.Rut });
+                }
                 user.Clave = password.Trim();
                 _context.Update(user);
                 await _context.SaveChangesAsync();

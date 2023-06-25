@@ -55,13 +55,13 @@ namespace GestionInventarioWeb.Controllers
             return View(usuario);
         }
 
-        [HttpGet("/Users/Create")]
+        [HttpGet("/Users/Create"), ActionName("Create")]
         [Authorize(Roles = "Administrador")]
         // GET: Usuarios/Create
         public IActionResult Create()
         {
             ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol");
-            return View("Views/Usuarios/Create.cshtml");
+            return View("Create");
         }
 
         // POST: Usuarios/Create
@@ -82,7 +82,7 @@ namespace GestionInventarioWeb.Controllers
                     _context.SaveChanges();
                     _notifyService.Success("Usuario creado con exito!");
                     //throw new Exception("Llego: " + name + " | " + username + " | " + Convert.ToString(rolid) + " | ");
-                    return LocalRedirect("/Users");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
@@ -95,7 +95,7 @@ namespace GestionInventarioWeb.Controllers
             }
 
             //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Id", usuario.IdRol);
-            return LocalRedirect("/Users/Create");
+            return RedirectToAction("Create");
         }
 
         [Route("/Users/Edit/{id}")]
@@ -141,14 +141,17 @@ namespace GestionInventarioWeb.Controllers
                 {
                     if (!RunValidator.Validar(usuario.Rut)) throw new Exception("Rut invalido");
                     var recover = await _context.Usuarios.FindAsync(usuario.Id);
+                    if (recover == null) throw new Exception("Usuario no encontrado!");
                     recover.Rut = usuario.Rut;
                     recover.Nombre = usuario.Nombre;
                     recover.Telefono = usuario.Telefono;
+                    if (!usuario.IdRol.Equals(recover.IdRol)) _notifyService.Information("Cambiaste el rol del usuario, la proxima vez este usuario inicie sesion sus permisos seran diferentes!", 12);
                     recover.IdRol = usuario.IdRol;
 
-                    //if (await _context.Usuarios.SingleOrDefaultAsync(u => u.Rut.Equals(usuario.Rut)) != null) throw new Exception("Ya existe un usuario con ese rut!");
                     _context.Update(recover);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Usuario guardado con exito!");
+                    return RedirectToAction("Details", new { id = recover.Id });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -168,8 +171,6 @@ namespace GestionInventarioWeb.Controllers
                     //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
                     return RedirectToAction("Edit", new { id = usuario.Id });
                 }
-                //return LocalRedirect("/Users/"+id);
-                _notifyService.Success("Usuario guardado con exito!");
             }
             else
             {
@@ -239,6 +240,49 @@ namespace GestionInventarioWeb.Controllers
             }
             _notifyService.Success("Usuario eliminado con exito!");
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("/Usuarios/CambiarClave/{id}"), ActionName("CambiarClave")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> changeStepTwo(int id = 0)
+        {
+            Usuario? user = null;
+            try
+            {
+                if(!UsuarioExists(id)) throw new Exception("Usuario no encontrado!");
+                user = await _context.Usuarios.FindAsync(id);
+            }catch(Exception ex)
+            {
+                _notifyService.Error(ex.Message);
+                return RedirectToAction("Index");
+            }
+            return View("ConfirmarCambio", user);
+        }
+
+        [HttpPost("/Usuarios/ConfirmarCambio"), ActionName("ConfirmarCambio")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> changeStepThree(int id, string password, string confirmpwd)
+        {
+            try
+            {
+                var user = await _context.Usuarios.FindAsync(id);
+                if (user == null) throw new Exception("Ocurrio un problema, no encontramos al usuario!");
+                if (!RunValidator.Validar(user.Rut)) throw new Exception("Rut invalido!");
+                if (!password.Trim().Equals(confirmpwd.Trim()))
+                {
+                    _notifyService.Error("Las contraseñas no coinciden!");
+                    return RedirectToAction("CambiarClave", new { id = id });
+                }
+                user.Clave = password.Trim();
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+                _notifyService.Success("Contraseña actualizada con exito!");
+            }
+            catch (Exception ex)
+            {
+                _notifyService.Error(ex.Message);
+            }
+            return RedirectToAction("Details", new { id = id });
         }
 
         private bool UsuarioExists(int id)  

@@ -16,12 +16,12 @@
                 <span asp-validation-for="Nombre" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Nombre</label>
-                    <input asp-for="Nombre" class="form-control" />
+                    <input asp-for="Nombre" class="form-control" id="name"/>
                 </div>
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Descripcion</label>
-                    <input asp-for="Descripcion" class="form-control" />
+                    <input asp-for="Descripcion" class="form-control" id="desc"/>
                 </div>
                 <span asp-validation-for="Precio" class="text-danger"></span>
                 <div class="input-group">
@@ -38,14 +38,107 @@
                     <select asp-for="IdCategoria" class="form-select" asp-items="ViewBag.IdCategoria"></select>
                 </div>
                 <div class="btn-group">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <input type="submit" value="Guardar" class="btn btn-primary" id="saveBtn"/>
                     <a asp-action="Index" class="btn btn-danger btn-padding">Cancelar</a>
                 </div>
             }
         </div>
     </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<div class="container-fluid">
+    <h3>Productos similares</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Codigo EAN</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Categoria</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tblBody">
+            
+        </tbody>
+    </table>
 </div>
 
+<script defer>
+    var nm = document.querySelector("#name")
+    var desc = document.querySelector("#desc")
+
+    nm.addEventListener("input", function (e) {
+        search(this.value, desc.value)
+    })
+    desc.addEventListener("input", function (e) {
+        search(nm.value, this.value)
+    })
+    function search(key1, key2) {
+        console.log("Searching for: " + key1 + " and " + key2)
+        let params = {}
+        if (key1.trim().length > 0) {
+            params.name = key1
+        }
+        if (key2.trim().length > 0) {
+            params.desc = key2
+        }
+        const query = new URLSearchParams(params).toString()
+        const url = "/api/Productos/Find?" + query
+        console.log(url)
+        fetch(url)
+            .then(resp => resp.json())
+            .then(resp => {
+                console.log(resp)
+                let tbl = document.querySelector("#tblBody")
+                while (tbl.hasChildNodes()) {
+                    tbl.removeChild(tbl.firstChild)
+                }
+                for (let p of resp) {
+                    let tr = document.createElement("tr")
+
+                    let ean = document.createElement("td")
+                    ean.textContent = p.ean
+                    tr.appendChild(ean)
+
+                    let name = document.createElement("td")
+                    name.textContent = p.name
+                    tr.appendChild(name)
+
+                    let desc = document.createElement("td")
+                    desc.textContent = p.description
+                    tr.appendChild(desc)
+
+                    let price = document.createElement("td")
+                    price.textContent = p.price
+                    tr.appendChild(price)
+
+                    let stock = document.createElement("td")
+                    stock.textContent = p.stock
+                    tr.appendChild(stock)
+
+                    let cat = document.createElement("td")
+                    cat.textContent = p.category
+                    tr.appendChild(cat)
+
+                    let td = document.createElement("td")
+                    let btn = document.createElement("a")
+                    btn.classList.add("btn")
+                    btn.classList.add("btn-primary")
+                    btn.innerHTML = "Seleccionar"
+                    btn.href = "/Productos/Edit/" + p.id
+                    
+                    td.appendChild(btn)
+                    tr.appendChild(td)
+
+                    tbl.appendChild(tr)
+
+                }
+
+            }).catch(error => console.log(error))
+    }
+</script>

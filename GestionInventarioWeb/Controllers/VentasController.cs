@@ -200,41 +200,6 @@ namespace GestionInventarioWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet("/api/Productos"), ActionName("GetAllProducts")]
-        public async Task<IActionResult> GetProducts(int id)
-        {
-            return Json(await _productsFinder.FindAllAsync());
-        }
-
-        [HttpGet("/api/Productos/Venta/{id}")]
-        public async Task<IActionResult> GetProductsFromSale(int id)
-        {
-            return Json(await _productsFinder.FindBySale(id));
-        }
-
-        [HttpGet("/api/Ventas")]
-        public async Task<IActionResult> GetSales()
-        {
-            var ventas = await _context.Ventas.Include(s => s.IdVendedorNavigation).ToListAsync();
-            var sales = new List<Object>();
-            foreach(var venta in ventas)
-            {
-                var total = 0;
-                var products = await _productsFinder.FindBySale(venta.Id);
-                foreach (var product in products)
-                {
-                    total += product.Price * product.Cantidad;
-                }
-                sales.Add(new {
-                    id = venta.Id,
-                    date = venta.Fecha.ToShortDateString(),
-                    seller = venta.IdVendedorNavigation.Nombre,
-                    cost = total
-                });
-            }
-            return Json(sales.ToArray());
-        }
-
         [HttpPost("/Ventas/Details/AddProduct"), ActionName("SaleAddProduct")]
         [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> AddProduct(int id, int pid, int cantidad = 1)
