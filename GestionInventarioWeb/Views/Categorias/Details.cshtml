@@ -33,12 +33,3 @@
     </div>
 
 </div>
-
-@{
-    var error = Context.Session.GetString("error");
-}
-
-@if (!String.IsNullOrEmpty(error))
-{
-    <div class="alert alert-danger">@error</div>
-}

@@ -27,11 +27,16 @@ input.form-control,
 input.btn,
 input[type=button],
 select,
-button {
+button,
+a.btn {
     padding: .6em !important;
     border: none !important;
     border-radius: 0px !important;
     width: 100%;
+}
+
+a.btn {
+    width: auto;
 }
 
 .form-check label {

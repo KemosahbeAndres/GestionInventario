@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class ComprasController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly INotyfService _notifyService;
 
-        public ComprasController(GestionInventarioContext context)
+        public ComprasController(GestionInventarioContext context, INotyfService notify)
         {
             _context = context;
+            _notifyService = notify;
         }
 
         // GET: Compras
@@ -35,7 +38,8 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id == null || _context.Compras == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction(nameof(Index));
             }
 
             var compra = await _context.Compras
@@ -43,23 +47,25 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (compra == null)
             {
-                return NotFound();
+                _notifyService.Error("No encontramos la orden de compra!");
+                return RedirectToAction(nameof(Index));
             }
 
             return View(compra);
         }
 
+        [HttpGet("/Compras/Nueva")]
         // GET: Compras/Create
         public IActionResult Create()
         {
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Nombre");
             return View();
         }
 
         // POST: Compras/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Compras/Nueva")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Fecha,IdUsuario")] Compra compra)
         {
@@ -67,39 +73,45 @@ namespace GestionInventarioWeb.Controllers
             {
                 _context.Add(compra);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Orden de compra generada con exito!");
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            _notifyService.Warning("No pudimos generar la orden de compra!");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Nombre", compra.IdUsuario);
             return View(compra);
         }
 
         // GET: Compras/Edit/5
+        [HttpGet("/Compras/Editar/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Compras == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction("Index");
             }
 
             var compra = await _context.Compras.FindAsync(id);
             if (compra == null)
             {
-                return NotFound();
+                _notifyService.Error("No encontramos la orden de compra!");
+                return RedirectToAction("Index");
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Nombre", compra.IdUsuario);
             return View(compra);
         }
 
         // POST: Compras/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("/Compras/Editar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,IdUsuario")] Compra compra)
         {
             if (id != compra.Id)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
@@ -108,30 +120,37 @@ namespace GestionInventarioWeb.Controllers
                 {
                     _context.Update(compra);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Orden de compra modificada con exito!");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
                     if (!CompraExists(compra.Id))
                     {
-                        return NotFound();
+                        _notifyService.Error("No encontramos la orden de compra!");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        throw;
+                        _notifyService.Error("Error: "+ex.Message);
                     }
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuarios, "Id", "Id", compra.IdUsuario);
-            return View(compra);
+            else
+            {
+                _notifyService.Warning("Datos invalidos!");
+            }
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: Compras/Delete/5
+        [HttpGet("/Compras/Borrar/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Compras == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction(nameof(Index));
             }
 
             var compra = await _context.Compras
@@ -139,28 +158,35 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (compra == null)
             {
-                return NotFound();
+                _notifyService.Error("No encontramos la orden de compra!");
+                return RedirectToAction(nameof(Index));
             }
 
             return View(compra);
         }
 
         // POST: Compras/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("/Compras/Borrar"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Compras == null)
             {
-                return Problem("Entity set 'GestionInventarioContext.Compras'  is null.");
+                _notifyService.Error("Error en la base de datos!");
+                return RedirectToAction(nameof(Index));
             }
             var compra = await _context.Compras.FindAsync(id);
             if (compra != null)
             {
                 _context.Compras.Remove(compra);
+                await _context.SaveChangesAsync();
+                _notifyService.Success("Orden de compra eliminada con exito!");
+            }
+            else
+            {
+                _notifyService.Error("No encontramos la orden de compra!");
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

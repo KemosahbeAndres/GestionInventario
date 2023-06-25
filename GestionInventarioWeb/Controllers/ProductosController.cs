@@ -64,27 +64,6 @@ namespace GestionInventarioWeb.Controllers
             return View("Create");
         }
 
-        [HttpGet("/Productos/Update/{id}"), ActionName("UpdateProduct")]
-        [Authorize(Roles = "Administrador,Vendedor")]
-        public async Task<IActionResult> UpdateSelected(int? id)
-        {
-            var pr = await _context.Productos.FindAsync(id);
-            try
-            {
-                if (pr == null)
-                {
-                    _notifyService.Error("Producto no encontrado!");
-                    return RedirectToAction("Index");
-                }
-                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", pr.IdCategoria);
-            }catch(Exception ex)
-            {
-                _notifyService.Error(ex.Message);
-                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1");
-            }
-            return View("Create", pr);
-        }
-
         // POST: Productos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -129,21 +108,6 @@ namespace GestionInventarioWeb.Controllers
         {
             var p = await _context.Productos.OrderByDescending(p => p.Id).FirstOrDefaultAsync();
             return p.Id;
-        }
-
-        [HttpGet("/Inventario/{id}")]
-        public async Task<IActionResult> getInventory(int id)
-        {
-            int stock = 1;
-            try
-            {
-                var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == id);
-                stock = inv.Cantidad;
-            }catch(Exception ex)
-            {
-                stock = 1;
-            }
-            return Json(new { stock = stock });
         }
 
         [HttpGet("/Productos/Edit/{id}"), ActionName("Edit")]

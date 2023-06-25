@@ -57,7 +57,23 @@ namespace GestionInventarioWeb.Controllers
             }
             return Json(sales.ToArray());
         }
-        
+
+        [HttpGet("/Inventario/{id}")]
+        public async Task<IActionResult> getInventory(int id)
+        {
+            int stock = 1;
+            try
+            {
+                var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == id);
+                stock = inv.Cantidad;
+            }
+            catch (Exception ex)
+            {
+                stock = 1;
+            }
+            return Json(new { stock = stock });
+        }
+
         private async Task<Inventario?> getLastInventory(int productid)
         {
             return await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == productid);
