@@ -56,12 +56,33 @@ namespace GestionInventarioWeb.Controllers
         }
 
         [HttpGet("/Productos/Create"), ActionName("Create")]
-        [Authorize(Roles = "Administrador, Vendedor")]
+        [Authorize(Roles = "Administrador,Vendedor")]
         // GET: Productos/Create
         public IActionResult Create()
         {
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1");
             return View("Create");
+        }
+
+        [HttpGet("/Productos/Update/{id}"), ActionName("UpdateProduct")]
+        [Authorize(Roles = "Administrador,Vendedor")]
+        public async Task<IActionResult> UpdateSelected(int? id)
+        {
+            var pr = await _context.Productos.FindAsync(id);
+            try
+            {
+                if (pr == null)
+                {
+                    _notifyService.Error("Producto no encontrado!");
+                    return RedirectToAction("Index");
+                }
+                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", pr.IdCategoria);
+            }catch(Exception ex)
+            {
+                _notifyService.Error(ex.Message);
+                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1");
+            }
+            return View("Create", pr);
         }
 
         // POST: Productos/Create
@@ -125,8 +146,7 @@ namespace GestionInventarioWeb.Controllers
             return Json(new { stock = stock });
         }
 
-        [Route("/Productos/Edit/{id}")]
-        [HttpGet, ActionName("Edit")]
+        [HttpGet("/Productos/Edit/{id}"), ActionName("Edit")]
         [Authorize(Roles = "Administrador, Vendedor")]
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)

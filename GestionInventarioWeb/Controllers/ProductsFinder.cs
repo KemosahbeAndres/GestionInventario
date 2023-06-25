@@ -70,5 +70,38 @@ namespace GestionInventarioWeb.Controllers
             return products;
         }
 
+        public async Task<IEnumerable<Product>> Find(string key = "", string key2 = "")
+        {
+            List<Producto> prods = new List<Producto>();
+            if ( String.IsNullOrWhiteSpace(key2.Trim()) && !String.IsNullOrWhiteSpace(key.Trim()) )
+            {
+                prods = await _context.Productos
+                    .Include(p => p.IdCategoriaNavigation)
+                    .Where(p => p.Nombre.Contains(key.Trim()) )
+                    .ToListAsync();
+            }else if ( String.IsNullOrWhiteSpace(key.Trim()) && !String.IsNullOrWhiteSpace(key2.Trim()) )
+            {
+                prods = await _context.Productos
+                    .Include(p => p.IdCategoriaNavigation)
+                    .Where(p => p.Descripcion.Contains(key2.Trim()) )
+                    .ToListAsync();
+            } else if (!String.IsNullOrWhiteSpace(key.Trim()) && !String.IsNullOrWhiteSpace(key2.Trim()) )
+            {
+                prods = await _context.Productos
+                    .Include(p => p.IdCategoriaNavigation)
+                    .Where(p => p.Nombre.Contains(key.Trim()) || p.Descripcion.Contains(key2.Trim()))
+                    .ToListAsync();
+            }
+
+            var products = new List<Product>();
+            
+            foreach(var pr in prods)
+            {
+                var p = await fromModel(pr);
+                products.Add(p);
+            }
+            return products;
+        }
+
     }
 }

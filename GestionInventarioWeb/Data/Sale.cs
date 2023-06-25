@@ -16,5 +16,15 @@ namespace GestionInventarioWeb.Data
             Seller = seller;
             Products = products;
         }
+
+        public int GetTotal()
+        {
+            int suma = 0;
+            foreach (Product p in Products)
+            {
+                suma += p.Cantidad * p.Price;
+            }
+            return suma;
+        }
     }
 }

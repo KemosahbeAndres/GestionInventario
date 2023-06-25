@@ -1,18 +1,17 @@
-﻿@model GestionInventarioWeb.Models.Usuario
+﻿@model GestionInventarioWeb.Models.Usuario?
 @{
-    Layout = "_RecoverLayout";
     ViewData["Title"] = "Recuperando contraseña";
 }
 
-<div class="container">
+<div class="container-fluid">
 
-    <h1>Recuperar contraseña</h1>
+    <h1>Cambiando contraseña</h1>
     <p>¿Seguro deseas cambiar la contraseña?</p>
 
     <hr />
     <div class="row">
         <div class="col-8">
-            @using (Html.BeginForm("Recovering", "Login", FormMethod.Post))
+            @using (Html.BeginForm("ConfirmarCambio", "Usuarios", FormMethod.Post))
             {
                 <input type="hidden" asp-for="Id" name="id" />
 
@@ -34,7 +33,7 @@
                 </div>
                 <div class="btn-group">
                     <input type="submit" value="Guardar" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-danger btn-padding">Cancelar</a>
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-danger btn-padding">Cancelar</a>
                 </div>
             }
         </div>

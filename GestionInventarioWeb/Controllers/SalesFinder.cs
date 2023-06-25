@@ -23,7 +23,7 @@ namespace GestionInventarioWeb.Controllers
             {
                 var user = sale.IdVendedorNavigation;
                 var seller = new User(user.Id, user.Nombre, user.Rut, user.Telefono, user.IdRolNavigation.Rol);
-                sales.Add(new Sale(sale.Id, sale.Fecha, seller, await _productsFinder.FindAllAsync()));
+                sales.Add(new Sale(sale.Id, sale.Fecha, seller, await _productsFinder.FindBySale(sale.Id)));
             }
 
             return sales;

@@ -7,7 +7,7 @@
 
     <div class="hstack gap-1">
         <h2>Detalles</h2>
-        <a class="btn btn-dark" asp-action="Index" style="margin-right:1em;">Atras</a>
+        <a class="btn btn-dark" asp-action="Index" style="margin-right:1em;">Volver a Usuarios</a>
     </div>
 
     <div>
@@ -48,6 +48,7 @@
     </div>
     <div>
         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+        <a class="btn btn-dark" asp-action="CambiarClave" asp-route-id="@Model?.Id">Cambiar Contraseña</a>
         <a class="btn btn-danger" asp-action="CanDelete" asp-route-id="@Model?.Id">Eliminar</a>
     </div>
 </div>
