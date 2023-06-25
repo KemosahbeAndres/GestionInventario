@@ -9,6 +9,8 @@ using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using GestionInventarioWeb.Data;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using static iTextSharp.text.pdf.AcroFields;
+using System.Security.Cryptography;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -183,6 +185,15 @@ namespace GestionInventarioWeb.Controllers
             if (venta != null)
             {
                 _context.Ventas.Remove(venta);
+                var items = await _context.ItemVenta.Where(i => i.IdVenta == venta.Id).ToListAsync();
+                foreach(var item in items)
+                {
+                    //Inventario
+                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == item.IdProducto);
+                    inv.Cantidad += item.Cantidad;
+                    _context.Inventarios.Update(inv);
+                    _context.ItemVenta.Remove(item);
+                }
             }
             
             await _context.SaveChangesAsync();
@@ -199,6 +210,29 @@ namespace GestionInventarioWeb.Controllers
         public async Task<IActionResult> GetProductsFromSale(int id)
         {
             return Json(await _productsFinder.FindBySale(id));
+        }
+
+        [HttpGet("/api/Ventas")]
+        public async Task<IActionResult> GetSales()
+        {
+            var ventas = await _context.Ventas.Include(s => s.IdVendedorNavigation).ToListAsync();
+            var sales = new List<Object>();
+            foreach(var venta in ventas)
+            {
+                var total = 0;
+                var products = await _productsFinder.FindBySale(venta.Id);
+                foreach (var product in products)
+                {
+                    total += product.Price * product.Cantidad;
+                }
+                sales.Add(new {
+                    id = venta.Id,
+                    date = venta.Fecha.ToShortDateString(),
+                    seller = venta.IdVendedorNavigation.Nombre,
+                    cost = total
+                });
+            }
+            return Json(sales.ToArray());
         }
 
         [HttpPost("/Ventas/Details/AddProduct"), ActionName("SaleAddProduct")]
@@ -256,7 +290,7 @@ namespace GestionInventarioWeb.Controllers
                     if (item == null) throw new Exception("No se encuentra el producto!");
                     _context.ItemVenta.Remove(item);
                     //Inventario
-                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
+                    var inv = await getLastInventory(pid);
                     inv.Cantidad += item.Cantidad;
                     _context.Inventarios.Update(inv);
 
@@ -272,6 +306,11 @@ namespace GestionInventarioWeb.Controllers
         private bool VentaExists(int id)
         {
           return (_context.Ventas?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task<Inventario?> getLastInventory(int productid)
+        {
+            return await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == productid);
         }
 
         private User? GetLoggedUser()

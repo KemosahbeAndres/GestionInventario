@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class ProductosController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly INotyfService _notifyService;
         private readonly ProductsFinder _productsFinder;
 
-        public ProductosController(GestionInventarioContext context)
+        public ProductosController(GestionInventarioContext context, INotyfService notify)
         {
             _context = context;
+            _notifyService = notify;
             _productsFinder = new ProductsFinder(context);
         }
 
@@ -34,10 +37,10 @@ namespace GestionInventarioWeb.Controllers
         // GET: Productos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Productos == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos ingresados incorrectos!");
+                return RedirectToAction("Index");
             }
 
             var producto = await _context.Productos
@@ -45,7 +48,8 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (producto == null)
             {
-                return NotFound();
+                _notifyService.Error("Producto no encontrado!");
+                return RedirectToAction("Index");
             }
 
             return View(producto);
@@ -56,7 +60,6 @@ namespace GestionInventarioWeb.Controllers
         // GET: Productos/Create
         public IActionResult Create()
         {
-            HttpContext.Session.SetString("message", "");
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1");
             return View("Create");
         }
@@ -69,8 +72,7 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> CreateNew([Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto, int stock = 1)
         {
-            HttpContext.Session.SetString("message", "");
-            HttpContext.Session.SetString("error", "");
+         
             if (ModelState.IsValid)
             {
                 try
@@ -89,12 +91,12 @@ namespace GestionInventarioWeb.Controllers
 
                     _context.Add(inv);
                     _context.SaveChanges();
-                    HttpContext.Session.SetString("message", "Producto creado con exito.");
+                    _notifyService.Success("Producto creado con exito!");
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
-                    HttpContext.Session.SetString("message", "Error." + ex.Message);
+                    _notifyService.Error("No pudimos crear el producto "+ producto.Nombre);
                 }
             }
 
@@ -129,16 +131,17 @@ namespace GestionInventarioWeb.Controllers
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            HttpContext.Session.SetString("message", "");
             if (id == null || _context.Productos == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos ingresados incorrectos!");
+                return RedirectToAction("Index");
             }
 
             var producto = await _context.Productos.FindAsync(id);
             if (producto == null)
             {
-                return NotFound();
+                _notifyService.Error("Producto no encontrado!");
+                return RedirectToAction("Index");
             }
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
             return View(producto);
@@ -153,11 +156,10 @@ namespace GestionInventarioWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveProduct(int id, [Bind("Id,Ean,Nombre,Descripcion,Precio,IdCategoria")] Producto producto, int stock)
         {
-            HttpContext.Session.SetString("message", "");
-            HttpContext.Session.SetString("error", "");
             if (id != producto.Id)
             {
-                return NotFound();
+                _notifyService.Error("Los datos ingresados no concuerdan!");
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid && stock > 0)
@@ -196,16 +198,17 @@ namespace GestionInventarioWeb.Controllers
                     }
                 }catch (Exception ex)
                 {
-                    HttpContext.Session.SetString("message", ex.Message);
+                    _notifyService.Error("Error. " + ex.Message);
                     ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
-                    return View("Edit", producto);
+                    //return View("Edit", producto);
+                    return RedirectToAction("Edit", new { id = producto.Id });
                 }
                 //return RedirectToAction(nameof(Index));
-                HttpContext.Session.SetString("message", "Producto guardado con exito.");
+                _notifyService.Success("Producto guardado con exito!");
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
-            return View("Edit", producto);
-            //return RedirectToAction("Edit", new { id = producto.Id });
+            //ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", producto.IdCategoria);
+            //return View("Edit", producto);
+            return RedirectToAction("Edit", new { id = producto.Id });
         }
 
         [Route("/Productos/Delete/{id}")]
@@ -214,11 +217,10 @@ namespace GestionInventarioWeb.Controllers
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpContext.Session.SetString("message", "");
-            HttpContext.Session.SetString("error", "");
             if (id == null || _context.Productos == null)
             {
-                return NotFound();
+                _notifyService.Error("Los datos enviados son incorrectos!");
+                return RedirectToAction("Index");
             }
 
             var producto = await _context.Productos
@@ -226,7 +228,8 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (producto == null)
             {
-                return NotFound();
+                _notifyService.Error("Producto no encontrado!");
+                return RedirectToAction("Index");
             }
 
             return View("Delete",producto);
@@ -238,13 +241,12 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador, Vendedor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            HttpContext.Session.SetString("message", "");
             try
             {
-
                 if (_context.Productos == null)
                 {
-                    return Problem("Entity set 'GestionInventarioContext.Productos'  is null.");
+                    _notifyService.Error("Error en la base de datos. La tabla productos no se encontro!");
+                    return RedirectToAction("Delete", new { id = id });
                 }
                 var producto = await _context.Productos.FindAsync(id);
                 if (producto != null)
@@ -253,13 +255,14 @@ namespace GestionInventarioWeb.Controllers
                 }
             
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Producto eliminado con exito!");
 
             }
             catch (Exception ex)
             {
-                HttpContext.Session.SetString("error", "No puedes eliminar este producto! Hay registros de venta que lo usan!");
+                _notifyService.Error("No puedes eliminar este producto! Hay registros de venta que lo usan!");
+                return RedirectToAction("Details", new { id = id });
             }
-
             return RedirectToAction("Index");
         }
 

@@ -1,6 +1,11 @@
 ﻿@{
     var Name = Context.Session.GetString("Name");
     var Role = Context.Session.GetString("Role");
+
+    if(Name == null)
+    {
+        Context.Response.Redirect("/Logout");
+    }
 }
 
 <!DOCTYPE html>
@@ -62,6 +67,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,38 @@
+﻿@model GestionInventarioWeb.Models.Usuario
+@{
+    Layout = "_RecoverLayout";
+    ViewData["Title"] = "Recuperando contraseña";
+}
+
+<div class="container">
+
+    <h1>Recuperar contraseña</h1>
+    <p>¿Seguro deseas cambiar la contraseña?</p>
+
+    <hr />
+    <div class="row">
+        <div class="col-8">
+            @using (Html.BeginForm("Recovering", "Login", FormMethod.Post))
+            {
+                <input type="hidden" asp-for="Id" name="id"/>
+
+                <div class="input-group">
+                    <label class="input-group-text">Nombre</label>
+                    <input asp-for="Nombre" class="form-control" id="name" disabled/>
+                </div>
+                <div class="input-group">
+                    <label class="input-group-text">RUT</label>
+                    <input asp-for="Rut" class="form-control" name="username" id="username" disabled/>
+                </div>
+                <div class="input-group">
+                    <label class="input-group-text">Contraseña</label>
+                    <input asp-for="Clave" type="password" name="password" class="form-control" />
+                </div>
+                <div class="btn-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-danger btn-padding">Cancelar</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

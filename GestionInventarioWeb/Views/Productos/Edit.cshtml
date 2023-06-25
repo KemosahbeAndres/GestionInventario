@@ -1,10 +1,8 @@
 ﻿@model GestionInventarioWeb.Models.Producto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editando Producto";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var message = Context.Session.GetString("message");
-    var error = Context.Session.GetString("error");
 }
 
 <div class="container-fluid">
@@ -70,13 +68,4 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-
-@if (!String.IsNullOrEmpty(message))
-{
-    <div class="alert alert-success">@message</div>
-}
-@if (!String.IsNullOrEmpty(error))
-{
-    <div class="alert alert-success">@error</div>
 }

@@ -4,6 +4,7 @@ using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using GestionInventarioWeb.Data;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -11,11 +12,13 @@ namespace GestionInventarioWeb.Controllers
     {
         private readonly GestionInventarioContext _context;
         private readonly ILogger _logger;
+        private readonly INotyfService _notifyService;
 
-        public HomeController(ILogger<HomeController> logger, GestionInventarioContext context)
+        public HomeController(ILogger<HomeController> logger, GestionInventarioContext context, INotyfService notify)
         {
             _context = context;
             _logger = logger;
+            _notifyService = notify;
         }
         [Route("/")]
         [HttpGet("/Dashboard", Name = "Dashboard")]
@@ -24,13 +27,6 @@ namespace GestionInventarioWeb.Controllers
         {
             var model = GetLoggedUser();
             return View("Views/DashboardView.cshtml", model);
-        }
-
-        [HttpGet("/Privacy")]
-        [Authorize(Roles = "Administrador, Vendedor")]
-        public IActionResult Privacy()
-        {
-            return View(GetLoggedUser());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
