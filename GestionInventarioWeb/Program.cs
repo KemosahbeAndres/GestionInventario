@@ -32,7 +32,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddNotyf(config => { 
     config.DurationInSeconds = 6;
-    config.IsDismissable = true;
+    config.IsDismissable = false;
     config.Position = NotyfPosition.TopRight; 
 });
 

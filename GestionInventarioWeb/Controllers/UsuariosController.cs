@@ -127,36 +127,44 @@ namespace GestionInventarioWeb.Controllers
         [HttpPost, ActionName("SaveUser")]
         [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveUser(int id, [Bind("Id,Nombre,Telefono,Rut,Clave,IdRol")] Usuario usuario)
+        public async Task<IActionResult> SaveUser(int id, [Bind("Id,Nombre,Telefono,Rut,IdRol")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
                 _notifyService.Error("Los datos no concuerdan!");
                 return RedirectToAction("Index");
             }
-
+            ModelState.Remove("Clave");
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (!RunValidator.Validar(usuario.Rut)) throw new Exception("Rut invalido");
-                    if (await _context.Usuarios.SingleOrDefaultAsync(u => u.Rut.Equals(usuario.Rut)) != null) throw new Exception("Ya existe un usuario con ese rut!");
-                    _context.Update(usuario);
+                    var recover = await _context.Usuarios.FindAsync(usuario.Id);
+                    recover.Rut = usuario.Rut;
+                    recover.Nombre = usuario.Nombre;
+                    recover.Telefono = usuario.Telefono;
+                    recover.IdRol = usuario.IdRol;
+
+                    //if (await _context.Usuarios.SingleOrDefaultAsync(u => u.Rut.Equals(usuario.Rut)) != null) throw new Exception("Ya existe un usuario con ese rut!");
+                    _context.Update(recover);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UsuarioExists(usuario.Id))
                     {
-                        return NotFound();
+                        _notifyService.Error("Error en la base de datos, el usuario no se encontro!");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        throw;
+                        _notifyService.Error("Usuario encontrado, pero error de concurrencia al actualizar!");
+                        return RedirectToAction("Index");
                     }
                 }catch(Exception ex)
                 {
-                    _notifyService.Error(ex.Message);
+                    _notifyService.Error("Error: "+ex.Message);
                     //ViewData["IdRol"] = new SelectList(_context.Roles, "Id", "Rol", usuario.IdRol);
                     return RedirectToAction("Edit", new { id = usuario.Id });
                 }

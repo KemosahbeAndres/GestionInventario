@@ -30,10 +30,10 @@
                     <input asp-for="Rut" class="form-control" id="username" />
                 </div>
                 <span asp-validation-for="Clave" class="text-danger"></span>
-                <div class="input-group">
+                <!--<div class="input-group">
                     <label asp-for="Clave" class="input-group-text">CONTRASEÑA</label>
-                    <input asp-for="Clave" class="form-control" type="hidden" id="pwd" disabled />
-                </div>
+                    <input asp-for="Clave" class="form-control" type="hidden" id="pwd" disabl />
+                </div>-->
                 <span asp-validation-for="IdRol" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="IdRol" class="input-group-text">ROL</label>
@@ -54,7 +54,7 @@
         }
 
         document.querySelector("#name").addEventListener("input", function (e) {
-            let text = this.value.replace(/(\s|\W|\d)/g, "")
+            let text = this.value.replace(/(\d)/g, "").replace(/(\s{2,}|\W{2,})/g, " ")
             this.value = text
         })
 

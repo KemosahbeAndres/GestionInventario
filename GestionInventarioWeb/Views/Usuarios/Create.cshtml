@@ -47,7 +47,7 @@
     </div>
     <script type="module">
         document.querySelector("#name").addEventListener("input", function (e) {
-            let text = this.value.replace(/(\s|\W|\d)/g, "")
+            let text = this.value.replace(/(\d)/g, "").replace(/(\s{2,}|\W{2,})/g, " ")
             this.value = text
         })
 
