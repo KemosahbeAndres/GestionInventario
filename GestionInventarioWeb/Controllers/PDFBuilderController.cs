@@ -1,4 +1,6 @@
-﻿using iTextSharp.text;
+﻿using GestionInventarioWeb.Data;
+using GestionInventarioWeb.Models;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,7 @@ namespace GestionInventarioWeb.Controllers
 {
     public class PDFBuilderController : Controller
     {
+        private readonly GestionInventarioContext _context;
         [HttpGet("/pdf/build", Name = "BuildPdf")]
         [AllowAnonymous]
         public IActionResult renderDocument(string? Text)
@@ -56,13 +59,13 @@ namespace GestionInventarioWeb.Controllers
             return View("Views/pdfs.cshtml");
         }
 
-        /*public List<Data> ObtenerDatosBD()
+        public List<Venta> ObtenerDatosBD()
         {
-            List<Data> datos = new List<Data>();
+            List<Venta> datos = new List<Venta>();
             {
-                datos = _context.Data.ToList();
+                datos = _context.Ventas.ToList();
             }
             return datos;
-        }*/
+        }
     }
 }
