@@ -33,7 +33,7 @@ namespace GestionInventarioWeb.Controllers
                 _context.Roles.Add(rol);
 
                 rol = new Role();
-                rol.Rol = "Administrador";
+                rol.Rol = "Vendedor";
                 _context.Roles.Add(rol);
 
                 await _context.SaveChangesAsync();
