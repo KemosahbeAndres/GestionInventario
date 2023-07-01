@@ -13,10 +13,10 @@
         <div class="col-md-4">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <span asp-validation-for="Fecha" class="text-danger"></span>
                 <div class="input-group">
                     <label asp-for="Fecha" class="input-group-text">Fecha</label>
-                    <input asp-for="Fecha" class="form-control" />
-                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                    <input asp-for="Fecha" id="fecha" type="date" class="form-control" />
                 </div>
                 <div class="input-group">
                     <label asp-for="IdUsuario" class="input-group-text">Comprador</label>
@@ -35,3 +35,10 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script defer>
+    let date = new Date().toLocaleDateString().split("-").reverse().join("-")
+    document.querySelector("#fecha").value = date
+</script>
+
+

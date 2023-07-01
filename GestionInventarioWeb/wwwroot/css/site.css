@@ -1,8 +1,16 @@
+@media (max-height:600px){
+    nav.nav {
+        overflow-y: scroll;
+    }
+}
+
 * {
     font-family: sans-serif !important;
 }
 
-
+.container-fluid {
+    background-color: white;
+}
 html {
   position: relative;
   min-height: 100%;
@@ -260,4 +268,33 @@ hstack .btn {
 
 .btn-padding {
     padding: .6em !important;
+}
+.topbar {
+    margin-bottom: 1em;
+}
+
+.topbar h1,
+.topbar h2,
+.topbar h3,
+.topbar h4,
+.topbar h5,
+.topbar h6 {
+    margin-right: .8em;
+}
+
+.topbar .btn-group {
+    width: auto;
+}
+
+.topbar .btn-group button.btn {
+    padding: .6em !important;
+}
+
+div.row {
+    background-color: transparent;
+}
+
+.scroll{
+    max-height: 25vh;
+    overflow-y: scroll;
 }

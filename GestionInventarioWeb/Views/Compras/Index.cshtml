@@ -1,7 +1,7 @@
-﻿@model IEnumerable<GestionInventarioWeb.Models.Compra>
+﻿@model IEnumerable<GestionInventarioWeb.Data.Buy>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Compras";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -34,12 +34,12 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @item.Fecha.ToShortDateString()
+                    @item.Date.ToShortDateString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdUsuarioNavigation.Nombre)
+                    @Html.DisplayFor(modelItem => item.Buyer.Name)
                 </td>
-                <td>$0</td>
+                <td>$@item.Cost</td>
                 <td>
                     <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
                 </td>

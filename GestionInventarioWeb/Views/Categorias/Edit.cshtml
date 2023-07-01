@@ -4,13 +4,13 @@
     ViewData["Title"] = "Editando " + Model.Categoria1;
 }
 
+<div class="topbar hstack gap-2">
+    <h2>Categoria</h2>
+</div>
+
 <div class="container-fluid">
-    <div class="hstack gap-2">
-        <h4>Categoria</h4>
-    </div>
-    <hr />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <form asp-action="EdittingCategory" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
@@ -26,7 +26,6 @@
             </form>
         </div>
     </div>
-
 </div>
 
 @section Scripts {

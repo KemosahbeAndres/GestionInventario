@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="topbar hstack gap-2">
+    <h2>Modificando Producto</h2>
+    <a class="btn btn-dark" asp-action="Index">Volver a Productos</a>
+</div>
+
 <div class="container-fluid">
-    <div class="hstack gap-2">
-        <h4>Modificando Producto</h4>
-        <a class="btn btn-dark" asp-action="Index">Volver a Productos</a>
-    </div>
-    <hr />
     <div class="row">
         <div class="col-md-8">
             <form asp-action="SaveProduct" method="post">

@@ -11,18 +11,21 @@ using GestionInventarioWeb.Data;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using static iTextSharp.text.pdf.AcroFields;
 using System.Security.Cryptography;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class VentasController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly INotyfService _notifyService;
         private readonly SalesFinder _salesFinder;
         private readonly ProductsFinder _productsFinder;
 
-        public VentasController(GestionInventarioContext context)
+        public VentasController(GestionInventarioContext context, INotyfService notify)
         {
             _context = context;
+            _notifyService = notify;
             _salesFinder = new SalesFinder(_context);
             _productsFinder = new ProductsFinder(_context);
         }
@@ -32,28 +35,25 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Index()
         {
-            var sales = await _salesFinder.FindAllAsync();
-            return View(sales);
+            return View(await _salesFinder.FindAllAsync());
         }
 
         // GET: Ventas/Details/5
         [HttpGet("/Ventas/Detalles/{id}"), ActionName("Details")]
         [Authorize(Roles = "Administrador,Vendedor")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id = 0)
         {
-            int mid = 0;
-            if (id == null)
+            if (id == 0)
             {
-                return NotFound();
-            }else
-            {
-                mid = (int)id;
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction("Index");
             }
 
-            var venta = await _salesFinder.Find(mid);
+            var venta = await _salesFinder.Find(id);
 
             if (venta == null)
             {
+                _notifyService.Error("No encontramos el registro de venta!");
                 return RedirectToAction("Index");
             }
             return View(venta);
@@ -71,7 +71,6 @@ namespace GestionInventarioWeb.Controllers
                 id = user.Id;
             }
             ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Nombre", id);
-
             return View("Create");
         }
 
@@ -87,10 +86,15 @@ namespace GestionInventarioWeb.Controllers
             {
                 _context.Add(venta);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Venta creada con exito!");
                 return RedirectToAction("EditSale", new { id = venta.Id });
             }
+            else
+            {
+                _notifyService.Warning("Datos invalidos!");
+            }
 
-            return LocalRedirect("/Ventas/Detalles/"+venta.Id);
+            return RedirectToAction("Details", new { id = venta.Id });
         }
 
         // GET: Ventas/Edit/5
@@ -100,13 +104,15 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id == null || _context.Ventas == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction("Index");
             }
 
             var venta = await _context.Ventas.FindAsync(id);
             if (venta == null)
             {
-                return NotFound();
+                _notifyService.Error("Venta no encontrada!");
+                return RedirectToAction("Index");
             }
             ViewData["IdVendedor"] = new SelectList(_context.Usuarios, "Id", "Nombre", venta.IdVendedor);
             return View("Edit",venta);
@@ -122,7 +128,8 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id != venta.Id)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
@@ -131,19 +138,25 @@ namespace GestionInventarioWeb.Controllers
                 {
                     _context.Update(venta);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Venta guardada con exito!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!VentaExists(venta.Id))
                     {
-                        return NotFound();
+                        _notifyService.Error("Venta no encontrada!");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        throw;
+                        _notifyService.Error("Ocurrio un error inesperado al conectar con la base de datos!");
+                        return RedirectToAction("Index");
                     }
                 }
-                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                _notifyService.Error("Datos invalidos!");
             }
 
             return RedirectToAction("Details", new { id = id });
@@ -157,7 +170,8 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id == null || _context.Ventas == null)
             {
-                return NotFound();
+                _notifyService.Error("Datos invalidos!");
+                return RedirectToAction("Index");
             }
 
             var venta = await _context.Ventas
@@ -165,7 +179,8 @@ namespace GestionInventarioWeb.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (venta == null)
             {
-                return NotFound();
+                _notifyService.Error("No encontramos la venta!");
+                return RedirectToAction("Index");
             }
 
             return View("Delete", venta);
@@ -175,50 +190,55 @@ namespace GestionInventarioWeb.Controllers
         [HttpPost("/Ventas/Deleting"), ActionName("DeletingSale")]
         [Authorize(Roles = "Administrador,Vendedor")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id = 0)
         {
             if (_context.Ventas == null)
             {
-                return Problem("Entity set 'GestionInventarioContext.Ventas'  is null.");
+                _notifyService.Error("Ocurrio un error inesperado con la base de datos!");
+                return RedirectToAction("Index");
             }
             var venta = await _context.Ventas.FindAsync(id);
             if (venta != null)
             {
-                _context.Ventas.Remove(venta);
                 var items = await _context.ItemVenta.Where(i => i.IdVenta == venta.Id).ToListAsync();
                 foreach(var item in items)
                 {
                     //Inventario
-                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == item.IdProducto);
+                    var inv = await getLastInventory(item.IdProducto);
                     inv.Cantidad += item.Cantidad;
                     _context.Inventarios.Update(inv);
                     _context.ItemVenta.Remove(item);
                 }
+                _context.Ventas.Remove(venta);
+                await _context.SaveChangesAsync();
+                _notifyService.Success("Venta guardada con exito!");
             }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost("/Ventas/Details/AddProduct"), ActionName("SaleAddProduct")]
         [Authorize(Roles = "Administrador,Vendedor")]
-        public async Task<IActionResult> AddProduct(int id, int pid, int cantidad = 1)
+        public async Task<IActionResult> AddProduct(int id, int pid = 0, int cantidad = 1)
         {
-            var mensaje = "";
             try
             {
+                var inv = await getLastInventory(pid);
                 if(await _salesFinder.HasProduct(id, pid))
                 {
                     var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
                     item.Cantidad += cantidad;
                     _context.ItemVenta.Update(item);
                     //Inventario
-                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
                     inv.Cantidad -= cantidad;
+                    if (inv.Cantidad < 0)
+                    {
+                        inv.Cantidad = 0;
+                    }
                     _context.Inventarios.Update(inv);
 
                     _context.SaveChanges();
-                    mensaje = "Producto encontrado, sumando";
+                    _notifyService.Success("Producto encontrado, sumando");
                 }
                 else
                 {
@@ -228,18 +248,20 @@ namespace GestionInventarioWeb.Controllers
                     item.Cantidad = cantidad;
                     _context.ItemVenta.Add(item);
                     //Inventario
-                    var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == pid);
                     inv.Cantidad -= cantidad;
+                    if (inv.Cantidad < 0)
+                    {
+                        inv.Cantidad = 0;
+                    }
                     _context.Inventarios.Update(inv);
 
                     _context.SaveChanges();
-                    mensaje = "Producto agregado!";
+                    _notifyService.Success("Producto agregado!");
                 }
             }catch(Exception ex)
             {
-                HttpContext.Session.SetString("error", ex.Message);
+                _notifyService.Error("Error: "+ ex.Message);
             }
-            HttpContext.Session.SetString("message", mensaje);
             return RedirectToAction("EditSale", new { id = id });
         }
 
@@ -253,17 +275,19 @@ namespace GestionInventarioWeb.Controllers
                 {
                     var item = await _context.ItemVenta.SingleOrDefaultAsync(i => i.IdVenta == id && i.IdProducto == pid);
                     if (item == null) throw new Exception("No se encuentra el producto!");
-                    _context.ItemVenta.Remove(item);
+                    
                     //Inventario
                     var inv = await getLastInventory(pid);
                     inv.Cantidad += item.Cantidad;
+                    _context.ItemVenta.Remove(item);
                     _context.Inventarios.Update(inv);
 
                     _context.SaveChanges();
+                    _notifyService.Success("Producto eliminado con exito!");
                 }
             }catch(Exception ex)
             {
-                HttpContext.Session.SetString("error", "No logramos eliminar el producto! \n"+ ex.Message);
+                _notifyService.Error("No logramos eliminar el producto! "+ ex.Message);
             }
             return RedirectToAction("EditSale", new { id = id });
         }
@@ -281,7 +305,9 @@ namespace GestionInventarioWeb.Controllers
         private User? GetLoggedUser()
         {
             var claims = HttpContext.User.Claims.ToList();
-            string value = claims.FirstOrDefault(c => c.Type.Contains("Rut")).Value;
+            var claim = claims.FirstOrDefault(c => c.Type.Contains("Rut"));
+            if (claim == null) return null;
+            string value = claim.Value;
             if (claims.Count <= 0)
             {
                 return null;

@@ -11,6 +11,8 @@ namespace GestionInventarioWeb.Controllers
     public class HomeController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly SalesFinder _salesFinder;
+        private readonly ProductsFinder _productsFinder;
         private readonly ILogger _logger;
         private readonly INotyfService _notifyService;
 
@@ -19,13 +21,49 @@ namespace GestionInventarioWeb.Controllers
             _context = context;
             _logger = logger;
             _notifyService = notify;
+            _salesFinder = new SalesFinder(_context);
+            _productsFinder = _salesFinder._productsFinder;
         }
         [Route("/")]
         [HttpGet("/Dashboard", Name = "Dashboard")]
         [Authorize(Roles = "Administrador, Vendedor")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = GetLoggedUser();
+            var ventas = (await _salesFinder.FindAllAsync());
+            var prods = (await _productsFinder.FindAllAsync());
+
+            //Ventasmes
+            DateTime date = DateTime.Now;
+            var first = new DateTime(date.Year, date.Month, 1);
+            var last = first.AddMonths(1).AddSeconds(-1);
+
+            var vmes = ventas.Where(v => v.Date >= first);
+            var vhoy = ventas.Where(v => v.Date >= DateTime.Today);
+
+
+            int ventashoy = vhoy.Count();
+            int totalhoy = 0;
+            foreach(var venta in vhoy)
+            {
+                totalhoy += venta.Cost;
+            }
+
+            int ventasmes  = vmes.Count();
+            int totalmes = 0;
+            foreach(var venta in vmes)
+            {
+                totalmes += venta.Cost;
+            }
+
+            var model = new DataDashboard(
+                GetLoggedUser(),
+                ventas.OrderByDescending(v => v.Date).Take(10),
+                prods.OrderBy(p => p.Stock).Where(p => p.Stock <= 10),
+                ventasmes,
+                ventashoy,
+                totalhoy,
+                totalmes
+                );
             return View("Views/DashboardView.cshtml", model);
         }
 

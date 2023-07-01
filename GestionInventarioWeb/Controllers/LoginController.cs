@@ -24,8 +24,31 @@ namespace GestionInventarioWeb.Controllers
 
         [HttpGet("/Login", Name = "Login")]
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if(!_context.Usuarios.Any() || !_context.Roles.Any()) {
+                var rol = new Role();
+                rol.Rol = "Administrador";
+
+                _context.Roles.Add(rol);
+
+                rol = new Role();
+                rol.Rol = "Administrador";
+                _context.Roles.Add(rol);
+
+                await _context.SaveChangesAsync();
+
+                var usuario = new Usuario();
+                usuario.Rut = "19149514-4";
+                usuario.Clave = "admin";
+                usuario.Nombre = "Andres Cubillos";
+                usuario.Telefono = "123456789";
+                usuario.IdRol = (await _context.Roles.FindAsync("Administrador")).Id;
+
+                _context.Usuarios.Add(usuario);
+
+                await _context.SaveChangesAsync();
+            }
             return View("Login");
         }
 

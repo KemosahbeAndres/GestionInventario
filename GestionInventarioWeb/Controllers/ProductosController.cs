@@ -87,6 +87,10 @@ namespace GestionInventarioWeb.Controllers
                     var inv = new Inventario();
                     inv.IdProducto = await LastProductId();
                     inv.Cantidad = stock;
+                    if (inv.Cantidad < 0)
+                    {
+                        inv.Cantidad = 0;
+                    }
                     inv.Fecha = DateTime.Now;
 
                     _context.Add(inv);
@@ -160,6 +164,10 @@ namespace GestionInventarioWeb.Controllers
                         inv.IdProducto = producto.Id;
                         inv.Fecha = DateTime.Now;
                         inv.Cantidad = stock;
+                        if (inv.Cantidad < 0)
+                        {
+                            inv.Cantidad = 0;
+                        }
                         _context.Inventarios.Add(inv);
                     }
                     else
@@ -235,6 +243,7 @@ namespace GestionInventarioWeb.Controllers
                 var producto = await _context.Productos.FindAsync(id);
                 if (producto != null)
                 {
+                    _context.Inventarios.RemoveRange(await getInventories(producto.Id));
                     _context.Productos.Remove(producto);
                 }
             
@@ -253,6 +262,11 @@ namespace GestionInventarioWeb.Controllers
         private bool ProductoExists(int id)
         {
           return (_context.Productos?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task<Inventario[]> getInventories(int productid)
+        {
+            return await _context.Inventarios.Where(i => i.IdProducto == productid).ToArrayAsync();
         }
     }
 }

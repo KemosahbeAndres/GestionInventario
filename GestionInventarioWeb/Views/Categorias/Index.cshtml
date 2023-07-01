@@ -4,13 +4,13 @@
     ViewData["Title"] = "Categorias";
 }
 
-<div class="container-fluid">
+<div class="topbar hstack gap-2">
+    <h2>Categorias</h2>
+    <a class="btn btn-dark" asp-action="Index" asp-controller="Productos">Volver a Productos</a>
+    <a class="btn btn-success" asp-action="Create">Nueva</a>
+</div>
 
-    <div class="hstack gap-2">
-        <h2>Categorias</h2>
-        <a class="btn btn-dark" asp-action="Index" asp-controller="Productos">Volver a Productos</a>
-        <a class="btn btn-success" asp-action="Create">Nueva</a>
-    </div>
+<div class="container-fluid">
     <table class="table">
         <thead>
             <tr>
@@ -36,6 +36,6 @@
             </tr>
     }
         </tbody>
-</table>
+    </table>
 </div>
 

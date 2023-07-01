@@ -1,29 +1,34 @@
-﻿@model GestionInventarioWeb.Data.User;
+﻿@model GestionInventarioWeb.Data.DataDashboard;
 @{
     ViewData["Title"] = "Dashboard";
 }
-
-<div class="container-fluid">
-    <h2>Dashboard</h2>
-    @if(Model == null)
-    {
-        <div class="alert alert-warning">Error al obtener datos!</div>
-    }
-    else
-    {
-        <p>Hola @Model.Name</p>
-        <p>Tu rut es @Model.Rut</p>
-        <p>@Context.Session.GetString("Role")</p>
-    }
+<div class="text-center">
+    <h1>Dashboard</h1>
 </div>
-@*
-<div class="container-fluid">
-    <h2>Resultado</h2>
-    <input type="button" class="btn btn-primary mb-2" value="Obtener" onclick="getData()"/>
-    <ul id="lista" class="list-group mt-2">
-    </ul>
 
-</div>*@
+<div class="hstack gap-2">
+    <div class="col-md-6 text-center">
+        <h3>Ventas hoy</h3>
+        <h1>@Model.VentasDia</h1>
+    </div>
+    <div class="col-md-6 text-center">
+        <h3>Total Dia</h3>
+        <h1>$@Model.TotalDia</h1>
+    </div>
+</div>
+
+<div class="hstack gap-2">
+    <div class="col-md-6 text-center">
+        <div>
+            <h3>Ventas Mes</h3>
+            <h1>@Model.VentasMes</h1>
+        </div>
+    </div>
+    <div class="col-md-6 text-center">
+        <h2>Total @DateTime.Now.ToString("MMMM").ToUpper()</h2>
+        <h1>$@Model.TotalMes</h1>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
@@ -54,30 +59,46 @@
 
 
 <div class="container-fluid">
-    <div class="hstack gap-2">
+
+    <div class="topbar hstack gap-2">
         <h1>Ventas</h1>
         <a asp-action="Index" asp-controller="Ventas" class="btn btn-primary">Gestionar Ventas</a>
     </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>
-                    Fecha
-                </th>
-                <th>
-                    Vendedor
-                </th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="4">
-                    <div class="alert alert-info">Proximamente!</div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="scroll" style="max-height:40vh;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>
+                        Fecha
+                    </th>
+                    <th>
+                        Vendedor
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var venta in Model.Ventas)
+                {
+                    <tr>
+                        <td>@venta.Id</td>
+                        <td>@venta.Date.ToShortDateString()</td>
+                        <td>@venta.Seller.Name</td>
+                        <td>
+                            <a class="btn btn-dark" asp-controlles="Ventas" asp-action="@venta.Id">Detalles</a>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Ventas.Any())
+                {
+                    <tr>
+                        <td colspan="4">
+                            <div class="alert alert-info">No hay ventas!</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

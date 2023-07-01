@@ -4,13 +4,13 @@
     ViewData["Title"] = "Creando Producto";
 }
 
+<div class="topbar hstack gap-2">
+    <h2>Crear Producto</h2>
+</div>
+
 <div class="container-fluid">
-
-    <h1>Crear Producto</h1>
-
-    <hr />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
             @using (Html.BeginForm("CreateNew", "Productos", FormMethod.Post))
             {
                 <span asp-validation-for="Nombre" class="text-danger"></span>
@@ -35,7 +35,7 @@
                 <span asp-validation-for="IdCategoria" class="text-danger"></span>
                 <div class="input-group">
                     <label class="input-group-text">Categoria</label>
-                    <select asp-for="IdCategoria" class="form-select" asp-items="ViewBag.IdCategoria"></select>
+                    <select asp-for="IdCategoria" id="cat" class="form-select" asp-items="ViewBag.IdCategoria"></select>
                 </div>
                 <div class="btn-group">
                     <input type="submit" value="Guardar" class="btn btn-primary" id="saveBtn"/>
@@ -71,24 +71,36 @@
 <script defer>
     var nm = document.querySelector("#name")
     var desc = document.querySelector("#desc")
+    var cat = document.querySelector("#cat")
 
     nm.addEventListener("input", function (e) {
-        search(this.value, desc.value)
+        search(this.value, desc.value, cat.selectedOptions[0].getInnerHTML())
     })
     desc.addEventListener("input", function (e) {
-        search(nm.value, this.value)
+        search(nm.value, this.value, cat.selectedOptions[0].getInnerHTML())
     })
-    function search(key1, key2) {
+    cat.addEventListener("change", function (e) {
+        search(nm.value, desc.value, this.selectedOptions[0].getInnerHTML())
+    })
+    
+    function search(key1, key2, key3) {
+        let keys = ""
         console.log("Searching for: " + key1 + " and " + key2)
         let params = {}
         if (key1.trim().length > 0) {
             params.name = key1
+            keys += key1
         }
         if (key2.trim().length > 0) {
             params.desc = key2
+            keys += ","+key2
+        }
+        if (key3.trim().length > 0) {
+            keys += "," + key3
         }
         const query = new URLSearchParams(params).toString()
-        const url = "/api/Productos/Find?" + query
+        //const url = "/api/Productos/Find?" + query
+        const url = "/api/Productos/Find/" + keys
         console.log(url)
         fetch(url)
             .then(resp => resp.json())

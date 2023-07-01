@@ -7,7 +7,7 @@ namespace GestionInventarioWeb.Controllers
     public class SalesFinder
     {
         private readonly GestionInventarioContext _context;
-        private readonly ProductsFinder _productsFinder;
+        public readonly ProductsFinder _productsFinder;
 
         public SalesFinder(GestionInventarioContext context)
         {

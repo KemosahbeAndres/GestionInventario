@@ -22,16 +22,22 @@ namespace GestionInventarioWeb.Controllers
             return Json(await _productsFinder.FindAllAsync());
         }
 
-        [HttpGet("/api/Productos/Find")]
-        public async Task<IActionResult> FindProducts(string name = "", string desc = "")
+        [HttpGet("/api/Productos/Find/{key}"), ActionName("FindProducts")]
+        public async Task<IActionResult> FindProducts(string key = "")
         {
-            return Json(await _productsFinder.Find(name, desc));
+            return Json(await _productsFinder.Find(key));
         }
 
         [HttpGet("/api/Productos/Venta/{id}")]
         public async Task<IActionResult> GetProductsFromSale(int id)
         {
             return Json(await _productsFinder.FindBySale(id));
+        }
+
+        [HttpGet("/api/Productos/Compra/{id}")]
+        public async Task<IActionResult> GetProductsFromBuy(int id)
+        {
+            return Json(await _productsFinder.FindByBuy(id));
         }
 
         [HttpGet("/api/Ventas")]

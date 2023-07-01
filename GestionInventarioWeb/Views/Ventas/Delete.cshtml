@@ -1,47 +1,47 @@
 ﻿@model GestionInventarioWeb.Models.Venta
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Borrando Venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="topbar hstack gap-2">
+    <h2>Borrar Venta</h2>
+</div>
 
 <div class="container-fluid">
     
-    <h1>Borrar Venta</h1>
+    <h4>¿Deseas borrar esta venta?</h4>
     <hr />
-
-    <h3>Deseas borrar esta venta?</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class = "col-sm-2">
+                    ID
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+                <dt class = "col-sm-2">
+                    Fecha
+                </dt>
+                <dd class = "col-sm-10">
+                    @Model.Fecha.ToShortDateString()
+                </dd>
+                <dt class = "col-sm-2">
+                    Vendedor
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.IdVendedorNavigation.Nombre)
+                </dd>
+            </dl>
     
-    <hr />
-    <div>
-        <dl class="row">
-            <dt class = "col-sm-2">
-                ID
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                FECHA
-            </dt>
-            <dd class = "col-sm-10">
-                @Model.Fecha.ToShortDateString()
-            </dd>
-            <dt class = "col-sm-2">
-                Vendedor
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.IdVendedorNavigation.Nombre)
-            </dd>
-        </dl>
-    
-        <form asp-action="DeletingSale" method="post">
-            <input type="hidden" asp-for="Id" />
-            <div class="btn-group">
-                <input type="submit" value="Borrar" class="btn btn-danger" />
-                <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
-            </div>
-        </form>
+            <form class="btn-group" asp-action="DeletingSale" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="btn-group">
+                    <input type="submit" value="Borrar" class="btn btn-danger" />
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
-
 </div>
