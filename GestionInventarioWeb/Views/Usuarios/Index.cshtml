@@ -4,16 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="topbar hstack gap-2">
+    <h2>Usuarios</h2>
+    <a class="btn btn-success" asp-action="Create">Crear Usuario</a>
+</div>
+
 <div class="container-fluid">
-    <div class="hstack gap-2">
-        <h2>Usuarios</h2>
-        <a class="btn btn-success" asp-action="Create">Crear Usuario</a>
-    </div>
-    <hr />
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Telefono</th>
                 <th>Rut</th>
@@ -25,9 +24,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                         @if (Context.User.Claims.Any(c => c.Value.Equals(item.Rut)))
@@ -51,5 +47,4 @@
             }
         </tbody>
     </table>
-
 </div>

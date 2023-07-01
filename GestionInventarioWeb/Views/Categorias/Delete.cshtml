@@ -4,33 +4,37 @@
     ViewData["Title"] = "Eliminado Categoria";
 }
 
+<div class="topbar hstack gap-2">
+    <h2>Eliminar Categoria</h2>
+</div>
+
 <div class="container-fluid">
-    <h2>Categoria</h2>
+    <p>¿Deseas eliminar esta categoria?</p>
     <hr />
-    <h3>¿Deseas eliminar esta categoria?</h3>
-    <div>
-        <hr />
-        <dl class="row">
-            <dt class = "col-sm-2">
-                ID
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                Categoria
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Categoria1)
-            </dd>
-        </dl>
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class = "col-sm-2">
+                    ID
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+                <dt class = "col-sm-2">
+                    Categoria
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Categoria1)
+                </dd>
+            </dl>
     
-        <form class="row" asp-action="DelettingCategory" method="post">
-            <input type="hidden" asp-for="Id" />
-            <div class="btn-group col-md-6">
-                <input type="submit" value="Borrar" class="btn btn-danger" />
-                <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
-            </div>
-        </form>
+            <form class="row" asp-action="DelettingCategory" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="btn-group col-md-6">
+                    <input type="submit" value="Borrar" class="btn btn-danger" />
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

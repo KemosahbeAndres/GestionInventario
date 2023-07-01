@@ -1,17 +1,17 @@
 ﻿@model GestionInventarioWeb.Models.Venta
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Creando venta";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="hstack gap-2">
+    <h1>Crear Venta</h1>
+</div>
 <div class="container-fluid">
-    <div class="hstack gap-2">
-        <h4>Crear Venta</h4>
-    </div>
-    <hr />
+
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <form asp-action="CreateSaleConfirm" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <span asp-validation-for="Fecha" class="text-danger"></span>
@@ -50,7 +50,9 @@
         var fecha = yyyy + '-' + mm + '-' + dd;
         return fecha
     }
-    document.querySelector("#fecha").value = getDate()
+    //document.querySelector("#fecha").value = getDate()
+    let date = new Date().toLocaleDateString().split("-").reverse().join("-")
+    document.querySelector("#fecha").value = date
 </script>
 </div>
 

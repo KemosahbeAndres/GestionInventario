@@ -26,11 +26,11 @@
                 </div>
                 <div class="input-group">
                     <label class="input-group-text">Contraseña</label>
-                    <input asp-for="Clave" type="password" name="password" class="form-control" />
+                    <input asp-for="Clave" type="password" id="pwd" name="password" class="form-control" />
                 </div>
                 <div class="input-group">
                     <label class="input-group-text">Confirma Contraseña</label>
-                    <input type="password" name="confirmpwd" class="form-control" />
+                    <input type="password" name="confirmpwd" id="pwdc" class="form-control" />
                 </div>
                 <div class="btn-group">
                     <input type="submit" value="Guardar" class="btn btn-primary" />
@@ -40,3 +40,11 @@
         </div>
     </div>
 </div>
+<script defer>
+    document.querySelector("#pwd").addEventListener("input", function (e) {
+        this.value = this.value.replace(/( )/g, "")
+    })
+    document.querySelector("#pwdc").addEventListener("input", function (e) {
+        this.value = this.value.replace(/( )/g, "")
+    })
+</script>

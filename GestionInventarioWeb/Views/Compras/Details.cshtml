@@ -1,31 +1,81 @@
-﻿@model GestionInventarioWeb.Models.Compra
+﻿@model GestionInventarioWeb.Data.Buy
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="hstack gap-2">
+    <h2>Detalles Orden de Compra</h2>
+    <a class="btn btn-dark" asp-action="Index">Volver atras</a>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model?.Id">Borrar</a>
+</div>
 
-<div>
-    <h4>Compra</h4>
-    <hr />
+<div class="container-fluid">
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
+        <dt class="col-sm-2">
+            ID
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
+        <dt class="col-sm-2">
+            Fecha
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdUsuarioNavigation.Id)
+        <dd class="col-sm-10">
+            @Model.Date.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Generada por
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Buyer.Name
+        </dd>
+        <dt class="col-sm-2">
+            Total
+        </dt>
+        <dd class="col-sm-10">
+            $@Model.Cost
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="container-fluid">
+    <h2>Productos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>EAN</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Descripcion</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody id="tblBody">
+            @foreach (var p in Model.Products)
+            {
+                <tr>
+                    <td>@p.EAN</td>
+                    <td>@p.Name</td>
+                    <td>@p.Category</td>
+                    <td>@p.Description</td>
+                    <td>@p.Cantidad</td>
+                    <td>$@p.Price</td>
+                    <td>$@(p.Price * p.Cantidad)</td>
+                </tr>
+            }
+            @if (!Model.Products.Any())
+            {
+                <tr>
+                    <td colspan="7">
+                        <div class="alert alert-info">No hay ningun producto</div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

@@ -1,22 +1,20 @@
-﻿using Org.BouncyCastle.Bcpg.OpenPgp;
-
-namespace GestionInventarioWeb.Data
+﻿namespace GestionInventarioWeb.Data
 {
-    public class Sale
+    public class Buy
     {
         public int Id { get; }
         public DateTime Date { get; }
-        public User Seller { get; }
+        public User Buyer { get;  }
         public int Cost { get; }
         public IEnumerable<Product> Products { get; }
 
-        public Sale(int id, DateTime date, User seller, IEnumerable<Product> products)
+        public Buy(int id, DateTime date, User buyer, IEnumerable<Product> products)
         {
             Id = id;
             Date = date;
-            Seller = seller;
+            Buyer = buyer;
             Products = products;
-            Cost = this.GetTotal();
+            Cost = GetTotal();
         }
 
         public int GetTotal()

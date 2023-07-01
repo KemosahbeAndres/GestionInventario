@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<GestionInventarioWeb.Data.Sale>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ventas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+<div class="hstack gap-2">
+    <h1>Ventas</h1>
+    <a asp-action="CreateSale" class="btn btn-success">Nueva Venta</a>
+</div>
+
 <div class="container-fluid">
-    <div class="hstack gap-2">
-        <h1>Ventas</h1>
-        <a asp-action="CreateSale" class="btn btn-success">Nueva Venta</a>
-    </div>
 
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>
                     Fecha
                 </th>
@@ -29,9 +29,6 @@
         <tbody>
     @foreach (var item in Model) {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelitem => item.Id)
-                </td>
                 <td>
                     @item.Date.ToShortDateString()
                 </td>

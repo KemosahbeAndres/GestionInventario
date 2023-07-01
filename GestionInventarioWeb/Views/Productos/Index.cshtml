@@ -4,50 +4,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div class="topbar hstack gap-2">
+    <h2> Productos </h2>
+    <a class="btn btn-success" asp-action="Create">Nuevo Producto</a>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Categorias">Gestionar Categorias</a>
+</div>
+
 <div class="container-fluid">
-    <div class="hstack gap-2">
-        <h2> Productos </h2>
-        <a class="btn btn-success" asp-action="Create">Nuevo Producto</a>
-        <a class="btn btn-primary" asp-action="Index" asp-controller="Categorias">Gestionar Categorias</a>
-    </div>
-    <hr />
-<table class="table">
-    <thead>
-        <tr>
-            <th>Codigo EAN</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Categoria</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EAN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                $@Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>@item.Stock</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Codigo EAN</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Categoria</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EAN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>@item.Stock</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 
 </div>

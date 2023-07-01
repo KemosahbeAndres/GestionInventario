@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestionInventarioWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace GestionInventarioWeb.Controllers
 {
     public class CategoriasController : Controller
     {
         private readonly GestionInventarioContext _context;
+        private readonly INotyfService _notifyService;
 
-        public CategoriasController(GestionInventarioContext context)
+        public CategoriasController(GestionInventarioContext context, INotyfService notify)
         {
             _context = context;
+            _notifyService = notify;
         }
 
         // GET: Categorias
@@ -36,14 +39,16 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id == null || _context.Categorias == null)
             {
-                return NotFound();
+                _notifyService.Error("Parametros invalidos!");
+                return RedirectToAction("Index");
             }
 
             var categoria = await _context.Categorias
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (categoria == null)
             {
-                return NotFound();
+                _notifyService.Error("No encontramos la categoria o no existe!");
+                return RedirectToAction("Index");
             }
 
             return View(categoria);
@@ -67,10 +72,18 @@ namespace GestionInventarioWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categoria);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Add(categoria);
+                    await _context.SaveChangesAsync();
+                    _notifyService.Success("Categoria agregada con exito!");
+                }catch(Exception ex)
+                {
+                    _notifyService.Error("Error al guardar la categoria!");
+                }
                 return RedirectToAction(nameof(Index));
             }
+            _notifyService.Warning("Parametros invalidos!");
             return View("Create", categoria);
         }
 
@@ -81,13 +94,15 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id == null || _context.Categorias == null)
             {
-                return NotFound();
+                _notifyService.Error("Parametros invalidos!");
+                return RedirectToAction("Index");
             }
 
             var categoria = await _context.Categorias.FindAsync(id);
             if (categoria == null)
             {
-                return NotFound();
+                _notifyService.Error("No encontramos la categoria!");
+                return RedirectToAction("Index");
             }
             return View(categoria);
         }
@@ -102,7 +117,8 @@ namespace GestionInventarioWeb.Controllers
         {
             if (id != categoria.Id)
             {
-                return NotFound();
+                _notifyService.Error("Parametros invalidos!");
+                return RedirectToAction("Index");
             }
 
             if (ModelState.IsValid)
@@ -111,23 +127,24 @@ namespace GestionInventarioWeb.Controllers
                 {
                     _context.Update(categoria);
                     await _context.SaveChangesAsync();
-                    HttpContext.Session.SetString("error", "");
+                    _notifyService.Success("Categoria guardada!");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
                     if (!CategoriaExists(categoria.Id))
                     {
-                        return NotFound();
+                        _notifyService.Error("No encontramos la categoria!");
+                        return RedirectToAction("Index");
                     }
                     else
                     {
-                        throw;
+                        _notifyService.Error(ex.Message);
                     }
                 }
 
                 return RedirectToAction("Details", new { id = id});
             }
-            HttpContext.Session.SetString("error", "");
+            _notifyService.Warning("Parametros invalidos!");
             return View("Edit", categoria);
         }
 
@@ -136,19 +153,19 @@ namespace GestionInventarioWeb.Controllers
         [Authorize(Roles = "Administrador,Vendedor")]
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpContext.Session.SetString("error", "");
             if (id == null || _context.Categorias == null)
             {
-                return NotFound();
+                _notifyService.Error("Parametros invalidos!");
+                return RedirectToAction("Index");
             }
 
             var categoria = await _context.Categorias
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (categoria == null)
             {
-                return NotFound();
+                _notifyService.Error("Categoria no encontrada!");
+                return RedirectToAction("Index");
             }
-
             return View(categoria);
         }
 
@@ -162,18 +179,22 @@ namespace GestionInventarioWeb.Controllers
             {
                 if (_context.Categorias == null)
                 {
-                    return Problem("Entity set 'GestionInventarioContext.Categorias'  is null.");
+                    _notifyService.Error("Error al conectar con base de datos!");
+                    return RedirectToAction("Details", new { id = id});
                 }
                 var categoria = await _context.Categorias.FindAsync(id);
-                if (categoria != null)
+                if (categoria == null)
                 {
-                    _context.Categorias.Remove(categoria);
+                    _notifyService.Error("No encontramos la categoria!");
+                    return RedirectToAction("Index");
                 }
-            
+                _context.Categorias.Remove(categoria);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Categoria eliminada con exito!");
             }catch(Exception ex)
             {
-                HttpContext.Session.SetString("error", "No puedes eliminar, hay productos usando esta categoria!");
+                _notifyService.Error("No puedes eliminar, hay productos usando esta categoria!");
+                return RedirectToAction("Details", new { id = id });
             }
             return RedirectToAction("Index");
         }

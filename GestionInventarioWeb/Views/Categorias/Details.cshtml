@@ -4,13 +4,14 @@
     ViewData["Title"] = "Detalles " + Model.Categoria1;
 }
 
-<div class="container-fluid">
-    <div class="hstack gap-2">
-        <h2>Detalles</h2>
-        <a class="btn btn-dark" asp-action="Index">Atras</a>
-    </div>
+<div class="topbar hstack gap-2">
+    <h2>Detalles</h2>
+    <a class="btn btn-dark" asp-action="Index">Atras</a>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model?.Id">Eliminar</a>
+</div>
 
-    <hr />
+<div class="container-fluid">
     <div>
         <dl class="row">
             <dt class="col-sm-2">
@@ -27,18 +28,4 @@
             </dd>
         </dl>
     </div>
-    <div>
-        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
-        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model?.Id">Eliminar</a>
-    </div>
-
 </div>
-
-@{
-    var error = Context.Session.GetString("error");
-}
-
-@if (!String.IsNullOrEmpty(error))
-{
-    <div class="alert alert-danger">@error</div>
-}

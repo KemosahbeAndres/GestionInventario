@@ -64,27 +64,6 @@ namespace GestionInventarioWeb.Controllers
             return View("Create");
         }
 
-        [HttpGet("/Productos/Update/{id}"), ActionName("UpdateProduct")]
-        [Authorize(Roles = "Administrador,Vendedor")]
-        public async Task<IActionResult> UpdateSelected(int? id)
-        {
-            var pr = await _context.Productos.FindAsync(id);
-            try
-            {
-                if (pr == null)
-                {
-                    _notifyService.Error("Producto no encontrado!");
-                    return RedirectToAction("Index");
-                }
-                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1", pr.IdCategoria);
-            }catch(Exception ex)
-            {
-                _notifyService.Error(ex.Message);
-                ViewData["IdCategoria"] = new SelectList(_context.Categorias, "Id", "Categoria1");
-            }
-            return View("Create", pr);
-        }
-
         // POST: Productos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -108,6 +87,10 @@ namespace GestionInventarioWeb.Controllers
                     var inv = new Inventario();
                     inv.IdProducto = await LastProductId();
                     inv.Cantidad = stock;
+                    if (inv.Cantidad < 0)
+                    {
+                        inv.Cantidad = 0;
+                    }
                     inv.Fecha = DateTime.Now;
 
                     _context.Add(inv);
@@ -129,21 +112,6 @@ namespace GestionInventarioWeb.Controllers
         {
             var p = await _context.Productos.OrderByDescending(p => p.Id).FirstOrDefaultAsync();
             return p.Id;
-        }
-
-        [HttpGet("/Inventario/{id}")]
-        public async Task<IActionResult> getInventory(int id)
-        {
-            int stock = 1;
-            try
-            {
-                var inv = await _context.Inventarios.OrderBy(i => i.Id).LastOrDefaultAsync(i => i.IdProducto == id);
-                stock = inv.Cantidad;
-            }catch(Exception ex)
-            {
-                stock = 1;
-            }
-            return Json(new { stock = stock });
         }
 
         [HttpGet("/Productos/Edit/{id}"), ActionName("Edit")]
@@ -196,6 +164,10 @@ namespace GestionInventarioWeb.Controllers
                         inv.IdProducto = producto.Id;
                         inv.Fecha = DateTime.Now;
                         inv.Cantidad = stock;
+                        if (inv.Cantidad < 0)
+                        {
+                            inv.Cantidad = 0;
+                        }
                         _context.Inventarios.Add(inv);
                     }
                     else
@@ -271,6 +243,7 @@ namespace GestionInventarioWeb.Controllers
                 var producto = await _context.Productos.FindAsync(id);
                 if (producto != null)
                 {
+                    _context.Inventarios.RemoveRange(await getInventories(producto.Id));
                     _context.Productos.Remove(producto);
                 }
             
@@ -289,6 +262,11 @@ namespace GestionInventarioWeb.Controllers
         private bool ProductoExists(int id)
         {
           return (_context.Productos?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task<Inventario[]> getInventories(int productid)
+        {
+            return await _context.Inventarios.Where(i => i.IdProducto == productid).ToArrayAsync();
         }
     }
 }

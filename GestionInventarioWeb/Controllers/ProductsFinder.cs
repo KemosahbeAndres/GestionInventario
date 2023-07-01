@@ -2,6 +2,9 @@
 using GestionInventarioWeb.Models;
 using Humanizer;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using static iTextSharp.text.pdf.AcroFields;
+using System.Linq.Expressions;
 
 namespace GestionInventarioWeb.Controllers
 {
@@ -70,26 +73,35 @@ namespace GestionInventarioWeb.Controllers
             return products;
         }
 
-        public async Task<IEnumerable<Product>> Find(string key = "", string key2 = "")
+        public async Task<IEnumerable<Product>> Find(string key = "")
         {
             List<Producto> prods = new List<Producto>();
-            if ( String.IsNullOrWhiteSpace(key2.Trim()) && !String.IsNullOrWhiteSpace(key.Trim()) )
+            if ( !String.IsNullOrWhiteSpace(key.Trim()) )
+            {
+                List<string> busqueda = new List<string>();
+                if (key.Contains(','))
+                {
+                    foreach(var p in key.Split(','))
+                    {
+                        if (!String.IsNullOrWhiteSpace(p.Trim())) {
+                            busqueda.Add(p.Trim());
+                        }
+                    }
+                }
+                else
+                {
+                    busqueda.Add(key.Trim());
+                }
+                
+                prods = (await _context.Productos
+                    .Include(p => p.IdCategoriaNavigation).ToArrayAsync())
+                    .Where(p => busqueda.Any( k => p.Nombre.Contains(k, StringComparison.InvariantCultureIgnoreCase) || p.Descripcion.Contains(k, StringComparison.InvariantCultureIgnoreCase)) )
+                    .OrderBy(p => p.Nombre)
+                    .ToList();
+            }else
             {
                 prods = await _context.Productos
                     .Include(p => p.IdCategoriaNavigation)
-                    .Where(p => p.Nombre.Contains(key.Trim()) )
-                    .ToListAsync();
-            }else if ( String.IsNullOrWhiteSpace(key.Trim()) && !String.IsNullOrWhiteSpace(key2.Trim()) )
-            {
-                prods = await _context.Productos
-                    .Include(p => p.IdCategoriaNavigation)
-                    .Where(p => p.Descripcion.Contains(key2.Trim()) )
-                    .ToListAsync();
-            } else if (!String.IsNullOrWhiteSpace(key.Trim()) && !String.IsNullOrWhiteSpace(key2.Trim()) )
-            {
-                prods = await _context.Productos
-                    .Include(p => p.IdCategoriaNavigation)
-                    .Where(p => p.Nombre.Contains(key.Trim()) || p.Descripcion.Contains(key2.Trim()))
                     .ToListAsync();
             }
 
@@ -100,6 +112,7 @@ namespace GestionInventarioWeb.Controllers
                 var p = await fromModel(pr);
                 products.Add(p);
             }
+            
             return products;
         }
 

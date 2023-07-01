@@ -1,0 +1,146 @@
+﻿@model Reports
+@{
+    ViewData["Title"] = "Reportes";
+}
+
+<div class="container-fluid">
+    <div class="topbar hstack gap-2 ">
+        <h2>Productos sin stock</h2>
+        <a class="btn btn-success" asp-controller="Pdf" asp-action="NoStockProducts">Descargar Reporte</a>
+    </div>
+    <div class="scroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>EAN</th>
+                    <th>Categoria</th>
+                    <th>Producto</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Productos)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.EAN</td>
+                        <td>@item.Category</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td style="color:red;">@item.Stock</td>
+                        <td>$@item.Price</td>
+                        <td>
+                            <a class="btn btn-dark" asp-controller="Productos" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="topbar hstack gap-2 ">
+        <h2>Ultimas Ventas</h2>
+        <div class="btn-group">
+            <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Descargar Reportes Mensuales</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-action="SalesReport" asp-route-months="3">Ultimos 3 meses</a></li>
+                <li><a class="dropdown-item" asp-action="SalesReport" asp-route-months="6">Ultimos 6 meses</a></li>
+                <li><a class="dropdown-item" asp-action="SalesReport" asp-route-months="12">Ultimo Año</a></li>
+                <li><a class="dropdown-item" asp-action="SalesReport" asp-route-months="0">Todo</a></li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Reportes por Vendedor</button>
+            <ul class="dropdown-menu">
+                @foreach(var seller in Model.Usuarios)
+                {
+                    <li><a class="dropdown-item" asp-action="UserReport" asp-route-sale="true" asp-route-id="@seller.Id">@seller.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="scroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vendedor</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Ventas)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Seller.Name</td>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>$@item.Cost</td>
+                        <td>
+                            <a class="btn btn-dark" asp-controller="Ventas" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="topbar hstack gap-2 ">
+        <h2>Ultimas Compras</h2>
+        <div class="btn-group">
+            <button class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Descargar Reportes Mensuales</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-action="BuysReport" asp-route-months="3">Ultimos 3 meses</a></li>
+                <li><a class="dropdown-item" asp-action="BuysReport" asp-route-months="6">Ultimos 6 meses</a></li>
+                <li><a class="dropdown-item" asp-action="BuysReport" asp-route-months="12">Ultimo Año</a></li>
+                <li><a class="dropdown-item" asp-action="BuysReport" asp-route-months="0">Todo</a></li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Reportes por Usuario</button>
+            <ul class="dropdown-menu">
+                @foreach (var usuario in Model.Usuarios)
+                {
+                    <li><a class="dropdown-item" asp-action="UserReport" asp-route-sale="false" asp-route-id="@usuario.Id">@usuario.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="scroll">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Comprador</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Compras)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Buyer.Name</td>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>$@item.Cost</td>
+                        <td>
+                            <a class="btn btn-dark" asp-controller="Compras" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
